@@ -289,11 +289,11 @@
 		<profile>
 			<id>dev-wb</id>
 			<properties>
-				<pro.jdbc.url>jdbc:mysql://localhost:3306/yqss?characterEncoding=UTF-8</pro.jdbc.url>
+				<pro.jdbc.url>jdbc:mysql://4.16.0.180:3306/kdxg?characterEncoding=UTF-8</pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
-				<pro.upload.url>http://10.58.169.58:8080/files/upload/</pro.upload.url>
-				<pro.upload.path>D:/Development/apache-tomcat-7.0.57/webapps/files/upload/</pro.upload.path>
+				<pro.upload.url>http://4.16.0.180:8081/files/upload/</pro.upload.url>
+				<pro.upload.path>D:/server/tomcat-kdxg/webapps/files/upload/</pro.upload.path>
 			</properties>
 		</profile>
 	</profiles>
