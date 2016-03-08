@@ -7,5 +7,5 @@ import com.leoman.entity.Business;
 /**
  * Created by wangbin on 2015/8/10.
  */
-public interface BusinessDao extends JpaRepository<Business, Integer> {
+public interface BusinessDao extends JpaRepository<Business, Long> {
 }

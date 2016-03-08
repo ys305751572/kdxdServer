@@ -2,6 +2,7 @@ package com.leoman.filter;
 
 import com.leoman.common.logger.Logger;
 import com.leoman.core.Constant;
+import com.leoman.entity.Admin;
 import com.leoman.entity.Member;
 import com.leoman.utils.WebUtil;
 
@@ -67,8 +68,8 @@ public class AdminFilter implements Filter {
             }
         }
 
-        Member member = (Member)httpRequest.getSession().getAttribute(Constant.SESSION_MEMBER_GLOBLE);
-        if(member!=null){
+        Admin admin = (Admin)httpRequest.getSession().getAttribute(Constant.SESSION_MEMBER_GLOBLE);
+        if(admin!=null){
             chain.doFilter(request, response);
             return;
         }

@@ -1,3 +1,15 @@
+
+DROP TABLE IF EXISTS `tb_admin`;
+CREATE TABLE `tb_admin`(
+	`id` BIGINT(32) NOT NULL AUTO_INCREMENT,
+	`username` varchar(50) not null default '' COMMENT '用户名',
+	`password` varchar(50) NOT NULL default '' COMMENT '密码',
+	`status` int(2) default 0 COMMENT '状态 0:正常 1:禁用',
+	`create_date` BIGINT COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+)  ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+
 DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user`(
 	`id` BIGINT(32) NOT NULL AUTO_INCREMENT,
@@ -11,8 +23,20 @@ CREATE TABLE `tb_user`(
 	PRIMARY KEY (`id`)
 )  ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `tb_pay_record`;
+DROP TABLE IF EXISTS `tb_user_address`;
+CREATE TABLE `tb_user_address`(
+	`id` BIGINT(32) NOT NULL AUTO_INCREMENT,
+	`user_id` BIGINT(32) NOT NULL COMMENT '用户ID',
+	`name` varchar(50) default '' COMMENT  '姓名',
+	`mobile`VARCHAR(50) DEFAULT '' COMMENT '联系电话',
+	`address` VARCHAR(500) DEFAULT '' COMMENT '地址',
+	`is_default` int(2) default 0 COMMENT  '是否默认 0:是 1:否',
+	`create_date` BIGINT COMMENT '创建时间',
+	PRIMARY KEY (`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `tb_pay_record`;
 CREATE TABLE `tb_pay_record`(
 	`id` BIGINT(32) NOT NULL AUTO_INCREMENT,
 	`user_id` BIGINT(32) NOT NULL COMMENT '用户ID',

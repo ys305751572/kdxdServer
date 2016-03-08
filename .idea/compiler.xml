@@ -24,9 +24,16 @@
         <processorPath useClasspath="true" />
         <module name="wine-tasting" />
       </profile>
+      <profile default="false" name="Annotation profile for kdxgServer" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="kdxgServer" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="kdxgServer" target="1.8" />
+      <module name="kdxgServer" target="1.7" />
       <module name="wine-tasting" target="1.8" />
     </bytecodeTargetLevel>
   </component>

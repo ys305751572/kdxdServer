@@ -1,7 +1,9 @@
 package com.leoman.service.impl;
 
 import com.leoman.core.Constant;
+import com.leoman.entity.Admin;
 import com.leoman.entity.Member;
+import com.leoman.service.AdminService;
 import com.leoman.service.LoginService;
 import com.leoman.service.MemberService;
 
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class LoginServiceImpl implements LoginService {
 
     @Autowired
-    private MemberService memberService;
+    private AdminService adminService;
 
 
     @Override
@@ -37,16 +39,17 @@ public class LoginServiceImpl implements LoginService {
     // 总后台登陆
     @Override
     public Boolean login(HttpServletRequest request, String username, String password, String remark) {
-        Member member = memberService.findByUsernameAndPassword(username,password);
-        if(member!=null){
-            request.getSession().setAttribute(Constant.SESSION_MEMBER_GLOBLE, member);
-            if(StringUtils.isNotBlank(remark)){
-                request.getSession().setMaxInactiveInterval(60*60*24*7);
-            }
-            return true;
-        }else {
-            return false;
-        }
+//        Member member = memberService.findByUsernameAndPassword(username,password);
+//        if(member!=null){
+//            request.getSession().setAttribute(Constant.SESSION_MEMBER_GLOBLE, member);
+//            if(StringUtils.isNotBlank(remark)){
+//                request.getSession().setMaxInactiveInterval(60*60*24*7);
+//            }
+//            return true;
+//        }else {
+//            return false;
+//        }
+        return false;
     }
 
     @Override
@@ -68,8 +71,21 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean login(HttpServletRequest request, String username, String password, String type, String remark) {
-        Member member = memberService.findByUsernameAndPassword(username, password, type);
-        return login(request,member,remark,type);
+//        Member member = memberService.findByUsernameAndPassword(username, password, type);
+        Admin admin = adminService.findByUsername(username);
+        if(admin!=null && password.equals(admin.getPassword())){
+            if(Constant.MEMBER_TYPE_GLOBLE.equals(type)){
+                request.getSession().setAttribute(Constant.SESSION_MEMBER_GLOBLE, admin);
+            }else if(Constant.MEMBER_TYPE_BUSINESS.equals(type)){
+                request.getSession().setAttribute(Constant.SESSION_MEMBER_BUSINESS, admin);
+            }
+            if(StringUtils.isNotBlank(remark)){
+                request.getSession().setMaxInactiveInterval(60*60*24*7);
+            }
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override

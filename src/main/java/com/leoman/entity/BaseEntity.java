@@ -16,43 +16,41 @@ import com.leoman.utils.EntityListener;
 
 @MappedSuperclass
 @EntityListeners(EntityListener.class)
-public abstract class BaseEntity implements Serializable{
+public abstract class BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 834933802102253846L;
+    private static final long serialVersionUID = 834933802102253846L;
 
-	@Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-	
-	@Column(name="create_date")
-	@Temporal(TemporalType.DATE)
-	private Date createDate;
-	
-	@Column(name="update_date")
-	@Temporal(TemporalType.DATE)
-	private Date updateDate;
 
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = "create_date")
+    private Long createDate;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "modify_date")
+    private Long updateDate;
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getUpdateDate() {
-		return updateDate;
-	}
+    public Long getCreateDate() {
+        return createDate;
+    }
 
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Long getUpdateDate() {
+        return updateDate;
+    }
 }

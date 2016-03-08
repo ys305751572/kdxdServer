@@ -41,7 +41,7 @@ public class IndexController extends CommonController {
             model.put("username",username);
         }
 
-        return "login";
+        return "登录";
     }
 
     @RequestMapping(value = "/login/check")
@@ -52,6 +52,7 @@ public class IndexController extends CommonController {
                              ModelMap model) {
 
         Boolean success = loginService.login(request, username, Md5Util.md5(password), Constant.MEMBER_TYPE_GLOBLE,remark);
+
         if (success) {
             // 登录成功后，将用户名放入cookies
             int loginMaxAge = 30 * 24 * 60 * 60; // 定义cookies的生命周期，这里是一个月。单位为秒
@@ -72,7 +73,6 @@ public class IndexController extends CommonController {
 
     @RequestMapping(value = "/")
     public String index(){
-
         return "redirect:/admin/dashboard";
     }
 
@@ -82,7 +82,7 @@ public class IndexController extends CommonController {
                             HttpServletResponse response,
                             ModelMap model) {
 
-        return "tables";
+        return "控制面板";
     }
 
 

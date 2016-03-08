@@ -1,7 +1,5 @@
 package com.leoman.utils;
 
-import java.util.Date;
-
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -11,11 +9,11 @@ public class EntityListener {
 
 	@PrePersist
 	public void prePersist(BaseEntity entity) {
-		entity.setCreateDate(new Date());
+		entity.setCreateDate(System.currentTimeMillis());
 	}
 	
 	@PreUpdate
 	public void preUpdate(BaseEntity entity) {
-		entity.setUpdateDate(new Date());
+		entity.setUpdateDate(System.currentTimeMillis());
 	}
 }

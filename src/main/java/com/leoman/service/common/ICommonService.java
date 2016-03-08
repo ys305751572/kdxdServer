@@ -15,15 +15,15 @@ public interface ICommonService<T> {
 
     public Page<T> find(int pageNum);
 
-    public T getById(int id);
+    public T getById(Long id);
 
-    public T deleteById(int id);
+    public T deleteById(Long id);
 
     public T create(T t);
 
     public T update(T t);
 
-    public void deleteAll(int[] ids);
+    public void deleteAll(Long[] ids);
 
 
 }

@@ -9,9 +9,9 @@ import com.leoman.service.common.ICommonService;
 public interface BusinessService extends ICommonService<Business>{
 
 
-    public Business optionsBusiness(String username,String password,Integer businessId);
+    public Business optionsBusiness(String username,String password,Long businessId);
 
 
-    public Business update(Integer businessId,Business business);
+    public Business update(Long businessId,Business business);
 
 }

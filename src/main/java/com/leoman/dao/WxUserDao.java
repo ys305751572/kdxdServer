@@ -8,7 +8,7 @@ import com.leoman.entity.WxUser;
 /**
  * Created by wangbin on 2015/7/8.
  */
-public interface WxUserDao extends JpaRepository<WxUser, Integer> {
+public interface WxUserDao extends JpaRepository<WxUser, Long> {
 
 
     @Query("select a from  WxUser a where a.openId = ?1")

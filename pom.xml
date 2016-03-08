@@ -228,13 +228,11 @@
 			<version>1.0.6</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.3</version>
+			<version>2.2.4</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -314,8 +312,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.5.1</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
+						<source>1.7</source>
+						<target>1.7</target>
 						<encoding>utf-8</encoding>
 					</configuration>
 				</plugin>
