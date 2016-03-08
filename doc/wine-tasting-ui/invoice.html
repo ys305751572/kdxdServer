@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>发票信息</title>
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+</head>
+
+<body>
+  <div class="wrap wrap_invoice clear_padding">
+    <section class="clear_padding sec_invoice">
+      <h3 class="black_wz h3_invoice">发票抬头</h3>
+      <!-- dw start------------->
+      <div class="dw_invoice clear_padding">
+         <!----个人 start-------------->
+         <div class="flex_box row_invoice vertical">
+             <div class="icon_box icon_invoice">
+              <i class="iconfont check">&#xe614;</i>
+              <i class="iconfont checked">&#xe614;</i>
+             </div> 
+             <div class="flex">个人</div>
+         </div>
+         <!----个人 end---------------->
+         <!----单位 start-------------->
+         <div class="flex_box row_invoice vertical">
+             <div class="icon_box icon_invoice">
+              <i class="iconfont check">&#xe614;</i>
+              <i class="iconfont checked">&#xe614;</i>
+             </div> 
+             <div class="flex flex_box vertical">
+               <span class="sp_invoice">单位</span><input class="flex text_invoice" type="text" />
+             </div>
+         </div>
+         <!----单位 end----------------> 
+      </div>
+      <!-- dw end---------------> 
+    </section>
+     <section class="clear_padding sec_invoice">
+      <h3 class="black_wz h3_invoice">发票内容</h3>
+      <!-- dw start------------->
+      <div class="dw_invoice clear_padding">
+         <!----酒水 start-------------->
+         <div class="flex_box row_invoice vertical">
+             <div class="icon_box1 icon_invoice">
+              <i class="iconfont check">&#xe614;</i>
+              <i class="iconfont checked">&#xe614;</i>
+             </div> 
+             <div class="flex">酒水</div>
+         </div>
+         <!----酒水 end---------------->
+         <!----明细 start-------------->
+         <div class="flex_box row_invoice vertical">
+             <div class="icon_box1 icon_invoice">
+              <i class="iconfont check">&#xe614;</i>
+              <i class="iconfont checked">&#xe614;</i>
+             </div> 
+             <div class="flex">明细</div>
+         </div>
+         <!----明细 end---------------->
+          <!----食品 start-------------->
+         <div class="flex_box row_invoice vertical">
+             <div class="icon_box1 icon_invoice">
+              <i class="iconfont check">&#xe614;</i>
+              <i class="iconfont checked">&#xe614;</i>
+             </div> 
+             <div class="flex">食品</div>
+         </div>
+         <!----食品 end----------------> 
+      </div>
+      <!-- dw end---------------> 
+    </section>
+  </div> 
+</body>
+<script type="text/javascript">
+ $(function(){
+	  //发票抬头
+	    $('.icon_box .checked').hide();
+        $('.icon_box .checked').eq(0).show().siblings().hide();
+        $('.icon_box').on('tap', function () {
+            $('.icon_box i.check').show();
+            $('.icon_box i.checked').hide();
+            $(this).children().first().hide().siblings().show();
+        });
+		//发票内容
+	    $('.icon_box1 .checked').hide();
+        $('.icon_box1 .checked').eq(0).show().siblings().hide();
+        $('.icon_box1').on('tap', function () {
+            $('.icon_box1 i.check').show();
+            $('.icon_box1 i.checked').hide();
+            $(this).children().first().hide().siblings().show();
+        });
+});
+</script>
+</html>

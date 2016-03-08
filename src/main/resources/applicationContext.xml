@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf/system.properties</value>
+				<value>classpath:conf/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}"></property>
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+
+		<!-- 详细参数说明参见database-config.properties -->
+		<property name="checkoutTimeout" value="${c3p0.checkoutTimeout}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}"></property>
+		<property name="minPoolSize" value="${c3p0.minPoolSize}"></property>
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}"></property>
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}"></property>
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}"></property>
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"></property>
+		<property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}"></property>
+		<property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}"></property>
+		<property name="maxStatements" value="${c3p0.maxStatements}"></property>
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}"></property>
+	</bean>
+
+
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.leoman.entity" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+
+				<!-- <property name="generateDdl" value="true" /> -->
+				<property name="database" value="MYSQL" />
+			</bean>
+		</property>
+		<property name="jpaDialect">
+			<bean
+				class="com.leoman.core.jpa.HibernateJpaIsolationSupportDialect" />
+		</property>
+		<property name="persistenceUnitName" value="service.jpa" />
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- 启用 annotation事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- 配置Spring Data JPA扫描目录 -->
+	<jpa:repositories base-package="com.leoman.dao" />
+
+	<!-- AOP -->
+	<aop:aspectj-autoproxy />
+
+	<bean name="wxMpConfigStorage" class="me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage">
+		<property name="appId" value="${weixin.appId}" />
+		<property name="secret" value="${weixin.secret}" />
+		<property name="token" value="${weixin.token}" />
+		<property name="aesKey" value="${weixin.aesKey}" />
+	</bean>
+
+	<bean name="wxMpService" class="me.chanjar.weixin.mp.api.WxMpServiceImpl">
+		<property name="wxMpConfigStorage" ref="wxMpConfigStorage"></property>
+	</bean>
+
+	<bean name="wxMpMessageRouter" class="me.chanjar.weixin.mp.api.WxMpMessageRouter">
+		<constructor-arg name="wxMpService" ref="wxMpService" />
+	</bean>
+
+
+	<context:component-scan base-package="com.leoman">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	
+	<bean id="beanUtil" class="com.leoman.utils.BeanUtil"></bean>
+</beans>

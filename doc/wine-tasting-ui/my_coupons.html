@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>我的优惠券</title>
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+</head>
+
+<body>
+  <div class="wrap clear_padding">
+    <!---nav start--------------->
+    <div class="nav clear_padding">
+      <ul>
+        <li><a href="javascript:void(0)" target="_self">已使用</a></li> 
+        <li><a href="javascript:void(0)" target="_self">未使用</a></li> 
+        <li><a href="javascript:void(0)" target="_self">已过期</a></li> 
+      </ul> 
+    </div>
+    <!---nav end----------------->
+<!---未使用 start-------------------------------------------> 
+<div class="list"> 
+  <div class="list_coupons">  
+    <!------优惠券 start---------->
+   <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <!------优惠券 end------------> 
+</div>    
+<!---未使用 end---------------------------------------------> 
+<!---已使用 start------------------------------------------->  
+  <div class="list_coupons">  
+    <!------优惠券 start---------->
+   <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <!------优惠券 end------------> 
+</div>    
+<!---已使用 end--------------------------------------------->  
+<!---已过期 start------------------------------------------->  
+  <div class="list_coupons">  
+    <!------优惠券 start---------->
+   <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <!------优惠券 end--> 
+    <!------优惠券 start---------->
+   <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <!------优惠券 end--> 
+    <!------优惠券 start---------->
+   <div class="cou_wrap clear_padding"> 
+    <div class="flex_box coupons clear_padding">
+      <div class="cou_lf">
+        <span class="red">￥120.00</span>
+        <p class="orange">【手机】</p>
+      </div>
+      <div class="cou_rg flex clear_padding">
+        <span class="orange">手机专享199-10元优惠券</span> 
+        <p>有效期：2015年7月20日-2015年8月20日</p>
+      </div>
+    </div>
+   </div> 
+    <!------优惠券 end--> 
+</div>    
+<!---已过期 end--> 
+</div>            
+  </div> 
+</body>
+<script type="text/javascript">
+$(function(){
+  $('.list .list_coupons').hide();
+  $('.list .list_coupons').eq(0).show();
+  $('.nav ul li').find('a').eq(0).addClass('cur');
+  $('.nav ul li').on('tap',function(){
+	  var index =$(this).index();
+	  $('.list .list_coupons').eq(index).show().siblings().hide();
+	  //$(this).find('a').addClass('cur').end().siblings().find('a').removeClass('cur');
+	  $(this).find('a').addClass('cur').css("color","#fff").end().siblings().find('a').removeClass('cur').css("color","#666");
+
+    });	
+});
+</script>
+</html>
+>

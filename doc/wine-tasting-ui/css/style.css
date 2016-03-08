@@ -1,0 +1,334 @@
+@charset "utf-8";
+/* 酒店入驻 */
+.wrap{width:100%;height:100%;background:#f0f0f0;}
+.h_tit{padding:8px 0;font-size:1.4rem;font-style:normal;}
+.in_wz{margin-right:8px;}
+.table{width:100%;padding:15px;}
+.txt{width:100%;height:32px;line-height:32px;border:solid 1px #ccc;color:#999;padding-left:8px;}
+.row{margin-bottom:15px;}
+.btn{width:88%;margin:0 auto;display:block;margin-top:30px;padding:11px 0;background:#ba133e;color:#fff;text-align:center;}
+.black{width:100%;height:100%;position:fixed;left:0;bottom:0;background:rgba(0,0,0,.5);}
+.in_border{width:200px;background:#f8f8f8;border-radius:5px;}
+.location{position:relative;left:50%;top:50%;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);}
+.location h3{padding:8px 0;border-bottom:solid 1px #ccc;margin-bottom:8px;}
+.in_btn{border-top:solid 1px #ccc;margin-top:8px;}
+.btn_p{padding:5px 0;}
+.y{position:relative;}
+
+/* 酒店资料 */
+.w_data{background:#fff;}
+.h_data{color:#666;padding-top:20px;}
+.update_a{display:inline-block;margin:0 auto;color:#ba133e;width:100%;}
+.data_wz{color:#333;}
+
+/* 应用登录 */
+section{width:100%;background:#fff;padding:15px;}
+.pic_img{width:75px;height:75px;overflow:hidden;border:solid 1px #ccc;}
+.login_wz{color:#333;padding-left:10px;font-size:1.4rem;}
+article{padding:10px;}
+article p{line-height:23px;}
+.login_icon{color:#1dd435;margin-right:8px;font-size:1.0rem;}
+.login_btn{padding:13%;}
+.lg_btn{border:solid 1px #ccc;padding:12px 0;}
+.margin_r{margin-right:10%;}
+.hover{background:#ba133e;color:#fff;border:none;}
+
+/*微信商城*/
+.mall_black{width:3%;}
+section.m_section{width:100%;background:#fff;padding:0;}
+img{width:100%;}
+.pic{-webkit-box-flex:3;-moz-box-flex:3;-o-box-flex:3;-ms-box-flex:3;}
+.pic-more{-webkit-box-flex:3;-moz-box-flex:3;-ms-box-flex:3;-ms-box-flex:3;
+display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;
+-webkit-box-orient:vertical;-moz-box-orient:vertical;-ms-box-orient:vertical;-o-box-orient:vertical;
+padding:0 3% 0 2%!important;}
+.up{-webkit-box-flex:5;-moz-box-flex:5;-o-box-flex:5;-ms-box-flex:5;position:relative;border-bottom:solid 1px #c0bdbd;}
+.down{-webkit-box-flex:7;}
+.tit h3{font-size:1.4rem;}
+.tit span{font-size:1.2rem;}
+.a_btn{background:#ba133e;border-radius:15px; padding:3px 8px;color:#fff;font-size:1.2rem;}
+.allow{background:#ba133e;padding:2px 3px 6px 3px;position:absolute;right:0;top:0;}
+.allow i{color:#fff;font-size:1.2rem;z-index:2;position:relative;}
+.allow:after{content:'';width:0;height:0;position:absolute;bottom:-5px;left:0;border-top:solid 9px #ba133e;border-left:solid 9px #ba133e;border-bottom:solid 9px #fff;border-right:solid 9px #ba133e;z-index:1;}
+.f_margin{margin-right:3%;}
+.picm-even{padding:0 2% 0 3%;}
+@media screen and (min-width: 320px) and (max-width: 480px){/* 手机适配尺寸 */
+	/* .pic{    -webkit-box-flex:4;}*/
+	 .f_padding{padding-left:4%;}
+	}
+@media screen and (min-width:768px) and (max-width:1536px){ /* ipad适配尺寸 */
+	.tit h4{font-size:45px;font-size:4.5rem;}
+	.tit span{font-size:32px;font-size:3.2rem;}
+	.tit span i{font-size:40px;font-size:4.0rem;}
+	.a_btn{background:#ba133e;border-radius:34px;padding:14px 24px;color:#fff;font-size:3.2rem;}
+	.allow{padding:19px 10px 28px 10px;}
+	.allow:after{border-top:solid 15px #ba133e;border-left:solid 31px #ba133e;border-bottom:solid 15px #fff;border-right:solid 31px #ba133e;}
+	.allow i{font-size:4.2rem;}
+	.f_padding{padding-left:6%;}
+	}
+	.banner {width:100%;height:auto;position:relative;}
+	.banner ul{margin:0;font-size:0;}
+.banner ul.pic li{display:none;}	
+.banner ul.pic li:first-child{display:block;}
+.banner ul.icons{position:absolute;bottom:15px;overflow:hidden;left:50%;transform:translateX(-50%);
+ -webkit-transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    -ms-transform:translateX(-50%);}
+.banner ul.icons li{width:35px;height:10px;background:#ccc;float:left;margin-right:10px;}
+.banner ul.icons li:first-child{background:#c01442;}	
+.fixed{position:fixed;bottom:0;left:0;background:#fff;width:100%;padding:2px 0;z-index:99;box-shadow:0 0 18px 1px rgba(0,0,0,.2);}
+.cur{color:#ba133e;}
+.more{padding:15px 0; border-top:dotted 1px #ccc;}
+.more a{color:#999;}
+
+/*选美酒*/
+.choose_box{background:#fff;border-bottom:solid 1px #ccc;color:#666;z-index:2;position:relative;width:100%;}
+.cho_nav{text-align:center;padding:10px 0;font-size:1.4rem;position:relative;}
+.chohover{color:#ba133e;border-bottom:solid 3px #ba133e;}
+.cho_nav > ul{display:none;}
+ul.first_box{position:absolute;background:#fff;top:44px;left:0;width:100%;z-index:5;}
+ul.first_box li{padding:8px 0;border-bottom:solid 1px #ccc;}
+ul.first_box li a{width:100%;display:block;}
+ul.first_box>li>a{position:relative;}
+ul.two_box{position:absolute;left:100%;width:100%;background:#fff;top:0;z-index:5;}
+.cho_cur{background:#e8e7e7;color:#ba133e;}
+.blank{}
+.border{float:left;background-color:#f8f8f8;border:solid 1px #eaeaea;border-radius:15px;padding:5px 10px;margin-right:5px;}
+.close{margin-left:5px;color:#666;}
+.cho_tu{width:95px;overflow:hidden;}
+.cho_sec{padding:10px;}
+.cho_allow{position:relative;width:25px;height:95px;color:#ba133e;}
+.cho_allow i{display:block;position:absolute;top:50%;transform:translateY(-50%);-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-o-transform:translateY(-50%);-ms-transform:translateY(-50%);}
+.h5_tit{color:#666;margin-bottom:60px;}
+.cho_wz{padding-left:8px;}
+.cho_wz span{color:#ba133e;}
+.list_box{display:none;height:100%;}
+.list_box:first-child{display:block;}
+.allow_fixed{width:45px;height:40px;white-space:nowrap;line-height:40px;text-align:center;position:fixed;right:0px;bottom:100px;background:rgba(0,0,0,.55);}
+.allow_fixed i,.allow_fixed em{color:#fff;position:absolute;}
+.allow_fixed i{left:4px;}
+.allow_fixed em{bottom:-1px;right:-2px;}
+.pre,.next{display:block;width:80px;height:28px;text-align:center;line-height:28px;border:solid 1px #ccc;color:#666;}
+.pre{margin-right:10px;background:#eee;}
+.btnHover{background:#ddd;}
+/* 美酒详情 */
+.infor_box{width:100%;background:#fff;padding:10px;margin-top:10px;border-bottom:solid 1px #c0c0c0;}
+.a_collect{display:inline-block;width:40px;}	
+.a_collect i{color:#ccc;font-size:14px;margin-right:3px;}
+.i_marget{text-decoration:line-through;color:#666;margin-left:5px;}
+.i_price{color:#ba133e;margin-left:5px;}
+.operation{width:100px;}
+.detail_txt{width:20px;height:20px;border:none;border-bottom:solid 1px #999;text-align:center;color:#999;}
+.a_click{display:inline-block;padding:4px;background:#999;color:#fff;}
+.a_click i{font-size:10px;}
+.a_left{border-top-left-radius:5px;border-bottom-left-radius:5px;}
+.a_right{border-top-right-radius:5px;border-bottom-right-radius:5px;}
+nav{width:100%;margin-top:10px;}
+nav ul{width:100%;}
+nav ul li{padding:10px 0;text-align:center;}
+nav ul li a{color:#666;}
+.detail_sec{width:100%;padding:10px;}
+.dtab_tu{margin:8px 0;}
+.checked{background:#fff;}
+.comment{border-bottom:solid 1px #ccc;padding:10px;}
+.comment h6{line-height:25px;}
+.comment p{color:#666;line-height:22px;}
+.comment span{float:right;}
+.comment span i{margin-left:5px;display:inline-block;}
+.detail_sec1{padding:0;}
+.fixed_btn{position:fixed;z-index:100;padding:0 30px;width:100%;bottom:7px;}
+.btn_lf{background:#f46d1c;}
+.btn_rg{background:#ba133e;margin-left:10px;}
+.fixed_btn .flex{color:#fff;text-align:center;height:35px;line-height:35px;}
+.fixed_detail{position:fixed;bottom:0;left:0;width:100%;background:#fff;padding:5px 0;box-shadow:0 0 18px 1px rgba(0,0,0,.2);}
+a.home,a.car{width:12%;display:block;color:#666;}
+.a_fixed{width:37%;display:block;color:#fff;height:100%;height:32px;line-height:32px;}
+.blank_fixed{width:2%;}
+.a_orange{background:#f46d1c;}
+.a_red{background:#ba133e;}
+
+/* 选择配送方式 */
+.main_dis{width:37%;height:100%;margin:0 auto;padding-top:20%;}
+.a_dis{text-align:center;padding:10px 0;color:#fff;background:#ba133e;display:block;margin-top:20px;}
+.hotel{margin-top:40%;}
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){/* 兼容iphone5 */
+.main_dis{padding-top:30%;}.a_dis{font-size:1.4rem;}
+}
+@media (device-width:414px) and (-webkit-min-device-pixel-ratio:3.0){/* 兼容iphone6 plus */
+         .main_dis{padding-top:30%;}.a_dis{font-size:1.6rem;padding:15px 0;}
+       }
+@media (device-width:375px) and (-webkit-min-device-pixel-ratio:2){/*iphone6*/
+        .main_dis{padding-top:30%;}.a_dis{font-size:1.6rem;padding:15px 0;}
+        } 
+
+/* 合作饭店 */
+.team_nav{width:40px;background:rgba(0,0,0,.5);overflow:hidden;text-align:center;}
+.team_nav i{color:#fff;font-size:22px;}	
+.star{background:url(../img/comment.png) no-repeat 0px -19px;width:90px;height:15px;vertical-align:middle;display:block;line-height:0;overflow:hidden;}
+.star b{background:url(../img/comment.png) no-repeat 0px -1px;width:80%;height:15px;display:block;line-height:0;overflow:hidden;}
+.h5_team{margin-bottom:15px;}
+.distance{margin-bottom:20px;}
+.distance span{display:block;color:#999;}	
+.distance i{display:block;width:18px;font-size:20px;color:#ba133e;}
+.cho_wz span i{color:#666;}
+
+
+/* 饭店详情 */
+.told_sec{padding:0;border-bottom:solid 1px #ccc;}
+.collect{width:70px;color:#666;}
+.told_lf{padding:10px;border-right:solid 1px #ccc;}
+.h5_told{font-size:1.4rem;}
+.i_sc{color:#ccc;}
+.cho_wz span.sp_told{font-size:1.4rem;color:#666;}
+.cho_wz span.sp_told i{color:#999;margin-right:3px;}
+.sec_add{padding:8px 10px 5px 10px;margin-top:8px;border-bottom:solid 1px #ccc;}
+.sec_add p{color:#666;line-height:25px;}
+.sec_add i{color:#a4a4a4;margin-right:5px;}
+.main_list{margin-top:8px;height:100%;background:#f0f0f0;}
+.sec_list{padding:5px 10px;}
+.told_comment{padding:0;border:none;}
+.sec_line{border-bottom:solid 1px #ccc;}
+
+/* 送往酒店时间 */
+.sec_time{padding:10px;height:10%;}
+.time{width:90px;}
+.i_time{width:35px;display:block;}
+.i_time,.txt_time{display:block}
+.txt_time{height:24px;}
+.date,.time{white-space:nowrap;}
+.m_time{width:100%;margin-top:3%;padding:10px;background:#fff;height:87%;}
+.wz_time{width:90px;display:block;}
+.in_txt{border:solid 1px #ccc;color:#999;height:30px;line-height:30px;padding-left:5px;display:block;width:100%;}
+.time_row{margin-bottom:10px;}
+.btn_order{width:90%;margin:0 auto;padding:10px 0;text-align:center;color:#fff;background:#ba133e;font-size:1.4rem;margin-top:30%;}
+.i_padding{padding-left:5px;}
+
+/* 选择地址 */
+article.cho_address{background:#fff;}
+.add_icon{color:#ccc;}
+.add_sec{background:none;padding:10px;width:100%;}
+.add_sec h6{line-height:30px;color:#666;font-size:1.4rem;}
+.add_box a{padding:6px 20px;background:#fff;border:solid 1px #ccc;color:#999;display:inline-block;text-align:center;margin:0 5px 5px 0;}
+.icon_checked{font-size:12px;color:#ccc;}
+.m_address{height:auto;}
+.btn_free{margin-top:20px;}
+
+/* 确认订单 */
+.wrap_order{padding-bottom:30px;height:auto;}
+.sec_goods{padding:10px;border-bottom:solid 1px #ccc;}
+.goods_add{width:60px;}
+.goods_allow{width:16px;color:#ba133e;}
+.goods_wz{color:#666;padding-right:8px;}
+.goods_wz i{color:#a9a9a9;margin-right:3px;}
+.fb_margin{margin-bottom:8px;}
+.goods_message{background:#fff;border-bottom:solid 1px #ccc;padding:10px;}
+.goods_message i{color:#666;display:inline-block;margin-right:3px;}
+.goods_message em{margin-left:10px;display:inline-block;}
+.order_message{margin-top:8px;}
+.order_h5{background:#fff;padding:10px;border-bottom:solid 1px #ccc;}
+.h5_order{margin-bottom:55px;}
+.order_line{border:none;}
+.free_lf{width:60px;}
+.free_middle{text-align:right;}
+.order1_h5{border:none;padding:10px 0;}
+.sec_free{margin-top:0;}
+.row_address{margin-bottom:5px;}
+.sec_add0{padding-top:0;}
+
+/* 优惠券 */
+.cou_wrap{width:100%;padding:10px;}
+.coupons{width:100%;padding:10px;background:url(../img/cou_bg.png) no-repeat;background-size:100% 100%;font-size:1.2rem;color:#999;}
+.cou_lf{width:20%;text-align:center;border-right:dotted 2px #ccc;}
+.cou_rg{padding-left:5px;}
+.cou_rg p{font-size:0.8rem;white-space:nowrap;}
+.coupons span{display:block;line-height:28px;}
+
+/*发票信息*/
+.wrap_invoice{padding:10px;width:100%;}
+i.check{color:#ccc;font-size:12px;}
+i.checked{color:#1dd435;font-size:12px;}
+.h3_invoice{padding:10px;border-bottom:solid 1px #ccc;font-weight:normal;font-size:1.6rem;}
+.row_invoice{padding:5px 0;}
+.icon_invoice,.icon_invoice1{margin-right:8px;}
+.sp_invoice{display:block;margin-right:8px;width:25px;}
+.text_invoice{display:block;width:100%;height:28px;line-height:28px;border:solid 1px #ccc;}
+.sec_invoice{padding:0px;margin-bottom:10px;}
+.dw_invoice{padding:10px 0 10px 10px;}
+
+/* 购物车 */
+.sec_car{padding:0px;border-bottom:solid 1px #ccc;}
+.left_car{width:100%;padding:10px;}
+.num{width:115px;}
+.a_operation{width:20px;height:20px;text-align:center;background:#999;display:block;color:#fff;line-height:16px;font-size:24px;font-size:18px;font-weight:bold;}
+.a_minus{border-top-left-radius:5px;border-bottom-left-radius:5px;}
+.a_add{border-top-right-radius:5px;border-bottom-right-radius:5px;}
+
+.input_operation{display:block;width:32px;height:19px;border:none;border-bottom:solid 1px #666;text-align:center;color:#666;}
+.sp_cart{white-space:nowrap;font-size:1.4rem;color:#666;margin-bottom:55px;display:block;text-overflow:ellipsis;overflow:hidden;width:100%;}
+.tu_car{margin-right:10px;}
+.car_wz{font-size:1.4rem;}
+.right_car{width:20%;text-align:center;background:#f7124d;color:#fff;}
+.car_total{padding:10px;}
+.a_account{width:140px;height:40px;background:#ba133e;line-height:40px;text-align:center;display:block;color:#fff;}
+
+/* 已送达 */
+.sec_show{padding:10px;width:100%;border-bottom:solid 1px #ccc;}
+.sp_row{white-space:nowrap;color:#333;margin-bottom:5px;display:block;}
+.i_color{color:#999;}
+.box_row{margin-bottom:5px;}
+.sp_width{width:40px;display:block;}
+.i_date{color:#666;margin-right:8px;display:inline-block;}
+.i_small{font-size:14px;}
+.open{padding:10px 0;border-bottom:solid 1px #ccc;}
+.open i{margin-left:5px;display:inline-block;}
+
+/* 全部订单 */
+.list_line{border-bottom:solid 1px #ccc;}
+
+/* 美酒收藏 */
+.sec_wbtn{padding:10px;}
+.a_wine{width:115px;height:40px;display:block;line-height:40px;text-align:center;color:#fff;}
+.a_delete{margin-left:10px;}
+.i_car{font-size:25px;}
+.sp_coll{margin-bottom:49px;}
+.i_mar{margin-right:2px;}
+
+/* 订单详情 */
+.box_down{width:100%;padding:10px;}
+.sec_oDetail{border:solid 1px #ccc;padding:0;margin-bottom:10px;}
+.sec_oDetail h3{padding:8px 10px;border-bottom:solid 1px #ccc;font-weight:normal;}
+.oDetail_dw{padding:8px 10px;}
+.oDetail_dw p{line-height:25px;}
+.i_margin{margin-right:5px;}
+.oDetail_dw .p_right{margin-right:80px;}
+.tu{width:25px;height:25px;border-radius:8px;}
+.wz{margin-left:10px;}
+.wz span{display:block;}
+.sp_del{font-size:0.85rem;}
+.oDetail_line{border-bottom:solid 1px #ccc;padding:8px 10px;}
+.oDetail_padding{padding:8px 10px;}
+.oDetail_pay{padding:0;}
+.a_cancel{width:90%;height:40px;line-height:40px;color:#fff;text-align:center;background:#ba133e;display:block;margin:0 auto; }
+.a_selected{width:90px;height:30px;text-align:center;line-height:30px;color:#fff;background:#f46d1c;display:block;}
+.sp_tit{width:60px;display:block;}
+span.flex{display:block;text-align:right;padding-right:15px;margin-bottom:45px;}
+
+/* 我的优惠券 */
+.nav{width:100%;background:#fff;white-space:nowrap;overflow:hidden;}
+.nav ul li{width:33.3333%;display:inline-block;text-align:center;}
+.nav ul li a{color:#666;width:100%;display:inline-block;padding:8px 0;}
+.cur{background:#979697;color:#fff;}
+
+
+/* 关于我们 */
+.sec_us{padding:10px;}
+.sec_us span{width:100%;display:block;}
+
+
+
+
+
+
+	
+

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>酒店入驻</title>
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+     <h2 class="h_tit">获取当前位置</h2>
+     <div class="map">
+        <img src="img/map.jpg" />
+     </div>
+     <div class="table clear_padding">
+        <div class="row flex_box">
+          <div class="in_wz flex_box vertical">酒店名称：</div>
+          <div class="flex"><input class="txt clear_padding" type="text" /></div>
+        </div>
+        <div class="row flex_box">
+          <div class="in_wz flex_box vertical">联系方式：</div>
+          <div class="flex"><input class="txt clear_padding" type="text" /></div>
+        </div>
+        <div class="row flex_box">
+          <div class="in_wz flex_box vertical">详细地址：</div>
+          <div class="flex"><input class="txt clear_padding" type="text" /></div>
+        </div>
+        <!---btn start-------->
+        <a class="btn">提交</a>
+        <!---btn end---------->
+     </div>
+  </div>
+  <!-------弹窗 start-------------------------->
+  <div class="black" style="display:none">
+     <div class="in_border location">
+        <h3 class="center">提示</h3>
+        <p class="center">您的资料已成功提交，</p>
+        <p class="center">我们会尽快审核，请耐心等待</p>
+        <div class="in_btn flex_box">
+           <div class="flex center btn_p cancel">取消</div>
+           <div class="flex center line y btn_p">确定</div>
+        </div>
+     </div> 
+  </div>
+  <!-------弹窗 end---------------------------->
+</body>
+<script type="text/javascript">
+ $(function(){
+	   //弹窗 
+	   $('.btn').on('tap',function(){
+		     $('.black').show();
+		   });
+		//取消按钮
+		$('.cancel').on('tap',function(){
+			  $('.black').hide();
+			});   
+	 });
+</script>
+</html>

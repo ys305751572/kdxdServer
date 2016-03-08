@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* common */
+a{text-decoration:none}
+*,p,h2,h3,h4,h5{padding:0;margin:0;}
+html,body{width:100%;height:100%;}
+html {font-size:62.5%;}
+i,em{font-style:normal;}
+img{width:100%;display:block;}
+ul,li{list-style-type:none;}
+.left{float:left;}
+input{outline:none;}
+.overflow{overflow:hidden;}
+.right{float:right;}
+.clear:after{content:'';width:0;height:0;clear:both;}
+/*平分布局*/
+.flex_box{display:box;display:-webkit-box;display:-moz-box;display:-ms-box;display:-o-box;}
+.flex{box-flex:1;-webkit-box-flex:1;-moz-box-flex:1;-ms-box-flex:1;-o-box-flex:1;}
+/* 垂直居中 */
+.vertical{box-align:center;-webkit-box-align:center;-moz-box-align:center;-o-box-align:center;-ms-box-align:center;}
+/*水平居中*/
+.horizontal{box-pack:center;-webkit-box-pack:center;-moz-box-pack:center;-o-box-pack:center;-ms-box-pack:center;}
+/* 清除填充 */
+.clear_padding{box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;}
+.line:before{content:'';position:absolute;left:0;top:0;width:1px;height:100%;background:#ccc;}
+.center{text-align:center;}
+/*icontfont*/
+@font-face {font-family: 'iconfont';
+    src: url('font/iconfont.eot'); /* IE9*/
+    src: url('font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('font/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}
+body{width:100%;height:100%;font-family:"Microsoft yahei",Arial,sans-serif,Helvetica,sans-serif;font-size:1.2rem;color:#999;}
+h2{text-align:center;}
+.font_size21{font-size:21px!important;}
+.font_size22{font-size:22px!important;}
+.font_size24{font-size:24px!important;}
+.font_size26{font-size:26px!important;}
+.font_size14{font-size:14px!important;}
+.font_size32{font-size:32px!important;}
+.display{display:block;}
+.black_wz{color:#333;}
+.black_light{color:#666;}
+.red{color:#ba133e!important;}
+.orange{color:#f46d1c!important;}
+
