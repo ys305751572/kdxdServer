@@ -145,9 +145,9 @@
                         {"data": "id"},
                         {"data": "mobile"},
                         {"data": "nickname"},
-                        {"data": "plat", render : function(data) { if(data.plat == 0) {return "微信"} else {return "APP平台"}}},
-                        {"data": "createDate", render : function(data) {console.log(data.createDate); return new Date(data.createDate).format("yyyy-MM-dd HH:mm:ss")}},
-                        {"data": "status", render : function(data) {if(data.status == 0 ){return "正常"} else {return "禁用"}}},
+                        {"data": "plat", render : function(data) {console.log("data:" + data); if(data == 0) {return "微信"} else {return "APP平台"}}},
+                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
+                        {"data": "status", render : function(data) {if(data == 0 ){return "正常"} else {return "禁用"}}},
                         {"data": "money"},
                         {"data": ""}
                     ],
