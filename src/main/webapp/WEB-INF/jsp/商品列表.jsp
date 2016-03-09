@@ -109,6 +109,8 @@
                     var ids = checkBox.getInputId();
                     productList.fn.deleteRow(checkBox, ids)
                 })
+
+
             },
             dataTableInit: function () {
                 productList.v.dTable = $bluemobi.dataTable($('#dataTables'), {

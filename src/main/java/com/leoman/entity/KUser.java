@@ -31,7 +31,7 @@ public class KUser extends BaseEntity{
 
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private List<Address> list = new ArrayList<Address>();
+    private List<Address> list = null;
 
     public List<Address> getList() {
         return list;

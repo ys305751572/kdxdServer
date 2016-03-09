@@ -49,7 +49,4 @@ public class CommonController {
         int pageNum = (start/length)+1;
         return pageNum;
     }
-
-
-
 }

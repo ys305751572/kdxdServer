@@ -65,26 +65,24 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">余额:</label>
                                     <div class="col-sm-5">
-                                        <h4>￥${user.moeny}</h4>
+                                        <h4>￥${user.money}</h4>
                                     </div>
                                 </div>
                                 <div class="form-group img_tooltip" >
                                     <label class="col-sm-2 control-label">头像:</label>
                                     <div class="col-sm-3">
-                                        <div class="image_show"  <c:if test="${user.avater==null}"> style="display: none"  </c:if>>
-                                            <img src="${user.avater}" class='img-responsive' >
+                                        <div class="image_show"  <c:if test=""> style="display: none"  </c:if>>
+                                            <img src="" class='img-responsive' >
                                         </div>
                                     </div>
 
                                 </div>
-                                <c:forEach items="${user.list}" var="address" varStatus="index">
+                                <c:forEach items="${user.list}" var="address">
                                     <div class="form-group">
-                                        <label  class="col-sm-2 control-label">收货地址${index}:</label>
-                                        <br class="col-sm-5">
-                                            <h4>￥${address.name}(${address.mobile})</h4>
-                                            <c:if test="${address.isDefault eq 0}">默认</c:if>
-                                            </br>
-                                            <h4>￥${address.address}</h4>
+                                        <label  class="col-sm-2 control-label">收货地址:</label>
+                                        <div class="col-sm-5">
+                                            <h4>${address.name}(${address.mobile})<span style="color: red"><c:if test="${address.isDefault eq 0}">默认</c:if></span></h4>
+                                            <h4>${address.address}</h4>
                                         </div>
                                     </div>
                                 </c:forEach>

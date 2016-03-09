@@ -13,7 +13,7 @@
     <%@ include file="../inc/meta.jsp" %>
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>会员列表</title>
+    <title>资讯列表</title>
     <%@ include file="../inc/css.jsp" %>
 </head>
 
@@ -25,7 +25,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">会员列表</h1>
+                <h1 class="page-header">资讯列表</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -33,32 +33,24 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-
+                    <div class="panel-heading">
+                        <a href="admin/info/add" class="btn btn-outline btn-primary btn-lg" role="button">添加商品</a>
+                    </div>
+                    <div class="panel-heading">
+                        <a href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</a>
+                    </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
-                            <label>手机号：</label>
-                            <input type="text" class="form-control" value="" id="mobile"  name="mobile" maxlength="20"
-                                   placeholder="请输入手机号">
+                            <label>资讯名称：</label>
+                            <input type="text" class="form-control" value="" id="title" name="title" maxlength="20"
+                                   placeholder="请输入资讯名称">
                         </div>
                         <div class="form-group">
-                            <label>昵称：</label>
-                            <input type="text" class="form-control" value="" id="nickname"  name="nickname" maxlength="20"
-                                   placeholder="请输入手昵称">
-                        </div>
-                        <div class="form-group">
-                            <label>注册途径：</label>
-                            <select class="form-control input-sm" id="plat">
+                            <label>资讯状态：</label>
+                            <select class="form-control input-sm" id="type">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">APP平台</option>
-                                <option value="1">微信平台</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>状态：</label>
-                            <select class="form-control input-sm" id="status">
-                                <option value="" selected="selected">全部</option>
-                                <option value="0">正常</option>
-                                <option value="1">禁用</option>
+                                <option value="0">未发布</option>
+                                <option value="1">已发布</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
@@ -77,19 +69,14 @@
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
-                                    <col class="gradeA odd"/>
-                                    <col class="gradeA even"/>
-                                    <col class="gradeA odd"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/></th>
-                                    <th>手机号</th>
-                                    <th>昵称</th>
-                                    <th>注册平台</th>
-                                    <th>注册时间</th>
+                                    <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/>
+                                    </th>
+                                    <th>资讯名称</th>
+                                    <th>添加时间</th>
                                     <th>状态</th>
-                                    <th>余额</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -117,24 +104,26 @@
 <%@ include file="../inc/footer.jsp" %>
 </body>
 <script type="text/javascript">
-    Date.prototype.format = function(format){
+    Date.prototype.format = function (format) {
         var o = {
-            "M+" :this.getMonth() + 1, // month
-            "d+" :this.getDate(), // day
-            "h+" :this.getHours(), // hour
-            "m+" :this.getMinutes(), // minute
-            "s+" :this.getSeconds(), // second
-            "q+" :Math.floor((this.getMonth() + 3) / 3), // quarter
-            "S" :this.getMilliseconds()
+            "M+": this.getMonth() + 1, // month
+            "d+": this.getDate(), // day
+            "h+": this.getHours(), // hour
+            "m+": this.getMinutes(), // minute
+            "s+": this.getSeconds(), // second
+            "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
+            "S": this.getMilliseconds()
         };
         if (/(y+)/.test(format)) {
             format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        };
-        for ( var k in o) {
+        }
+        ;
+        for (var k in o) {
             if (new RegExp("(" + k + ")").test(format)) {
                 format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
             }
-        };
+        }
+        ;
         return format;
     };
 </script>
@@ -159,38 +148,52 @@
                     var ids = checkBox.getInputId();
                     kuserList.fn.deleteRow(checkBox, ids)
                 })
+
+                $("#publish").click(function() {
+                    var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
+                    var ids = checkBox.getInputId();
+                    kuserList.fn.publish(checkBox,ids);
+                })
             },
             dataTableInit: function () {
                 kuserList.v.dTable = $bluemobi.dataTable($('#dataTables'), {
                     "processing": true,
                     "serverSide": true,
-                    "searching":false,
+                    "searching": false,
                     "ordering": false,
                     "ajax": {
-                        "url": "admin/kuser/list",
+                        "url": "admin/info/list",
                         "type": "POST"
                     },
                     "columns": [
                         {"data": "id"},
-                        {"data": "mobile"},
-                        {"data": "nickname"},
-                        {"data": "plat", render : function(data) {console.log("data:" + data); if(data == 0) {return "微信"} else {return "APP平台"}}},
-                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
-                        {"data": "status", render : function(data) {if(data == 0 ){return "正常"} else {return "禁用"}}},
-                        {"data": "money"},
-                        {"data": ""}
+                        {"data": "title"},
+                        {
+                            "data": "createDate", render: function (data) {
+                            return new Date(data).format("yyyy-MM-dd hh:mm:ss")
+                        }
+                        },
+                        {
+                            "data": "isList", render: function (data) {
+                            if (data == 0) {
+                                return "未发布";
+                            }
+                            else if (data == 1) {
+                                return "已发布";
+                            }
+                        }
+                        },
                     ],
                     "columnDefs": [
                         {
                             "data": null,
-                            "defaultContent":
-                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
+                            "defaultContent": "<a  title='查看'  class='btn btn-primary btn-circle add'>" +
                             "<i class='fa fa-edit'></i>" +
                             "</a>"
                             +
                             "&nbsp;&nbsp;"
                             +
-                            "<button type='button'  title='禁用' class='btn btn-circle settingAdded'>" +
+                            "<button type='button'  title='删除' class='btn btn-circle delete'>" +
                             "<i class='fa fa-recycle'></i>" +
                             "</button>",
                             "targets": -1
@@ -199,46 +202,54 @@
                     "createdRow": function (row, data, index) {
                         kuserList.v.list.push(data);
                         $('td', row).eq(0).html("<input type='checkbox' value=" + data.id + ">");
-                        if(data.status == 0){
-                            $(row).addClass("success")
-
-                            $('td', row).last().find(".settingAdded").addClass("btn-default");
-                            $('td', row).last().find(".settingAdded").attr("title", "禁用")
-                        }else{
-                            $('td', row).last().find(".settingAdded").addClass("btn-info");
-                            $('td', row).last().find(".settingAdded").attr("title", "启用");
-                        }
+//                        if(data.status == 0){
+//                            $(row).addClass("success")
+//
+//                            $('td', row).last().find(".settingAdded").addClass("btn-default");
+//                            $('td', row).last().find(".settingAdded").attr("title", "禁用")
+//                        }else{
+//                            $('td', row).last().find(".settingAdded").addClass("btn-info");
+//                            $('td', row).last().find(".settingAdded").attr("title", "启用");
+//                        }
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".settingAdded").click(function(){
-                            kuserList.fn.settingAdded(data);
-                        })
-                        $('td', row).last().find(".edit").attr("href",'admin/kuser/add?id='+data.id);
+                        $('td', row).last().find(".add").attr("href", 'admin/info/add');
+                        $('td', row).last().find(".delete").attr("href", 'admin/info/delelte?id=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
-                        aoData.mobile = $("#mobile").val();
-                        aoData.nickname = $("#nickname").val();
-                        aoData.plat = $("#plat").val();
-                        aoData.status = $("#status").val();
+                        aoData.title = $("#title").val();
+                        aoData.isList = $("#isList").val();
                     },
                     "fnDrawCallback": function (row) {
                         $bluemobi.uiform();
                     }
                 });
             },
-            settingAdded:function(data){
-                $bluemobi.optNotify(function () {
-                    $bluemobi.ajax("admin/kuser/modifyStatus", {id:JSON.stringify(data.id),status:JSON.stringify(data.status)}, function (result) {
-                        kuserList.fn.responseComplete(result);
-                    })
-                },"你确定要禁用/启用吗？","确定");
+//            settingAdded: function (data) {
+//                $bluemobi.optNotify(function () {
+//                    $bluemobi.ajax("admin/kuser/modifyStatus", {
+//                        id: JSON.stringify(data.id),
+//                        status: JSON.stringify(data.status)
+//                    }, function (result) {
+//                        kuserList.fn.responseComplete(result);
+//                    })
+//                }, "你确定要禁用/启用吗？", "确定");
+//            },
+            publish : function(ids) {
+                if (ids.length > 0) {
+                    $bluemobi.optNotify(function () {
+                        $bluemobi.ajax("admin/info/publish", {ids:JSON.stringify(ids)}, function (result) {
+                            kuserList.fn.responseComplete(result);
+                        })
+                    },"你确定要发布吗？","确定");
+                }
             },
-            responseComplete: function (result,action) {
+            responseComplete: function (result, action) {
                 if (result.status == "0") {
-                    if(action){
+                    if (action) {
                         kuserList.v.dTable.ajax.reload(null, false);
-                    }else{
+                    } else {
                         kuserList.v.dTable.ajax.reload();
                     }
                     $bluemobi.notify(result.msg, "success");

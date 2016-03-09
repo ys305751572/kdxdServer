@@ -13,7 +13,7 @@
     <%@ include file="../inc/meta.jsp" %>
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>会员列表</title>
+    <title>网站收支</title>
     <%@ include file="../inc/css.jsp" %>
 </head>
 
@@ -25,7 +25,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">会员列表</h1>
+                <h1 class="page-header">网站收支</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -36,29 +36,16 @@
 
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
-                            <label>手机号：</label>
-                            <input type="text" class="form-control" value="" id="mobile"  name="mobile" maxlength="20"
-                                   placeholder="请输入手机号">
+                            <label>编号：</label>
+                            <input type="text" class="form-control" value="" id="recordCode"  name="mobile" maxlength="20"
+                                   placeholder="请输入编号">
                         </div>
                         <div class="form-group">
-                            <label>昵称：</label>
-                            <input type="text" class="form-control" value="" id="nickname"  name="nickname" maxlength="20"
-                                   placeholder="请输入手昵称">
-                        </div>
-                        <div class="form-group">
-                            <label>注册途径：</label>
-                            <select class="form-control input-sm" id="plat">
+                            <label>收支类型：</label>
+                            <select class="form-control input-sm" id="type">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">APP平台</option>
-                                <option value="1">微信平台</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>状态：</label>
-                            <select class="form-control input-sm" id="status">
-                                <option value="" selected="selected">全部</option>
-                                <option value="0">正常</option>
-                                <option value="1">禁用</option>
+                                <option value="0">收入</option>
+                                <option value="1">支出</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
@@ -79,18 +66,16 @@
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
-                                    <col class="gradeA odd"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/></th>
-                                    <th>手机号</th>
-                                    <th>昵称</th>
-                                    <th>注册平台</th>
-                                    <th>注册时间</th>
-                                    <th>状态</th>
-                                    <th>余额</th>
-                                    <th>操作</th>
+                                    <th>编号</th>
+                                    <th>日期</th>
+                                    <th>类型</th>
+                                    <th>收入</th>
+                                    <th>支出</th>
+                                    <th>支付方式</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -167,33 +152,59 @@
                     "searching":false,
                     "ordering": false,
                     "ajax": {
-                        "url": "admin/kuser/list",
+                        "url": "admin/webpay/list",
                         "type": "POST"
                     },
                     "columns": [
                         {"data": "id"},
-                        {"data": "mobile"},
-                        {"data": "nickname"},
-                        {"data": "plat", render : function(data) {console.log("data:" + data); if(data == 0) {return "微信"} else {return "APP平台"}}},
-                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
-                        {"data": "status", render : function(data) {if(data == 0 ){return "正常"} else {return "禁用"}}},
-                        {"data": "money"},
-                        {"data": ""}
+                        {"data": "recordCode"},
+                        {"data": "createDate", render : function (data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
+                        {"data": "money", render : function(data) {
+                            if(data < 0) {
+                                return "支出";
+                            }
+                            else if(data > 0){
+                                return "收入";
+                            }
+                        }},
+                        {"data": "money", render : function(data) {
+                            if(data > 0) {
+                                return data;
+                            }else {
+                                return "";
+                            }
+                        }},
+                        {"data": "money", render : function(data) {
+                            if(data < 0) {
+                                return data;
+                            }
+                            else {
+                                return "";
+                            }
+                        }},
+                        {"data": "plat",render:function(data) {
+                            if(data == 0) {
+                                return "微信";
+                            }
+                            else {
+                                return "其他";
+                            }
+                        }},
                     ],
                     "columnDefs": [
                         {
-                            "data": null,
-                            "defaultContent":
-                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
-                            "<i class='fa fa-edit'></i>" +
-                            "</a>"
-                            +
-                            "&nbsp;&nbsp;"
-                            +
-                            "<button type='button'  title='禁用' class='btn btn-circle settingAdded'>" +
-                            "<i class='fa fa-recycle'></i>" +
-                            "</button>",
-                            "targets": -1
+//                            "data": null,
+//                            "defaultContent":
+//                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
+//                            "<i class='fa fa-edit'></i>" +
+//                            "</a>"
+//                            +
+//                            "&nbsp;&nbsp;"
+//                            +
+//                            "<button type='button'  title='禁用' class='btn btn-circle settingAdded'>" +
+//                            "<i class='fa fa-recycle'></i>" +
+//                            "</button>",
+//                            "targets": -1
                         }
                     ],
                     "createdRow": function (row, data, index) {
@@ -217,10 +228,8 @@
                         $('td', row).last().find(".edit").attr("href",'admin/kuser/add?id='+data.id);
                     },
                     "fnServerParams": function (aoData) {
-                        aoData.mobile = $("#mobile").val();
-                        aoData.nickname = $("#nickname").val();
-                        aoData.plat = $("#plat").val();
-                        aoData.status = $("#status").val();
+                        aoData.recordCode = $("#recordCode").val();
+                        aoData.type = $("#type").val();
                     },
                     "fnDrawCallback": function (row) {
                         $bluemobi.uiform();

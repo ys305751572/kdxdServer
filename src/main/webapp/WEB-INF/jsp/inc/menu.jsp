@@ -14,10 +14,10 @@
                         <a href="admin/kuser/index"><i class="fa fa-user fa-fw"></i>会员列表</a>
                     </li>
                     <li >
-                        <a href="admin/member/index"><i class="fa fa-user fa-fw"></i>缴费列表</a>
+                        <a href="admin/payrecord/index"><i class="fa fa-user fa-fw"></i>缴费列表</a>
                     </li>
                     <li >
-                        <a href="admin/member/index"><i class="fa fa-user fa-fw"></i>网站收支</a>
+                        <a href="admin/webpay/index"><i class="fa fa-user fa-fw"></i>网站收支</a>
                     </li>
                 </ul>
             </li>

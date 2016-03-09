@@ -30,7 +30,7 @@ public class KUserServiceImpl implements KUserService{
     @Override
     public KUser modifyStatus(Long id, Integer status) {
         KUser _user = dao.findOne(id);
-        _user.setStatus(status);
+        _user.setStatus(status == 0 ? 1 : 0);
         return dao.save(_user);
     }
 
