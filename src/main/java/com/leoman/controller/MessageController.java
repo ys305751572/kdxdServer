@@ -7,7 +7,9 @@ import com.leoman.core.bean.Result;
 import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.entity.Message;
+import com.leoman.entity.vo.MessageVo;
 import com.leoman.service.MessageService;
+import com.leoman.utils.DateUtils;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -51,7 +54,7 @@ public class MessageController extends CommonController{
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
-        return "info/add";
+        return "msg/add";
     }
 
     /**
@@ -62,12 +65,14 @@ public class MessageController extends CommonController{
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public void save(HttpServletResponse response, Message msg,Integer imageId) {
+    public void save(HttpServletResponse response, Message msg,Integer imageId,String sendTimeQ) {
         try {
             Image image = new Image();
             image.setId(imageId);
             msg.setImage(image);
             msg.setIsList(0);
+            long sendTime = DateUtils.stringToLong(sendTimeQ,"yyyy-MM-dd HH:mm");
+            msg.setSendDate(sendTime);
             service.create(msg);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
         } catch (Exception e) {
@@ -102,12 +107,26 @@ public class MessageController extends CommonController{
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(Long id,Model model) {
-
-        Message message = service.getById(id);
-        if(message.getContent() != null) {
-            message.setContent(message.getContent().replace("&lt","<").replace("&gt",">"));
+        MessageVo vo = null;
+        try {
+            Message message = service.getById(id);
+            vo = new MessageVo();
+            vo.setId(message.getId());
+            vo.setTitle(message.getTitle());
+            vo.setImage(message.getImage());
+            try {
+                vo.setSendDate(DateUtils.longToString(message.getSendDate(),"yyyy-MM-dd HH:mm:ss"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(message.getContent() != null) {
+                message.setContent(message.getContent().replace("&lt","<").replace("&gt",">"));
+                vo.setContent(message.getContent().replace("&lt","<").replace("&gt",">"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        model.addAttribute("message",message);
+        model.addAttribute("message",vo);
         return "msg/detail";
     }
 }

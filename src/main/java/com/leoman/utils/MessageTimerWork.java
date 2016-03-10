@@ -26,10 +26,6 @@ public class MessageTimerWork {
 
     private void doExecute() {
         // TODO 发送消息
-    }
-
-    public static void main(String[] args) {
-        new MessageTimerWork(5);
-        new MessageTimerWork(7);
+        System.out.println("===============发送消息============");
     }
 }

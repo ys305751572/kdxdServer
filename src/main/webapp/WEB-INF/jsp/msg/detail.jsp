@@ -13,7 +13,7 @@
     <%@ include file="../inc/meta.jsp" %>
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>资讯添加</title>
+    <title>消息详情</title>
     <%@ include file="../inc/css.jsp" %>
     <link href="static/js/plugins/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
     <script src="static/js/plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
@@ -34,7 +34,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">添加资讯</h1>
+                <h1 class="page-header"></h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -43,40 +43,40 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
+                        <form id="productForm" method="post" enctype="multipart/form-data" action="admin/msg/save" class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <label  class="col-sm-2 control-label">消息名称:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="title" name="title" maxlength="20"
-                                           data-rule="required" value="" placeholder="请输入资讯名称">
+                                    ${message.title}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">发送时间:</label>
+                                <div class="col-sm-3">
+                                    ${message.sendDate}
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
 
                                 <div class="col-sm-3">
-                                    <input type="hidden" id="imageId" name="imageId" value="">
+                                    <input type="hidden" id="imageId" name="imageId" value="${message.image.path}">
 
-                                    <div class="image_show"  <c:if test=""> style="display: none"  </c:if>>
+                                    <div class="image_show"  <c:if test="${message.image == null}"> style="display: none"  </c:if>>
                                         <img src="" class='img-responsive' >
                                     </div>
-                                    <div class="image_handle"  <c:if test="">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
+                                    <div class="image_handle"  <c:if test="${message.image != null}">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
                                         <div class="dropped"></div>
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
-                                    <a href="javascript:void(0)" id="removeImg" class="btn btn-info" role="button" >删除图片</a>
+                                    <a href="javascript:void(0)" id="removeImg" class="btn btn-message" role="button" >删除图片</a>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain"></script>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="button" id="submitProduct" class="btn btn-primary">提交</button>
+                                    <script id="container" name="content" type="text/plain">${message.content}</script>
                                 </div>
                             </div>
                         </form>
@@ -100,19 +100,6 @@
 <script type="text/javascript" src="ueditor1_4_3/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="ueditor1_4_3/ueditor.all.js"></script>
-<script>
-    $('.form_datetime').datetimepicker({
-        language:  'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1,
-        format:'yyyy-mm-dd hh:ii'
-    });
-</script>
 </body>
 
 <script type="text/javascript">
@@ -126,7 +113,7 @@
             init: function () {
 
                 if($("#id").val()!=""){
-                    $(".page-header").text("编辑商品")
+                    $(".page-header").text("消息详情")
                 }
                 $("#submitProduct").click(function(){
                     product.fn.save();
@@ -243,8 +230,6 @@
                 });
             },
             save: function () {
-
-                console.log($("#datetest").val());
                 if(!$('#productForm').isValid()) {
                     return false;
                 };
@@ -270,7 +255,7 @@
                 if (result.status == "0") {
                     $bluemobi.notify(result.msg, "success");
 //                    $("#id").val(result.data.id)
-                    window.location.href = " ${contextPath}/admin/info/index";
+                    window.location.href = " ${contextPath}/admin/msg/index";
                 } else {
                     $bluemobi.notify(result.msg, "error");
                 }

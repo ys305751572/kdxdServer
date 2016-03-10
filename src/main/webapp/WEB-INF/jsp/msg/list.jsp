@@ -13,7 +13,7 @@
     <%@ include file="../inc/meta.jsp" %>
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>资讯列表</title>
+    <title>消息列表</title>
     <%@ include file="../inc/css.jsp" %>
 </head>
 
@@ -25,7 +25,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">资讯列表</h1>
+                <h1 class="page-header">消息列表</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -34,21 +34,20 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a href="admin/info/add" class="btn btn-outline btn-primary btn-lg" role="button">添加资讯</a>
-                        <button href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</button>
+                        <a href="admin/msg/add" class="btn btn-outline btn-primary btn-lg" role="button">添加消息</a>
                     </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
-                            <label>资讯名称：</label>
+                            <label>消息名称：</label>
                             <input type="text" class="form-control" value="" id="title" name="title" maxlength="20"
-                                   placeholder="请输入资讯名称">
+                                   placeholder="请输入消息名称">
                         </div>
                         <div class="form-group">
-                            <label>资讯状态：</label>
+                            <label>发送状态：</label>
                             <select class="form-control input-sm" id="type">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">未发布</option>
-                                <option value="1">已发布</option>
+                                <option value="0">未发送</option>
+                                <option value="1">已发送</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
@@ -67,13 +66,15 @@
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
+                                    <col class="gradeA odd"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/>
                                     </th>
-                                    <th>资讯名称</th>
+                                    <th>消息名称</th>
                                     <th>添加时间</th>
+                                    <th>发送时间</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
@@ -160,7 +161,7 @@
                     "searching": false,
                     "ordering": false,
                     "ajax": {
-                        "url": "admin/info/list",
+                        "url": "admin/msg/list",
                         "type": "POST"
                     },
                     "columns": [
@@ -168,16 +169,21 @@
                         {"data": "title"},
                         {
                             "data": "createDate", render: function (data) {
-                            return new Date(data).format("yyyy-MM-dd hh:mm:ss")
-                        }
+                                return new Date(data).format("yyyy-MM-dd hh:mm:ss")
+                            }
                         },
                         {
-                            "data": "isList", render: function (data) {
-                                if (data == 0) {
-                                    return "未发布";
+                            "data": "sendDate", render: function (data) {
+                                return new Date(data).format("yyyy-MM-dd hh:mm:ss")
+                             }
+                        },
+                        {
+                            "data": "sendDate", render: function (data) {
+                                if (data > new Date().getTime()) {
+                                    return "未发送";
                                 }
-                                else if (data == 1) {
-                                    return "已发布";
+                                else  {
+                                    return "已发送";
                                 }
                             }
                         },
@@ -213,12 +219,12 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".add").attr("href", 'admin/info/detail?id=' + data.id);
-                        $('td', row).last().find(".delete").attr("href", 'admin/info/delete?id=' + data.id);
+                        $('td', row).last().find(".add").attr("href", 'admin/msg/detail?id=' + data.id);
+                        $('td', row).last().find(".delete").attr("href", 'admin/msg/delete?id=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
                         aoData.title = $("#title").val();
-                        aoData.isList = $("#isList").val();
+                        aoData.type = $("#type").val();
                     },
                     "fnDrawCallback": function (row) {
                         $bluemobi.uiform();

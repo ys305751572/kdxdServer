@@ -3,6 +3,8 @@ package com.leoman.service.impl;
 import com.leoman.dao.MessageDao;
 import com.leoman.entity.Message;
 import com.leoman.service.MessageService;
+import com.leoman.utils.MessageTimerWork;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService{
 
+    @Autowired
     private MessageDao dao;
 
     /**
@@ -39,14 +42,14 @@ public class MessageServiceImpl implements MessageService{
             public Predicate toPredicate(Root<Message> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
                 if(message.getTitle() != null) {
-                    criteriaBuilder.like(root.get("title").as(String.class),"%" + message.getContent() + "%");
+                    list.add(criteriaBuilder.like(root.get("title").as(String.class),"%" + message.getTitle() + "%"));
                 }
                 if(type != null) {
                     if(type == 0) {
-                        criteriaBuilder.gt(root.get("sendDate").as(Long.class),System.currentTimeMillis());
+                        list.add(criteriaBuilder.gt(root.get("sendDate").as(Long.class),System.currentTimeMillis()));
                     }
                     else {
-                        criteriaBuilder.lt(root.get("sendDate").as(Long.class),System.currentTimeMillis());
+                        list.add(criteriaBuilder.lt(root.get("sendDate").as(Long.class),System.currentTimeMillis()));
                     }
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
@@ -84,6 +87,7 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Message create(Message message) {
+        new MessageTimerWork(message.getSendDate());
         return dao.save(message);
     }
 

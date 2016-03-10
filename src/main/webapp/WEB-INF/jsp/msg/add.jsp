@@ -34,7 +34,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">添加资讯</h1>
+                <h1 class="page-header">添加消息</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -43,12 +43,19 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
+                        <form id="productForm" method="post" enctype="multipart/form-data" action="admin/msg/save" class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <label  class="col-sm-2 control-label">消息名称:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="20"
                                            data-rule="required" value="" placeholder="请输入资讯名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">发送时间:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control input-append date form_datetime" readonly id="sendTimeQ" name="sendTimeQ" maxlength="20"
+                                           data-rule="required" value="" placeholder="请选择发送时间">
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
@@ -69,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">简介:</label>
+                                <label class="col-sm-2 control-label">消息详情:</label>
                                 <div class="col-sm-6">
                                     <script id="container" name="content" type="text/plain"></script>
                                 </div>
@@ -80,7 +87,6 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                     <!-- /.panel-body -->
 
@@ -199,7 +205,7 @@
             imageInit:function(){
                 var $input = $("#the_file");
                 $input.fileinput({
-                    uploadUrl: "gen/save/images", // server upload action
+                    uploadUrl: "common/file/save/images", // server upload action
                     uploadAsync: false,
                     showUpload: true, // hide upload button
                     showRemove: false, // hide remove button
@@ -270,7 +276,7 @@
                 if (result.status == "0") {
                     $bluemobi.notify(result.msg, "success");
 //                    $("#id").val(result.data.id)
-                    window.location.href = " ${contextPath}/admin/info/index";
+                    window.location.href = " ${contextPath}/admin/msg/index";
                 } else {
                     $bluemobi.notify(result.msg, "error");
                 }

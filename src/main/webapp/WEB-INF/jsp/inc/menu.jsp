@@ -27,7 +27,9 @@
                     <li >
                         <a href="admin/info/index"><i class="fa fa-user fa-fw"></i>资讯列表</a>
                     </li>
-
+                    <li >
+                        <a href="admin/msg/index"><i class="fa fa-user fa-fw"></i>消息列表</a>
+                    </li>
                 </ul>
             </li>
         </ul>

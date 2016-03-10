@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain">${info.content}</script>
+                                    <script id="container" name="content" type="text/plain">${c}</script>
                                 </div>
                             </div>
                             <div class="form-group">
