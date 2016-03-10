@@ -35,9 +35,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <a href="admin/info/add" class="btn btn-outline btn-primary btn-lg" role="button">添加商品</a>
-                    </div>
-                    <div class="panel-heading">
-                        <a href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</a>
+                        <button href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</button>
                     </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
@@ -152,7 +150,7 @@
                 $("#publish").click(function() {
                     var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
                     var ids = checkBox.getInputId();
-                    kuserList.fn.publish(checkBox,ids);
+                    kuserList.fn.publish(ids);
                 })
             },
             dataTableInit: function () {
@@ -175,14 +173,15 @@
                         },
                         {
                             "data": "isList", render: function (data) {
-                            if (data == 0) {
-                                return "未发布";
+                                if (data == 0) {
+                                    return "未发布";
+                                }
+                                else if (data == 1) {
+                                    return "已发布";
+                                }
                             }
-                            else if (data == 1) {
-                                return "已发布";
-                            }
-                        }
                         },
+                        {"data": ""}
                     ],
                     "columnDefs": [
                         {
@@ -193,9 +192,9 @@
                             +
                             "&nbsp;&nbsp;"
                             +
-                            "<button type='button'  title='删除' class='btn btn-circle delete'>" +
+                            "<a title='删除' class='btn btn-primary btn-circle delete'>" +
                             "<i class='fa fa-recycle'></i>" +
-                            "</button>",
+                            "</a>",
                             "targets": -1
                         }
                     ],
@@ -214,8 +213,8 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".add").attr("href", 'admin/info/add');
-                        $('td', row).last().find(".delete").attr("href", 'admin/info/delelte?id=' + data.id);
+                        $('td', row).last().find(".add").attr("href", 'admin/info/detail?id=' + data.id);
+                        $('td', row).last().find(".delete").attr("href", 'admin/info/delete?id=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
                         aoData.title = $("#title").val();
@@ -239,7 +238,7 @@
             publish : function(ids) {
                 if (ids.length > 0) {
                     $bluemobi.optNotify(function () {
-                        $bluemobi.ajax("admin/info/publish", {ids:JSON.stringify(ids)}, function (result) {
+                        $.post("admin/info/publish",{ids:JSON.stringify(ids)},function(result) {
                             kuserList.fn.responseComplete(result);
                         })
                     },"你确定要发布吗？","确定");

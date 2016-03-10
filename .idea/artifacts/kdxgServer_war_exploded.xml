@@ -63,6 +63,8 @@
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.2.4" />
+          <element id="library" level="project" name="Maven: com.baidu:ueditor:1.4.3" />
+          <element id="library" level="project" name="Maven: org.json:json:20151123" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
           <element id="library" level="project" name="Maven: com.cedarsoftware:json-io:2.5.1" />
           <element id="library" level="project" name="Maven: me.chanjar:weixin-java-mp:1.2.0" />

@@ -3,11 +3,11 @@ package com.leoman.entity;
 import javax.persistence.*;
 
 /**
- * Created by Administrator on 2016/3/9.
+ * Created by Administrator on 2016/3/10.
  */
 @Entity
-@Table(name = "tb_information")
-public class Information extends BaseEntity{
+@Table(name = "tb_message")
+public class Message extends BaseEntity{
 
     @Column(name = "title")
     private String title;
@@ -15,12 +15,15 @@ public class Information extends BaseEntity{
     @Column(name = "content")
     private String content;
 
-    @Column(name =  "is_list")
-    private Integer isList;
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
+
+    @Column(name = "is_list")
+    private Integer isList;
+
+    @Column(name = "send_date")
+    private Long sendDate;
 
     public Image getImage() {
         return image;
@@ -52,5 +55,13 @@ public class Information extends BaseEntity{
 
     public void setIsList(Integer isList) {
         this.isList = isList;
+    }
+
+    public Long getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(Long sendDate) {
+        this.sendDate = sendDate;
     }
 }

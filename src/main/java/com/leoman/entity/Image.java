@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by gaoll on 2015/3/3.
  */
 @Entity
-@Table(name = "image")
+@Table(name = "tb_image")
 public class Image implements Serializable {
 
     private static final long serialVersionUID = 1L;
