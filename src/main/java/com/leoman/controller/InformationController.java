@@ -33,6 +33,14 @@ public class InformationController extends CommonController {
         return "info/list";
     }
 
+    /**
+     *
+     * @param response
+     * @param draw
+     * @param start
+     * @param length
+     * @param info
+     */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Information info) {
@@ -102,6 +110,11 @@ public class InformationController extends CommonController {
         return "info/detail";
     }
 
+    /**
+     *
+     * @param response
+     * @param ids
+     */
     @RequestMapping(value = "/publish", method =  RequestMethod.POST)
     @ResponseBody
     public void publish(HttpServletResponse response,Long[] ids) {
