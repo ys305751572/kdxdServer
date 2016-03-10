@@ -27,7 +27,7 @@ $(function () {
 
 var $bluemobi = {
     v: {
-        ajaxOption: {method: 'get', dataType: 'json', async: true},
+        ajaxOption: {method: 'POST', dataType: 'json', async: true},
         notifyMethod: null,
         dataTableL:{
             "language": {

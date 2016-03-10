@@ -29,6 +29,9 @@
 <!-- Custom Fonts -->
 <link href="static/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+<!-- datepicker -->
+<link href="static/datepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -41,3 +44,6 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="static/js/bootstrap.min.js"></script>
 
+<!-- datepicker -->
+<script src="static/datepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="static/datepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
