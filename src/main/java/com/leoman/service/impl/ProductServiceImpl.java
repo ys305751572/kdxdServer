@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao dao;
 
     @Override
-    public Page<Product> findPage(final Product pro, int pagenum, int pagesize) {
+    public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
         Specification<Product> spec = new Specification<Product>() {
             @Override
             public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -42,15 +42,29 @@ public class ProductServiceImpl implements ProductService {
                 if(pro.getTitle() != null) {
                     criteriaBuilder.like(root.get("title").as(String.class),pro.getTitle());
                 }
-
+                if(type != null) {
+                    if(type == 0) {
+                        // 待抢购 开始时间 大于 当前时间 && 状态 == 0
+                        criteriaBuilder.lt(root.get("startDate").as(Long.class),System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class),0);
+                    }
+                    else if(type == 1) {
+                        // 抢购中 开始时间 小于 当前时间 && 结束时间 大于 当前时间 && 状态 == 0
+                        criteriaBuilder.gt(root.get("startDate").as(Long.class),System.currentTimeMillis());
+                        criteriaBuilder.lt(root.get("endDate").as(Long.class),System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class),0);
+                    }
+                    else {
+                        // 已结束  结束时间 小于 当前时间  && 状态 == 1
+                        criteriaBuilder.gt(root.get("endDate").as(Long.class),System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class),1);
+                    }
+                }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
         return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
     }
-
-
-
 
     @Override
     public List<Product> findAll() {

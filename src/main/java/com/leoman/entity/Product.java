@@ -13,12 +13,6 @@ import java.util.List;
 @Table(name = "tb_product")
 public class Product extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "title")
     private String title;
 
@@ -30,6 +24,42 @@ public class Product extends BaseEntity {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "status")
+    private Integer status ;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private List<ProductService> serviceList;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_product_image",joinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")})
+    private List<Image> list;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public List<ProductService> getServiceList() {
+        return serviceList;
+    }
+
+    public void setServiceList(List<ProductService> serviceList) {
+        this.serviceList = serviceList;
+    }
+
+    public List<Image> getList() {
+        return list;
+    }
+
+    public void setList(List<Image> list) {
+        this.list = list;
+    }
 
     public String getTitle() {
         return title;
@@ -62,14 +92,4 @@ public class Product extends BaseEntity {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
 }

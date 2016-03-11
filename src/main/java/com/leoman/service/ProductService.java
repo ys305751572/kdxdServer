@@ -1,7 +1,5 @@
 package com.leoman.service;
 
-import com.leoman.entity.Information;
-import com.leoman.entity.Order;
 import com.leoman.entity.Product;
 import com.leoman.service.common.ICommonService;
 import org.springframework.data.domain.Page;
@@ -11,7 +9,5 @@ import org.springframework.data.domain.Page;
  */
 public interface ProductService extends ICommonService<Product> {
 
-    public Page<Product> findPage(Product pro, int pagenum, int pagesize);
-
-
+    public Page<Product> findPage(Product project,Integer type, int pagenum, int pagesize);
 }
