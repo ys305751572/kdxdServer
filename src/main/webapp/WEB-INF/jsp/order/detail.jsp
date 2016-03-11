@@ -47,14 +47,14 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">商品名称:</label>
                                     <div class="col-sm-5">
-                                        <h4>${order.productId}</h4>
+                                        <h4>${order.product.title}</h4>
                                     </div>
                                 </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">抢购用户:</label>
                                     <div class="col-sm-5">
-                                        <h4>${order.userId}</h4>
+                                        <h4>${order.user.nickname}</h4>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -71,16 +71,13 @@
                                                 <c:if test="${order.status eq 2 }">已签收</c:if></h4>
                                         </div>
                                 </div>
-                                <c:forEach items="${order.list}" var="address">
                                     <div class="form-group">
                                         <label  class="col-sm-2 control-label">收货地址:</label>
                                         <div class="col-sm-5">
-                                            <h4>${address.name}(${address.mobile})</h4>
-                                            <h4>${address.address}</h4>
+                                            <h4>${order.name}(${order.mobile})</h4>
+                                            <h4>${order.address}</h4>
                                         </div>
                                     </div>
-                                </c:forEach>
-
 
                             </fieldset>
                         </form>

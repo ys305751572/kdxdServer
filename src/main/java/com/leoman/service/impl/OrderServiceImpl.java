@@ -6,6 +6,7 @@ import com.leoman.entity.KUser;
 import com.leoman.entity.Order;
 import com.leoman.service.KUserService;
 import com.leoman.service.OrderService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,9 +34,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order modifyStatus(Long id, Integer status) {
-        Order _user = dao.findOne(id);
-        _user.setStatus(status == 0 ? 1 : 0);
-        return dao.save(_user);
+        Order _order = dao.findOne(id);
+        switch (status){
+            case 0:
+                _order.setStatus(1);
+                break;
+            case 1:
+                _order.setStatus(2);
+                break;
+        }
+        return dao.save(_order);
     }
 
     @Override
@@ -45,13 +53,13 @@ public class OrderServiceImpl implements OrderService {
             public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
                 Predicate result = null;
-                if(order.getSn() != null) {
+                if(StringUtils.isNotBlank(order.getSn())) {
                     list.add(criteriaBuilder.like(root.get("sn").as(String.class), '%' + order.getSn() + '%'));
                 }
-                if(order.getProduct() != null) {
+                if(order.getProduct() != null && StringUtils.isNotBlank(order.getProduct().getTitle())) {
                     list.add(criteriaBuilder.equal(root.get("product").get("title").as(String.class), '%' + order.getProduct().getTitle() + '%'));
                 }
-                if(order.getUser().getNickname() != null) {
+                if(StringUtils.isNotBlank(order.getUser().getNickname())) {
                     list.add(criteriaBuilder.equal(root.get("user").get("nickname").as(String.class), order.getUser().getNickname()));
                 }
                 if(order.getCreateDate() != null) {
