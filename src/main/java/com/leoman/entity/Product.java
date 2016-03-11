@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by wangbin on 2015/8/10.
@@ -28,14 +29,26 @@ public class Product extends BaseEntity {
     @Column(name = "status")
     private Integer status ;
 
+    @OneToOne
+    @JoinColumn(name = "cover_image_id")
+    private Image coverImage;
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private List<ProductService> serviceList;
+    private Set<ProductService> serviceList;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_product_image",joinColumns = {@JoinColumn(name = "product_id",referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")})
-    private List<Image> list;
+    private Set<Image> list;
+
+    public Image getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(Image coverImage) {
+        this.coverImage = coverImage;
+    }
 
     public Integer getStatus() {
         return status;
@@ -45,19 +58,19 @@ public class Product extends BaseEntity {
         this.status = status;
     }
 
-    public List<ProductService> getServiceList() {
+    public Set<ProductService> getServiceList() {
         return serviceList;
     }
 
-    public void setServiceList(List<ProductService> serviceList) {
+    public void setServiceList(Set<ProductService> serviceList) {
         this.serviceList = serviceList;
     }
 
-    public List<Image> getList() {
+    public Set<Image> getList() {
         return list;
     }
 
-    public void setList(List<Image> list) {
+    public void setList(Set<Image> list) {
         this.list = list;
     }
 
