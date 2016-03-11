@@ -4,10 +4,12 @@ import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.bean.Result;
+import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.entity.Product;
 import com.leoman.service.InfomationService;
 import com.leoman.service.ProductService;
+import com.leoman.utils.JsonUtil;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/3/9.
@@ -69,15 +74,34 @@ public class ProductController extends CommonController {
 
     /**
      * 保存
-     *
      * @param response
      * @param pro
+     * @param imagesIds
+     * @param imageId
+     * @param productService
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public void save(HttpServletResponse response,
-                     Product pro) {
+                     Product pro,String imagesIds,Integer imageId,String productService) {
         try {
+            Set<com.leoman.entity.ProductService> list = JsonUtil.json2Obj(productService,Set.class);
+            pro.setServiceList(list);
+
+            int[] _imageIds = JsonUtil.json2Obj(imagesIds,int[].class);
+            Image image = null;
+            Set<Image> imageSet = new HashSet<Image>();
+            for (int id : _imageIds) {
+                image = new Image();
+                image.setId(id);
+                imageSet.add(image);
+            }
+            pro.setList(imageSet);
+
+            Image coverImage = new Image();
+            coverImage.setId(imageId);
+            pro.setCoverImage(coverImage);
+
             service.create(pro);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
         } catch (Exception e) {
@@ -94,8 +118,7 @@ public class ProductController extends CommonController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public void delete(HttpServletResponse response,
-                       Long id) {
+    public void delete(HttpServletResponse response,Long id) {
         try {
             service.deleteById(id);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
@@ -119,4 +142,13 @@ public class ProductController extends CommonController {
         return "pro/detail";
     }
 
+    @RequestMapping(value = "/kuserindex", method = RequestMethod.GET)
+    public String kuserIndex() {
+        return "pro/kuserlist";
+    }
+
+    public void kuserList(HttpServletResponse response,Integer draw, Integer start,
+                          Integer length, Long id) {
+
+    }
 }

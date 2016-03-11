@@ -3,9 +3,8 @@ package com.leoman.service.impl;
 import com.leoman.core.Constant;
 import com.leoman.dao.InfomationDao;
 import com.leoman.dao.ProductDao;
-import com.leoman.entity.Information;
-import com.leoman.entity.Order;
-import com.leoman.entity.Product;
+import com.leoman.entity.*;
+import com.leoman.service.ProductImageService;
 import com.leoman.service.ProductService;
 import com.leoman.utils.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/3/10.
@@ -32,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductDao dao;
+
+    @Autowired
+    private ProductImageService service;
 
     @Override
     public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
@@ -95,11 +98,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product create(Product product) {
-        return dao.save(product);
+        return this.update(product);
     }
 
+    /**
+     * 新增/编辑
+     * @param product
+     * @return
+     */
+    @Transactional
     @Override
     public Product update(Product product) {
+        Set<Image> set = product.getList();
+        ProductImage pi = null;
+        for (Image image : set) {
+            pi = new ProductImage();
+            pi.setImageId(image.getId());
+            pi.setProductId(product.getId());
+            service.create(pi);
+        }
         return dao.save(product);
     }
 
@@ -109,5 +126,4 @@ public class ProductServiceImpl implements ProductService {
             deleteById(id);
         }
     }
-
 }

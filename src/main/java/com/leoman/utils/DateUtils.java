@@ -36,10 +36,12 @@ public class DateUtils {
 //        int month = getMonth(new Date());
 //        System.out.println("year:"+year+",month:"+month+1);
 
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = format.parse("2015-06-15 22:30:00");
+//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = format.parse("2015-06-15 22:30:00");
+//
+//        System.out.println(minuteCompare(date,15));
 
-        System.out.println(minuteCompare(date,15));
+		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(dateAddDay(new Date(),3)));
 
     }
 
@@ -264,6 +266,8 @@ public class DateUtils {
 		gc.add(GregorianCalendar.MONTH, m);
 		return gc.getTime();
 	}
+
+
 
 	/**
 	 * 下列方法是判断当前时间与旧的时间是否相隔second秒，是返回真，否返回假 如果当前日期与参数日期间隔大于second秒时返回真，
