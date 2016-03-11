@@ -49,10 +49,11 @@ public class ProductController extends CommonController {
                      Integer draw,
                      Integer start,
                      Integer length,
-                     Product pro) {
+                     Product pro,
+                     Integer type) {
         try {
             int pageNum = getPageNum(start, length);
-            Page<Product> page = service.findPage(pro, pageNum, length);
+            Page<Product> page = service.findPage(pro,type, pageNum, length);
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {
