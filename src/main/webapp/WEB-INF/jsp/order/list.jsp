@@ -37,17 +37,17 @@
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
                             <label>订单号：</label>
-                            <input type="text" class="form-control" value="" id="sn"  name="mobile" maxlength="20"
+                            <input type="text" class="form-control" value="" id="sn"  name="sn" maxlength="20"
                                    placeholder="请输入订单号">
                         </div>
                         <div class="form-group">
                             <label>抢购用户：</label>
-                            <input type="text" class="form-control" value="" id="userId"  name="userId" maxlength="20"
+                            <input type="text" class="form-control" value="" id="nickname"  name="user.nickname" maxlength="20"
                                    placeholder="请输入抢购用户">
                         </div>
                         <div class="form-group">
                             <label>商品名称：</label>
-                            <input type="text" class="form-control" value="" id="productId"  name="productId" maxlength="20"
+                            <input type="text" class="form-control" value="" id="title"  name="product.title" maxlength="20"
                                    placeholder="请输入商品名称">
                         </div>
                         <div class="form-group">
@@ -61,7 +61,7 @@
                                 <option value="" selected="selected">全部</option>
                                 <option value="0">待发货</option>
                                 <option value="1">已发货</option>
-                                <option value="1">已签收</option>
+                                <option value="2">已签收</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
@@ -82,7 +82,6 @@
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
-                                    <col class="gradeA odd"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
@@ -173,21 +172,28 @@
                         "type": "POST"
                     },
                     "columns": [
+                        {"data": "id"},
                         {"data": "sn"},
-                        {"data": "user.mobile"},
-                        {"data": "productId"},
-                        {"data": "status",
-                            render : function(data) {console.log("data:" + data);
-                            if(data == 0) {
-                                return "待发货"
-                            }
-                            if(data == 1) {
-                                return "已发货"
-                            }
-                            else if(data == 2) {
-                                return "已签收"
-                            }}},
+                        {"data": "user.nickname"},
+                        {"data": "product.title"},
                         {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
+                        {"data": "status",
+                            render : function(data) {
+                                if(data == 0) {
+                                    return "待发货"
+                                }
+                                if(data == 1) {
+                                    return "已发货"
+                                }
+                                else if(data == 2) {
+                                    return "已签收"
+                                }
+                            }
+                        },
+                        {
+                            "data" : ""
+                        }
+
                     ],
                     "columnDefs": [
                         {
@@ -210,12 +216,14 @@
                         $('td', row).eq(0).html("<input type='checkbox' value=" + data.id + ">");
                         if(data.status == 0){
                             $(row).addClass("success")
-
                             $('td', row).last().find(".settingAdded").addClass("btn-hair");
                             $('td', row).last().find(".settingAdded").attr("title", "确认发货")
-                        }else if(data.status == 1){
+                        } if(data.status == 1){
                             $('td', row).last().find(".settingAdded").addClass("btn-collect");
                             $('td', row).last().find(".settingAdded").attr("title", "确认签收");
+                        }else if(data.status == 2){
+                            $('td', row).last().find(".settingAdded").addClass("btn-collect");
+                            $('td', row).last().find(".settingAdded").attr("title");
                         }
                     },
                     rowCallback: function (row, data) {
@@ -227,8 +235,8 @@
                     },
                     "fnServerParams": function (aoData) {
                         aoData.sn = $("#sn").val();
-                        aoData.userId = $("#userId").val();
-                        aoData.productID = $("#productID").val();
+                        aoData.nickname = $("#nickname").val();
+                        aoData.title = $("#title").val();
                         aoData.status = $("#status").val();
                     },
                     "fnDrawCallback": function (row) {

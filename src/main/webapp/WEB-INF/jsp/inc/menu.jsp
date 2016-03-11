@@ -32,6 +32,17 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#"><i class="fa fa-user fa-fw"></i>抢购管理<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li >
+                        <a href="admin/product/index"><i class="fa fa-user fa-fw"></i>抢购列表</a>
+                    </li>
+                    <li >
+                        <a href="admin/order/index"><i class="fa fa-user fa-fw"></i>订单列表</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

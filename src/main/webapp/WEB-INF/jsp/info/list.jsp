@@ -218,6 +218,7 @@
                     },
                     "fnServerParams": function (aoData) {
                         aoData.title = $("#title").val();
+                        console.log("title:" + $("#title").val());
                         aoData.isList = $("#isList").val();
                     },
                     "fnDrawCallback": function (row) {

@@ -12,8 +12,6 @@ import java.util.Date;
 @Table(name = "tb_order")
 public class Order extends BaseEntity  {
 
-    private static final long serialVersionUID = 1L;
-
     @Column(name = "sn")
     private String sn;
 
@@ -28,6 +26,15 @@ public class Order extends BaseEntity  {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "mobile")
+    private String mobile;
+
+    @Column(name = "address")
+    private String address;
+
     public Product getProduct() {
         return product;
     }
@@ -38,6 +45,30 @@ public class Order extends BaseEntity  {
 
     public KUser getUser() {
         return user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setUser(KUser user) {
