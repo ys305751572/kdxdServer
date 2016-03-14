@@ -174,7 +174,12 @@
                 var a = "ass";
                 var b = "dfgg";
                 var object1 = {"a":a,"b":b};
-                console.log(JSON.stringify(object1));
+                var object2 = {"a":a,"b":b};
+                var objList = [];
+                objList.push(object1);
+                objList.push(object2);
+
+                console.log(JSON.stringify(objList));
 
                 if($("#id").val()!=""){
                     $(".page-header").text("编辑商品")
