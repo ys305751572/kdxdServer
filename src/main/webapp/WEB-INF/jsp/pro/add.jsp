@@ -94,16 +94,27 @@
                                     <input id="the_file" name="files" type="file" multiple=true class="file-loading">
                                 </div>
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group form-service">
                                 <label  class="col-sm-2 control-label" >金额:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="days" name="days" maxlength="20"
-                                           data-rule="required" value="" placeholder="请输入服务天数">
-                                    <input type="text" class="form-control" id="money" name="money" maxlength="20"
-                                           data-rule="required" value="" placeholder="请输入服务金额">
-                                    <button type='button'  title='新增' class='btn btn-circle addService'><i class='fa fa-recycle'></i></button>
+                                            value="" placeholder="请输入服务天数">
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="days2" name="days" maxlength="20"
+                                           value="" placeholder="请输入服务金额">
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type='button'  title='' class='btn btn-circle form-service-add'>
+                                        <i class='fa fa-plus-circle'></i>
+                                    </button>
+                                    <button type='button'  title='' class='btn btn-circle form-service-minus hidden'>
+                                        <i class='fa fa-minus-circle'></i>
+                                    </button>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
@@ -169,6 +180,8 @@
                 })
                 product.fn.imageInit();
                 product.fn.dropperInit();
+                product.fn.serviceInit();
+
                 $("#removeImg").click(function(){
                     product.fn.clearImageView();
                 })
@@ -178,6 +191,9 @@
                 });
                 UE.getEditor('container');
 
+            },
+            serviceInit : function() {
+                $(".form-service-minus").removeClass("hidden");
             },
             clearImageView: function(){
                 $("#imageId").val("");
