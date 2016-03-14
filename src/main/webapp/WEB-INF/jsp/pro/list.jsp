@@ -252,7 +252,7 @@
                     }
                 });
             },
-            endToSnapUp: function (result) {
+            endToSnapUp: function (data) {
                 $bluemobi.optNotify(function () {
                     $.post("admin/pro/endToSnapUp", {id:JSON.stringify(data.id)}, function (result) {
                         kuserList.fn.responseComplete(result);

@@ -171,6 +171,10 @@
         },
         fn: {
             init: function () {
+                var a = "ass";
+                var b = "dfgg";
+                var object1 = {"a":a,"b":b};
+                console.log(JSON.stringify(object1));
 
                 if($("#id").val()!=""){
                     $(".page-header").text("编辑商品")
@@ -304,7 +308,6 @@
                 if(!$('#productForm').isValid()) {
                     return false;
                 };
-
                 if($("#imageId")==""||$("#imageId")==null){
                     $bluemobi.notify("缩略图不能为空!", "error");
                     return false;
@@ -336,10 +339,6 @@
 
     $(document).ready(function () {
         product.fn.init();
-
-
     });
 </script>
-
-
 </html>
