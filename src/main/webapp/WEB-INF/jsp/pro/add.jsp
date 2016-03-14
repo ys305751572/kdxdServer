@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">金额:</label>
+                                <label  class="col-sm-2 control-label" >金额:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="days" name="days" maxlength="20"
                                            data-rule="required" value="" placeholder="请输入服务天数">
@@ -172,6 +172,10 @@
                 $("#removeImg").click(function(){
                     product.fn.clearImageView();
                 })
+
+                $(".addService").click(function() {
+
+                });
                 UE.getEditor('container');
 
             },
