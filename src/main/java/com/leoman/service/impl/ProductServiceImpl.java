@@ -15,6 +15,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -35,6 +37,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductImageService service;
+
+    @Autowired
+    private EntityManager em;
 
     @Override
     public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
@@ -67,6 +72,17 @@ public class ProductServiceImpl implements ProductService {
             }
         };
         return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+    }
+
+    @Override
+    public Integer findBuyCount(Long id) {
+        String sql = "select count(t) from ProductBuyRecord t where t.productId = " + id;
+        Query query = em.createQuery(sql,Integer.class);
+        List list = query.getResultList();
+        if(list != null && !list.isEmpty()) {
+            return (Integer) query.getSingleResult();
+        }
+        return 0;
     }
 
     @Override

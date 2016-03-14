@@ -13,6 +13,9 @@ public class ProductBuyRecord extends BaseEntity{
     @JoinColumn(name = "user_id")
     private KUser user;
 
+    @Column(name = "product_id")
+    private Long productId;
+
     @Column(name = "is_use_coupons")
     private Integer isUserCoupons;
 
@@ -27,6 +30,29 @@ public class ProductBuyRecord extends BaseEntity{
 
     @Column(name = "result")
     private String result;
+
+    @Transient
+    private String payResult;
+
+    public String getPayResult() {
+        if(payMoney == null || payMoney == 0) {
+            return "未缴费";
+        }
+        payResult = "" + getPayDays() + "天" + ("￥" + getPayMoney());
+        return payResult;
+    }
+
+    public void setPayResult(String payResult) {
+        this.payResult = payResult;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
     public KUser getUser() {
         return user;

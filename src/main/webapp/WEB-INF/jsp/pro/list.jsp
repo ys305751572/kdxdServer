@@ -67,12 +67,13 @@
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
+                                    <col class="gradeA odd"/>
+                                    <col class="gradeA even"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/>
                                     </th>
-                                    <th>ID</th>
                                     <th>商品名称</th>
                                     <th>开始时间</th>
                                     <th>数量</th>
@@ -166,9 +167,11 @@
                             return new Date(data).format("yyyy-MM-dd hh:mm:ss")
                         }
                         },
-                        {"data":"number"},
                         {
-                            "data": "isList", render: function (data) {
+                            "data": "counts"
+                        },
+                        {
+                            "data": "status", render: function (data) {
                             if (data == 0) {
                                 return "待开始";
                             }
@@ -180,7 +183,15 @@
                             }
                         }
                         },
-                        {"data": "purchaseNumber"},
+                        {
+                            "data": "buyCounts",
+                            render : function (data) {
+                                if(data == 0 || data == null) {
+                                    return "-";
+                                }
+                            }
+                        },
+                        {"data" : ""}
                     ],
                     "columnDefs": [
                         {
@@ -199,7 +210,7 @@
                             +
                             "&nbsp;&nbsp;"
                             +
-                            "<a  title='抢购人员'  class='btn btn-primary btn-circle edit'>" +
+                            "<a  title='抢购人员'  class='btn btn-primary btn-circle kuserindex'>" +
                             "<i class='fa fa-edit'></i>"+
                             "</a>"
                             +
@@ -225,21 +236,28 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".settingAdded").click(function(){
-                            kuserList.fn.settingAdded(data);
-                        })
-                        $('td', row).last().find(".edit").attr("href",'admin/buy/add?id='+data.id);
+                        $('td', row).last().find(".end").click(function(){
+                            kuserList.fn.endToSnapUp(data);
+                        });
+                        $('td', row).last().find(".edit").attr("href",'admin/pro/detail?id=' + data.id);
+                        $('td', row).last().find(".delete").attr("href",'admin/pro/delete?id=' + data.id);
+                        $('td', row).last().find(".kuserindex").attr("href",'admin/pro/kuserindex?id=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
-                        aoData.mobile = $("#mobile").val();
-                        aoData.nickname = $("#nickname").val();
-                        aoData.plat = $("#plat").val();
+                        aoData.mobile = $("#title").val();
                         aoData.status = $("#status").val();
                     },
                     "fnDrawCallback": function (row) {
                         $bluemobi.uiform();
                     }
                 });
+            },
+            endToSnapUp: function (result) {
+                $bluemobi.optNotify(function () {
+                    $.post("admin/pro/endToSnapUp", {id:JSON.stringify(data.id)}, function (result) {
+                        kuserList.fn.responseComplete(result);
+                    })
+                },"你确定要结束抢购吗？","确定");
             },
             responseComplete: function (result,action) {
                 if (result.status == "0") {

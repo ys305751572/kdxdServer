@@ -29,6 +29,12 @@ public class Product extends BaseEntity {
     @Column(name = "status")
     private Integer status ;
 
+    @Column(name = "start_date")
+    private Long startDate;
+
+    @Column(name = "service_start_date")
+    private Long serviceStartDate;
+
     @OneToOne
     @JoinColumn(name = "cover_image_id")
     private Image coverImage;
@@ -42,6 +48,33 @@ public class Product extends BaseEntity {
     inverseJoinColumns = {@JoinColumn(name = "image_id",referencedColumnName = "id")})
     private Set<Image> list;
 
+    @Transient
+    private Integer buyCount = 0;
+
+    public Long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Long startDate) {
+        this.startDate = startDate;
+    }
+
+    public Long getServiceStartDate() {
+        return serviceStartDate;
+    }
+
+    public void setServiceStartDate(Long serviceStartDate) {
+        this.serviceStartDate = serviceStartDate;
+    }
+
+    public Integer getBuyCount() {
+        return buyCount;
+    }
+
+    public void setBuyCount(Integer buyCount) {
+        this.buyCount = buyCount;
+    }
+
     public Image getCoverImage() {
         return coverImage;
     }
@@ -51,6 +84,17 @@ public class Product extends BaseEntity {
     }
 
     public Integer getStatus() {
+        if(status != 2) {
+            if(System.currentTimeMillis() > getStartDate()) {
+                status = 1;
+            }
+            if(System.currentTimeMillis() <= getStartDate()) {
+                status = 0;
+            }
+            if(getBuyCount() >= getCounts()) {
+                status = 2;
+            }
+        }
         return status;
     }
 
@@ -105,4 +149,5 @@ public class Product extends BaseEntity {
     public void setContent(String content) {
         this.content = content;
     }
+
 }

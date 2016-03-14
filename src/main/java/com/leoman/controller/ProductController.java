@@ -7,7 +7,9 @@ import com.leoman.core.bean.Result;
 import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.entity.Product;
+import com.leoman.entity.ProductBuyRecord;
 import com.leoman.service.InfomationService;
+import com.leoman.service.ProductBuyRecordService;
 import com.leoman.service.ProductService;
 import com.leoman.utils.JsonUtil;
 import com.leoman.utils.WebUtil;
@@ -35,6 +37,9 @@ public class ProductController extends CommonController {
     @Autowired
     private ProductService service;
 
+    @Autowired
+    private ProductBuyRecordService pbService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "pro/list";
@@ -59,6 +64,13 @@ public class ProductController extends CommonController {
         try {
             int pageNum = getPageNum(start, length);
             Page<Product> page = service.findPage(pro,type, pageNum, length);
+            List<Product> list = page.getContent();
+            if(list != null && !list.isEmpty())
+            for (Product product : list) {
+                Integer counts = service.findBuyCount(product.getId());
+                product.setBuyCount(counts);
+            }
+
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {
@@ -136,19 +148,47 @@ public class ProductController extends CommonController {
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String detail(Long id,Model model) {
-
         Product pro = service.getById(id);
         model.addAttribute("pro",pro);
         return "pro/detail";
     }
 
-    @RequestMapping(value = "/kuserindex", method = RequestMethod.GET)
-    public String kuserIndex() {
-        return "pro/kuserlist";
+    @RequestMapping(value = "/tosnapup/end", method = RequestMethod.POST)
+    public void endToSnapUp(Long id) {
+        ProductBuyRecord pbr = pbService.getById(id);
+
+
     }
 
-    public void kuserList(HttpServletResponse response,Integer draw, Integer start,
-                          Integer length, Long id) {
+    @RequestMapping(value = "/kuserindex", method = RequestMethod.GET)
+    public String kuserIndex() {
+        return "pro/people-list";
+    }
 
+
+    /**
+     * 抢购人员列表
+     * @param response
+     * @param draw
+     * @param start
+     * @param length
+     * @param id
+     * @param isPay
+     * @param isUseCoupons
+     */
+    @RequestMapping(value = "kuserlist", method = RequestMethod.POST)
+    public void kuserList(HttpServletResponse response,Integer draw, Integer start,
+                          Integer length, Long id,Integer isPay, Integer isUseCoupons) {
+        try {
+            int pageNum = getPageNum(start, length);
+            ProductBuyRecord pbr = new ProductBuyRecord();
+            pbr.setId(id);
+            Page<ProductBuyRecord> page = pbService.findPage(pbr,isPay,isUseCoupons,pageNum,length);
+            Map<String, Object> result = DataTableFactory.fitting(draw, page);
+            WebUtil.print(response, result);
+        } catch (Exception e) {
+            GeneralExceptionHandler.log(e);
+            WebUtil.print(response, emptyData);
+        }
     }
 }

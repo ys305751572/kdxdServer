@@ -25,7 +25,7 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
     private ProductBuyRecordDao dao;
 
     @Override
-    public Page<ProductBuyRecord> findPage(final ProductBuyRecord record,final Integer isPay, int pagenum, int pagesize) {
+    public Page<ProductBuyRecord> findPage(final ProductBuyRecord record, final Integer isPay, final Integer isUseCoupons, int pagenum, int pagesize) {
         Specification<ProductBuyRecord> spec = new Specification<ProductBuyRecord>() {
             @Override
             public Predicate toPredicate(Root<ProductBuyRecord> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
