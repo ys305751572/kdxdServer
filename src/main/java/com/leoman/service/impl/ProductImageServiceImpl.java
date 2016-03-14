@@ -5,12 +5,14 @@ import com.leoman.entity.ProductImage;
 import com.leoman.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/3/11.
  */
+@Service
 public class ProductImageServiceImpl implements ProductImageService {
 
     @Autowired

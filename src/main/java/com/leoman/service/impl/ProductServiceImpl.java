@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductImageService service;
 
-    @Autowired
+    @PersistenceContext
     private EntityManager em;
 
     @Override
@@ -77,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Integer findBuyCount(Long id) {
         String sql = "select count(t) from ProductBuyRecord t where t.productId = " + id;
-        Query query = em.createQuery(sql,Integer.class);
+        Query query = em.createQuery(sql,Long.class);
         List list = query.getResultList();
         if(list != null && !list.isEmpty()) {
             return (Integer) query.getSingleResult();
