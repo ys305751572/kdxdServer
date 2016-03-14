@@ -158,7 +158,7 @@ CREATE TABLE `tb_product` (
   `counts` int(32) DEFAULT '0' COMMENT '商品数量',
   `coupons_counts` int(32) DEFAULT '0' COMMENT '优惠劵数量',
   `content` varchar(500) DEFAULT '' COMMENT '商品详情',
-  `status` int(2) DEFAULT '0' COMMENT '状态0:正常 1:强制结束',
+  `status` int(2) DEFAULT '0' COMMENT '状态0:待开始 1:抢购中 2:已结束',
   `create_date` bigint(20) DEFAULT NULL,
   `modify_date` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -174,9 +174,10 @@ DROP TABLE IF EXISTS `tb_product_buy_record`;
 
 CREATE TABLE `tb_product_buy_record` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(32) DEFAULT NULL,
+  `user_id` bigint(32) DEFAULT NULL COMMENT '用户ID',
+  `product_id` bigint(32) DEFAULT NULL COMMENT '商品ID',
   `is_use_coupons` int(2) DEFAULT '0' COMMENT '是否使用优惠券0:未使用 1:已使用',
-  `result_status` int(2) DEFAULT '0' COMMENT '抢购结果',
+  `result_status` int(2) DEFAULT '0' COMMENT '抢购结果 0:成功 1:失败',
   `pay_money` double DEFAULT '0' COMMENT '缴费金额',
   `pay_days` int(2) DEFAULT '0' COMMENT '缴费天数',
   `result` varchar(200) DEFAULT '' COMMENT '抢购结果',
