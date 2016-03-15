@@ -102,7 +102,7 @@
                                             value="" placeholder="请输入服务天数">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="days2" name="days" maxlength="20"
+                                    <input type="text" class="form-control" id="days2" name="money" maxlength="20"
                                            value="" placeholder="请输入服务金额">
                                 </div>
                                 <div class="col-sm-3">
@@ -114,7 +114,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
@@ -171,38 +170,79 @@
         },
         fn: {
             init: function () {
-                var a = "ass";
-                var b = "dfgg";
-                var object1 = {"a":a,"b":b};
-                var object2 = {"a":a,"b":b};
-                var objList = [];
-                objList.push(object1);
-                objList.push(object2);
-
-                console.log(JSON.stringify(objList));
-
-                if($("#id").val()!=""){
-                    $(".page-header").text("编辑商品")
-                }
+//                if($("#id").val()!=""){
+//                    $(".page-header").text("编辑商品")
+//                }
                 $("#submitProduct").click(function(){
                     product.fn.save();
                 })
                 product.fn.imageInit();
                 product.fn.dropperInit();
-                product.fn.serviceInit();
 
                 $("#removeImg").click(function(){
                     product.fn.clearImageView();
                 })
 
-                $(".addService").click(function() {
+                $(".form-service-add").click(function() {
+                    product.fn.addLine();
+                });
 
+                $(".form-service-minus").click(function() {
+                    product.fn.delLine(this);
                 });
                 UE.getEditor('container');
 
             },
-            serviceInit : function() {
-                $(".form-service-minus").removeClass("hidden");
+            addLine : function() {
+                var html = "<div class=\"form-group form-service\">";
+                html += "<label  class=\"col-sm-2 control-label\" ></label>";
+                html += "<div class=\"col-sm-3\">";
+                html += "<input type=\"text\" class=\"form-control\" id=\"days2\" name=\"days\" maxlength=\"20\" value=\"\" placeholder=\"请输入服务天数\">";
+                html += "</div>";
+                html += "<div class=\"col-sm-3\">";
+                html += "<input type=\"text\" class=\"form-control\" id=\"days2\" name=\"money\" maxlength=\"20\" value=\"\" placeholder=\"请输入服务金额\">";
+                html += "</div>";
+                html += "<div class=\"col-sm-3\">";
+                html += "<button type=\'button\' title=\'\' class=\'btn btn-circle form-service-add\'>";
+                html += "<i class=\'fa fa-plus-circle\'></i>";
+                html += "</button>";
+                html += "<button type=\'button\'  title=\'\' class=\'btn btn-circle form-service-minus\'>";
+                html += "<i class=\'fa fa-minus-circle\'></i>";
+                html += "</button>";
+                html += "</div></div>";
+
+                $(".form-service").last().after(html);
+                var $first = $(".form-service").first().find("button").last();
+                if( $first.hasClass("hidden")) {
+                    $first.removeClass("hidden");
+                }
+
+                var $addbutton = $(".form-service").last().find("button").first();
+                $addbutton.click(function(){
+                    product.fn.addLine();
+                });
+
+                var $minusbutton = $(".form-service").last().find("button").last();
+                $minusbutton.click(function(){
+                    product.fn.delLine(this);
+                });
+            },
+            delLine : function(data) {
+                var size = $(".form-service").size();
+                if(size == 1) {
+                    $bluemobi.notify("最少保留一条数据", "error");
+                    return;
+                }
+                $(data).parent().parent().remove();
+                var $label = $(".form-service").first().find("label");
+                $label.text("金额:");
+                var size = $(".form-service").size();
+                if(size == 1) {
+                    var $first = $(".form-service").first().find("button").last();
+                    if( !$first.hasClass("hidden")) {
+                        $first.addClass("hidden");
+                    }
+                }
             },
             clearImageView: function(){
                 $("#imageId").val("");
@@ -264,7 +304,7 @@
             imageInit:function(){
                 var $input = $("#the_file");
                 $input.fileinput({
-                    uploadUrl: "gen/save/images", // server upload action
+                    uploadUrl: "common/file/save/images", // server upload action
                     uploadAsync: false,
                     showUpload: true, // hide upload button
                     showRemove: false, // hide remove button
@@ -286,6 +326,16 @@
                         return out;
                     }
                 }).on('filebatchuploadsuccess', function(event, data, previewId, index) {
+
+                    var days = $("input[name='days']");
+                    var money = $("input[name = 'money']");
+                    var serviceArray = [];
+                    for(var i = 0;i < days.length; i++) {
+                        var serviceObj = {"days" : $(days[i]).val(),"money" : $(money[i]).val()}
+                        serviceArray.push(serviceObj);
+                    }
+                    var productService = JSON.stringify(serviceArray);
+
                     var response = data.response;
                     if(response.status==0){
                         var imageIds = "";
@@ -299,8 +349,9 @@
 
                         $("#productForm").ajaxSubmit({
                             dataType: "json",
+                            data : {"productService": productService},
                             success: function (result) {
-                                $("#imageIds").val("");
+                                    $("#imageIds").val("");
                                 product.fn.responseComplete(result);
                             }
                         })
@@ -308,8 +359,17 @@
                 });
             },
             save: function () {
+                var days = $("input[name='days']");
+                var money = $("input[name = 'money']");
+                var serviceArray = [];
+                for(var i = 0;i < days.length; i++) {
+                   var serviceObj = {"days" : $(days[i]).val(),"money" : $(money[i]).val()}
+                    serviceArray.push(serviceObj);
+                }
 
-                console.log($("#datetest").val());
+                var productService = JSON.stringify(serviceArray);
+                console.log("productService:" + productService);
+
                 if(!$('#productForm').isValid()) {
                     return false;
                 };
@@ -321,6 +381,7 @@
                 if($(".glyphicon-hand-down").length==0){ // 没有图片的情况
                     $("#productForm").ajaxSubmit({
                         dataType: "json",
+                        data : {"productService": productService},
                         success: function (result) {
                             product.fn.responseComplete(result,true);
                         }
@@ -334,7 +395,7 @@
                 if (result.status == "0") {
                     $bluemobi.notify(result.msg, "success");
 //                    $("#id").val(result.data.id)
-                    window.location.href = " ${contextPath}/admin/info/index";
+                    window.location.href = " ${contextPath}/admin/pro/index";
                 } else {
                     $bluemobi.notify(result.msg, "error");
                 }

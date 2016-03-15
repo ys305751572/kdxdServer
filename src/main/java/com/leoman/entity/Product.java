@@ -39,7 +39,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "cover_image_id")
     private Image coverImage;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Set<ProductService> serviceList;
 
@@ -49,7 +49,7 @@ public class Product extends BaseEntity {
     private Set<Image> list;
 
     @Transient
-    private Integer buyCount = 0;
+    private Long buyCount = 0L;
 
     public Long getStartDate() {
         return startDate;
@@ -67,11 +67,11 @@ public class Product extends BaseEntity {
         this.serviceStartDate = serviceStartDate;
     }
 
-    public Integer getBuyCount() {
+    public Long getBuyCount() {
         return buyCount;
     }
 
-    public void setBuyCount(Integer buyCount) {
+    public void setBuyCount(Long buyCount) {
         this.buyCount = buyCount;
     }
 

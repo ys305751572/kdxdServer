@@ -1,5 +1,6 @@
 package com.leoman.controller;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
@@ -11,6 +12,7 @@ import com.leoman.entity.ProductBuyRecord;
 import com.leoman.service.InfomationService;
 import com.leoman.service.ProductBuyRecordService;
 import com.leoman.service.ProductService;
+import com.leoman.utils.DateUtils;
 import com.leoman.utils.JsonUtil;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +69,7 @@ public class ProductController extends CommonController {
             List<Product> list = page.getContent();
             if(list != null && !list.isEmpty())
             for (Product product : list) {
-                Integer counts = service.findBuyCount(product.getId());
+                Long counts = service.findBuyCount(product.getId());
                 product.setBuyCount(counts);
             }
 
@@ -85,27 +87,48 @@ public class ProductController extends CommonController {
     }
 
     /**
-     * 保存
+     *
      * @param response
-     * @param pro
-     * @param imagesIds
+     * @param title
+     * @param startDate
+     * @param serviceStartDate
+     * @param counts
+     * @param couponsCounts
+     * @param imageIds
      * @param imageId
      * @param productService
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public void save(HttpServletResponse response,
-                     Product pro,String imagesIds,Integer imageId,String productService) {
+                     String title,String startDate,String serviceStartDate,Integer counts,
+                     Integer couponsCounts, String imageIds,Integer imageId,String productService) {
         try {
-            Set<com.leoman.entity.ProductService> list = JsonUtil.json2Obj(productService,Set.class);
+            Product pro = new Product();
+            pro.setTitle(title);
+            pro.setStartDate(DateUtils.stringToLong(startDate,"yyyy-MM-dd HH:mm"));
+            pro.setServiceStartDate(DateUtils.stringToLong(serviceStartDate,"yyyy-MM-dd HH:mm"));
+            pro.setCounts(counts);
+            pro.setCouponsCounts(couponsCounts);
+
+            Set<LinkedTreeMap> mapList = JsonUtil.json2Obj(productService,Set.class);
+            Set<com.leoman.entity.ProductService> list = new HashSet<com.leoman.entity.ProductService>();
+
+            for (LinkedTreeMap map : mapList) {
+                com.leoman.entity.ProductService ps = new com.leoman.entity.ProductService();
+                ps.setDays(Integer.parseInt(map.get("days").toString()));
+                ps.setMoney(Double.parseDouble(map.get("money").toString()));
+                list.add(ps);
+            }
+
             pro.setServiceList(list);
 
-            int[] _imageIds = JsonUtil.json2Obj(imagesIds,int[].class);
+            String[] _imageIds = imageIds.split(",");
             Image image = null;
             Set<Image> imageSet = new HashSet<Image>();
-            for (int id : _imageIds) {
+            for (String id : _imageIds) {
                 image = new Image();
-                image.setId(id);
+                image.setId(Integer.parseInt(id));
                 imageSet.add(image);
             }
             pro.setList(imageSet);
@@ -113,7 +136,6 @@ public class ProductController extends CommonController {
             Image coverImage = new Image();
             coverImage.setId(imageId);
             pro.setCoverImage(coverImage);
-
             service.create(pro);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
         } catch (Exception e) {

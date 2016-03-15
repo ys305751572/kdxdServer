@@ -11,5 +11,5 @@ public interface ProductService extends ICommonService<Product> {
 
     public Page<Product> findPage(Product project,Integer type, int pagenum, int pagesize);
 
-    public Integer findBuyCount(Long id);
+    public Long findBuyCount(Long id);
 }

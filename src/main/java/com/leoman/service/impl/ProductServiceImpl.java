@@ -6,6 +6,7 @@ import com.leoman.dao.ProductDao;
 import com.leoman.entity.*;
 import com.leoman.service.ProductImageService;
 import com.leoman.service.ProductService;
+import com.leoman.service.PsService;
 import com.leoman.utils.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,6 @@ import java.util.Set;
  * Created by Administrator on 2016/3/10.
  */
 @Service
-@Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -38,6 +38,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductImageService service;
+
+    @Autowired
+    private PsService psService;
 
     @PersistenceContext
     private EntityManager em;
@@ -76,14 +79,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Integer findBuyCount(Long id) {
+    public Long findBuyCount(Long id) {
         String sql = "select count(t) from ProductBuyRecord t where t.productId = " + id;
         Query query = em.createQuery(sql,Long.class);
         List list = query.getResultList();
         if(list != null && !list.isEmpty()) {
-            return (Integer) query.getSingleResult();
+            return (Long) query.getSingleResult();
         }
-        return 0;
+        return 0L;
     }
 
     @Override
@@ -126,14 +129,22 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public Product update(Product product) {
-        Set<Image> set = product.getList();
-        ProductImage pi = null;
-        for (Image image : set) {
-            pi = new ProductImage();
-            pi.setImageId(image.getId());
-            pi.setProductId(product.getId());
-            service.create(pi);
-        }
+//        Set<Image> set = product.getList();
+//        ProductImage pi = null;
+//        for (Image image : set) {
+//            pi = new ProductImage();
+//            pi.setImageId(image.getId());
+//            pi.setProductId(product.getId());
+//            service.create(pi);
+//        }
+//        Set<com.leoman.entity.ProductService> set = product.getServiceList();
+//
+//        product.setServiceList(null);
+//        product = dao.save(product);
+//        for (com.leoman.entity.ProductService ps : set) {
+//            ps.setProductId(product.getId());
+//            psService.create(ps);
+//        }
         return dao.save(product);
     }
 

@@ -33,9 +33,6 @@ public class JsonUtil {
         return gson.fromJson(str,type);
     }
 
-
-
-
     public static String obj2Json(Object obj){
         Gson gson = createGsonBuilder().create();
         return  gson.toJson(obj);
