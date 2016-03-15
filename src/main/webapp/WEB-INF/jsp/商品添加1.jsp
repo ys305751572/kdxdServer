@@ -283,7 +283,6 @@
                 if (result.status == "0") {
                     $health.notify(result.msg, "success");
                     $("#id").val(result.data.id)
-
                 } else {
                     $health.notify(result.msg, "error");
                 }

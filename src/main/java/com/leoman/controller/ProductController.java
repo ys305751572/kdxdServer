@@ -44,7 +44,7 @@ public class ProductController extends CommonController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        return "pro/list";
+        return "pro/list1";
     }
 
     /**
@@ -67,12 +67,14 @@ public class ProductController extends CommonController {
             int pageNum = getPageNum(start, length);
             Page<Product> page = service.findPage(pro,type, pageNum, length);
             List<Product> list = page.getContent();
-            if(list != null && !list.isEmpty())
-            for (Product product : list) {
-                Long counts = service.findBuyCount(product.getId());
-                product.setBuyCount(counts);
-            }
+            if(list != null && !list.isEmpty()) {
+                for (Product product : list) {
+                    Long counts = service.findBuyCount(product.getId());
+                    product.setBuyCount(counts);
 
+
+                }
+            }
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {
@@ -176,17 +178,22 @@ public class ProductController extends CommonController {
     }
 
     @RequestMapping(value = "/tosnapup/end", method = RequestMethod.POST)
-    public void endToSnapUp(Long id) {
-        ProductBuyRecord pbr = pbService.getById(id);
-
-
+    public void endToSnapUp(HttpServletResponse response,Long id) {
+        try {
+            Product product = service.getById(id);
+            product.setStatus(2);
+            service.update(product);
+            WebUtil.print(response, new Result(true).msg("操作成功!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            WebUtil.print(response, new Result(false).msg("操作失败!"));
+        }
     }
 
     @RequestMapping(value = "/kuserindex", method = RequestMethod.GET)
     public String kuserIndex() {
         return "pro/people-list";
     }
-
 
     /**
      * 抢购人员列表
