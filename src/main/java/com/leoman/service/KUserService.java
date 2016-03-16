@@ -12,4 +12,9 @@ public interface KUserService extends ICommonService<KUser>{
     public KUser modifyStatus(Long id,Integer status);
 
     public Page<KUser> findPage(KUser user,int pagenum,int pagesize);
+
+    public KUser register(KUser user);
+
+    public KUser findByMobile(String mobile);
+
 }

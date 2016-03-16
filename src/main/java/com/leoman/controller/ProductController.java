@@ -5,10 +5,7 @@ import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.bean.Result;
-import com.leoman.entity.Image;
-import com.leoman.entity.Information;
-import com.leoman.entity.Product;
-import com.leoman.entity.ProductBuyRecord;
+import com.leoman.entity.*;
 import com.leoman.service.InfomationService;
 import com.leoman.service.ProductBuyRecordService;
 import com.leoman.service.ProductService;
@@ -48,7 +45,6 @@ public class ProductController extends CommonController {
     }
 
     /**
-     *
      * @param response
      * @param draw
      * @param start
@@ -65,14 +61,12 @@ public class ProductController extends CommonController {
                      Integer type) {
         try {
             int pageNum = getPageNum(start, length);
-            Page<Product> page = service.findPage(pro,type, pageNum, length);
+            Page<Product> page = service.findPage(pro, type, pageNum, length);
             List<Product> list = page.getContent();
-            if(list != null && !list.isEmpty()) {
+            if (list != null && !list.isEmpty()) {
                 for (Product product : list) {
                     Long counts = service.findBuyCount(product.getId());
                     product.setBuyCount(counts);
-
-
                 }
             }
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
@@ -89,7 +83,6 @@ public class ProductController extends CommonController {
     }
 
     /**
-     *
      * @param response
      * @param title
      * @param startDate
@@ -103,17 +96,17 @@ public class ProductController extends CommonController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public void save(HttpServletResponse response,
-                     String title,String startDate,String serviceStartDate,Integer counts,
-                     Integer couponsCounts, String imageIds,Integer imageId,String productService) {
+                     String title, String startDate, String serviceStartDate, Integer counts,
+                     Integer couponsCounts, String imageIds, Integer imageId, String productService) {
         try {
             Product pro = new Product();
             pro.setTitle(title);
-            pro.setStartDate(DateUtils.stringToLong(startDate,"yyyy-MM-dd HH:mm"));
-            pro.setServiceStartDate(DateUtils.stringToLong(serviceStartDate,"yyyy-MM-dd HH:mm"));
+            pro.setStartDate(DateUtils.stringToLong(startDate, "yyyy-MM-dd HH:mm"));
+            pro.setServiceStartDate(DateUtils.stringToLong(serviceStartDate, "yyyy-MM-dd HH:mm"));
             pro.setCounts(counts);
             pro.setCouponsCounts(couponsCounts);
 
-            Set<LinkedTreeMap> mapList = JsonUtil.json2Obj(productService,Set.class);
+            Set<LinkedTreeMap> mapList = JsonUtil.json2Obj(productService, Set.class);
             Set<com.leoman.entity.ProductService> list = new HashSet<com.leoman.entity.ProductService>();
 
             for (LinkedTreeMap map : mapList) {
@@ -154,7 +147,7 @@ public class ProductController extends CommonController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public void delete(HttpServletResponse response,Long id) {
+    public void delete(HttpServletResponse response, Long id) {
         try {
             service.deleteById(id);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
@@ -166,19 +159,20 @@ public class ProductController extends CommonController {
 
     /**
      * 详情
+     *
      * @param id
      * @param model
      * @return
      */
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String detail(Long id,Model model) {
+    public String detail(Long id, Model model) {
         Product pro = service.getById(id);
-        model.addAttribute("pro",pro);
+        model.addAttribute("pro", pro);
         return "pro/detail";
     }
 
     @RequestMapping(value = "/tosnapup/end", method = RequestMethod.POST)
-    public void endToSnapUp(HttpServletResponse response,Long id) {
+    public void endToSnapUp(HttpServletResponse response, Long id) {
         try {
             Product product = service.getById(id);
             product.setStatus(2);
@@ -197,6 +191,7 @@ public class ProductController extends CommonController {
 
     /**
      * 抢购人员列表
+     *
      * @param response
      * @param draw
      * @param start
@@ -205,14 +200,28 @@ public class ProductController extends CommonController {
      * @param isPay
      * @param isUseCoupons
      */
-    @RequestMapping(value = "kuserlist", method = RequestMethod.POST)
-    public void kuserList(HttpServletResponse response,Integer draw, Integer start,
-                          Integer length, Long id,Integer isPay, Integer isUseCoupons) {
+    @RequestMapping(value = "/kuserlist", method = RequestMethod.POST)
+    public void kuserList(HttpServletResponse response, Integer draw, Integer start,
+                          Integer length, Long id, String mobile, Integer isPay, Integer isUseCoupons) {
         try {
             int pageNum = getPageNum(start, length);
             ProductBuyRecord pbr = new ProductBuyRecord();
             pbr.setId(id);
-            Page<ProductBuyRecord> page = pbService.findPage(pbr,isPay,isUseCoupons,pageNum,length);
+            KUser user = new KUser();
+            user.setMobile(mobile);
+            pbr.setUser(user);
+
+            Page<ProductBuyRecord> page = pbService.findPage(pbr, isPay, isUseCoupons, pageNum, length);
+            List<ProductBuyRecord> list = page.getContent();
+            for (ProductBuyRecord _pbr : list) {
+                if(_pbr.getPayMoney() == null || _pbr.getPayMoney() == 0) {
+                    _pbr.setPayResult("未缴费");
+                }
+                else {
+                    _pbr.setPayResult("" + _pbr.getPayDays() + "天" + ("￥" + _pbr.getPayMoney()));
+                }
+            }
+
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {

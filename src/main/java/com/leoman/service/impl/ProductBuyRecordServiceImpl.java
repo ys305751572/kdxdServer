@@ -33,18 +33,18 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
             public Predicate toPredicate(Root<ProductBuyRecord> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
                 if(record.getUser().getMobile() != null) {
-                    criteriaBuilder.like(root.get("user").get("mobile").as(String.class),record.getUser().getMobile());
+                    list.add(criteriaBuilder.like(root.get("user").get("mobile").as(String.class), "%" + record.getUser().getMobile() + "%"));
                 }
                 if(isPay != null) {
                     if(isPay == 0) {
-                        criteriaBuilder.gt(root.get("payMoney").as(Double.class),0);
+                        list.add(criteriaBuilder.gt(root.get("payMoney").as(Double.class),0));
                     }
                     else {
-                        criteriaBuilder.lt(root.get("payMoney").as(Double.class),0);
+                        list.add(criteriaBuilder.le(root.get("payMoney").as(Double.class),0));
                     }
                 }
-                if(record.getIsUserCoupons() != null) {
-                    criteriaBuilder.equal(root.get("isUserCoupons").as(Integer.class),record.getIsUserCoupons());
+                if(isUseCoupons != null) {
+                    list.add(criteriaBuilder.equal(root.get("isUserCoupons").as(Integer.class),isUseCoupons));
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }

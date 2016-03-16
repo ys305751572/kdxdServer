@@ -2,8 +2,10 @@ package com.leoman.service.impl;
 
 import com.leoman.core.Constant;
 import com.leoman.entity.Admin;
+import com.leoman.entity.KUser;
 import com.leoman.entity.Member;
 import com.leoman.service.AdminService;
+import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;
 import com.leoman.service.MemberService;
 
@@ -23,6 +25,8 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private KUserService userService;
 
     @Override
     public Member getMember(HttpServletRequest request,String type) {
@@ -96,8 +100,16 @@ public class LoginServiceImpl implements LoginService {
         }else if(Constant.MEMBER_TYPE_BUSINESS.equals(type)){
             session.removeAttribute(Constant.SESSION_MEMBER_BUSINESS);
         }
-
     }
 
-
+    @Override
+    public Boolean loginWeixin(HttpServletRequest request, String username, String password) {
+        KUser user = userService.findByMobile(username);
+        if(user!=null && password.equals(user.getPassword())){
+            request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, user);
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

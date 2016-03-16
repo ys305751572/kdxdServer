@@ -20,6 +20,6 @@ public interface LoginService {
 
     public void logOut(HttpServletRequest request,String type);
 
-
+    public Boolean loginWeixin(HttpServletRequest request, String username, String password);
 
 }

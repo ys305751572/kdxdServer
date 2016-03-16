@@ -188,11 +188,6 @@
                         },
                         {
                             "data": "buyCount",
-                            render : function (data) {
-                                if(data == 0 || data == null) {
-                                    return "-";
-                                }
-                            }
                         },
                         {"data": ""}
                     ],
@@ -239,8 +234,8 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".edit").attr("href", 'admin/info/edit?id=' + data.id);
-                        $('td', row).last().find(".kuserindex").attr("href", 'admin/info/kuserindex?id=' + data.id);
+                        $('td', row).last().find(".edit").attr("href", 'admin/pro/edit?id=' + data.id);
+                        $('td', row).last().find(".kuserindex").attr("href", 'admin/pro/kuserindex?id=' + data.id);
 
                         $('td', row).last().find(".delete").click(function() {
                             kuserList.fn.delete(data.id);

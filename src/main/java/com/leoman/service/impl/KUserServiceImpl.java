@@ -65,6 +65,26 @@ public class KUserServiceImpl implements KUserService{
         return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
     }
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @Override
+    public KUser register(KUser user) {
+
+        user.setNickname("");
+        user.setPlat(1);
+        user.setStatus(0);
+        user.setMoney(0.0);
+        return dao.save(user);
+    }
+
+    @Override
+    public KUser findByMobile(String mobile) {
+        return dao.findByMobile(mobile);
+    }
+
     @Override
     public List<KUser> findAll() {
         return null;

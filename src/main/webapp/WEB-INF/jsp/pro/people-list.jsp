@@ -33,9 +33,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <a href="admin/pro/add" class="btn btn-outline btn-primary btn-lg" role="button">添加抢购</a>
-                    </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
                             <label>用户手机：</label>
@@ -46,26 +43,23 @@
                             <label>是否缴费：</label>
                             <select class="form-control input-sm" id="isPay">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">待开始</option>
-                                <option value="1">抢购中</option>
-                                <option value="1">已结束</option>
+                                <option value="0">是</option>
+                                <option value="1">否</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>是否使用必中券：</label>
-                            <select class="form-control input-sm" id="isUserCoupons">
+                            <select class="form-control input-sm" id="isUseCoupons">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">否</option>
-                                <option value="1">是</option>
+                                <option value="0">未使用</option>
+                                <option value="1">已使用</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
                     </form>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
                         <div class="table-responsive">
-
                             <table class="table table-striped table-bordered table-hover" id="dataTables">
                                 <colgroup>
                                     <col class="gradeA even"/>
@@ -74,6 +68,7 @@
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
+                                    <col class="gradeA even"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
@@ -82,6 +77,7 @@
                                     <th>用户手机</th>
                                     <th>抢购时间</th>
                                     <th>是否使用必中券</th>
+                                    <th>抢购结果</th>
                                     <th>缴费情况</th>
                                     <th>抢购结果</th>
                                 </tr>
@@ -110,24 +106,26 @@
 <%@ include file="../inc/footer.jsp" %>
 </body>
 <script type="text/javascript">
-    Date.prototype.format = function(format){
+    Date.prototype.format = function (format) {
         var o = {
-            "M+" :this.getMonth() + 1, // month
-            "d+" :this.getDate(), // day
-            "h+" :this.getHours(), // hour
-            "m+" :this.getMinutes(), // minute
-            "s+" :this.getSeconds(), // second
-            "q+" :Math.floor((this.getMonth() + 3) / 3), // quarter
-            "S" :this.getMilliseconds()
+            "M+": this.getMonth() + 1, // month
+            "d+": this.getDate(), // day
+            "h+": this.getHours(), // hour
+            "m+": this.getMinutes(), // minute
+            "s+": this.getSeconds(), // second
+            "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
+            "S": this.getMilliseconds()
         };
         if (/(y+)/.test(format)) {
             format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        };
-        for ( var k in o) {
+        }
+        ;
+        for (var k in o) {
             if (new RegExp("(" + k + ")").test(format)) {
                 format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
             }
-        };
+        }
+        ;
         return format;
     };
 </script>
@@ -145,12 +143,6 @@
                 // 查询
                 $("#c_search").click(function () {
                     kuserList.v.dTable.ajax.reload();
-                })
-
-                $("#delete").click(function () {
-                    var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
-                    var ids = checkBox.getInputId();
-                    kuserList.fn.deleteRow(checkBox, ids)
                 })
             },
             dataTableInit: function () {
@@ -172,19 +164,19 @@
                         }
                         },
                         {
-                            "data" : "isUserCoupons",
-                            render : function (data) {
-                                if (data == 0) {
+                            "data": "isUserCoupons",
+                            render : function(data) {
+                                if(data == 0) {
                                     return "否";
                                 }
-                                else if (data == 1) {
+                                else {
                                     return "是";
                                 }
                             }
                         },
                         {
-                            "data" : "resultStatus",
-                            render : function (data){
+                            "data": "resultStatus",
+                            render: function (data) {
                                 if(data == 0) {
                                     return "抢购成功";
                                 }
@@ -194,84 +186,68 @@
                             }
                         },
                         {
-                            "data" : "payResult"
+                            "data": "payResult"
+
                         },
                         {
                             "data" : "result"
                         }
                     ],
-                    "columnDefs": [
-                        {
-                            "data": null,
-                            "defaultContent":
-                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
-                            "<i class='fa fa-edit'></i>" +
-                            "</a>"
-                            +
-                            "&nbsp;&nbsp;"
-                            +
-                            "<button type='button'  title='删除' class='btn btn-circle delete'>" +
-                            "<i class='fa fa-recycle'></i>" +
-                            "</button>",
-                            "targets": -1
-                            +
-                            "&nbsp;&nbsp;"
-                            +
-                            "<a  title='抢购人员'  class='btn btn-primary btn-circle kuserindex'>" +
-                            "<i class='fa fa-edit'></i>"+
-                            "</a>"
-                            +
-                            "&nbsp;&nbsp;"
-                            +
-                            "<button type='button'  title='结束抢购' class='btn btn-circle end'>" +
-                            "<i class='fa fa-eject'></i>" +
-                            "</button>",
-                        }
-                    ],
                     "createdRow": function (row, data, index) {
                         kuserList.v.list.push(data);
                         $('td', row).eq(0).html("<input type='checkbox' value=" + data.id + ">");
-                        if(data.status == 0){
-                            $(row).addClass("success")
-
-                            $('td', row).last().find(".settingAdded").addClass("btn-default");
-                            $('td', row).last().find(".settingAdded").attr("title", "禁用")
-                        }else{
-                            $('td', row).last().find(".settingAdded").addClass("btn-buy");
-                            $('td', row).last().find(".settingAdded").attr("title", "启用");
-                        }
+//                        if(data.status == 0){
+//                            $(row).addClass("success")
+//
+//                            $('td', row).last().find(".settingAdded").addClass("btn-default");
+//                            $('td', row).last().find(".settingAdded").attr("title", "禁用")
+//                        }else{
+//                            $('td', row).last().find(".settingAdded").addClass("btn-info");
+//                            $('td', row).last().find(".settingAdded").attr("title", "启用");
+//                        }
                     },
                     rowCallback: function (row, data) {
-                        var items = kuserList.v.list;
-                        $('td', row).last().find(".end").click(function(){
-                            kuserList.fn.endToSnapUp(data);
-                        });
-                        $('td', row).last().find(".edit").attr("href",'admin/pro/detail?id=' + data.id);
-                        $('td', row).last().find(".delete").attr("href",'admin/pro/delete?id=' + data.id);
-                        $('td', row).last().find(".kuserindex").attr("href",'admin/pro/kuserindex?id=' + data.id);
+//                        var items = kuserList.v.list;
+//                        $('td', row).last().find(".edit").attr("href", 'admin/pro/edit?id=' + data.id);
+//                        $('td', row).last().find(".kuserindex").attr("href", 'admin/pro/kuserindex?id=' + data.id);
+//
+//                        $('td', row).last().find(".delete").click(function() {
+//                            kuserList.fn.delete(data.id);
+//                        });
+//                        $('td', row).last().find(".end").click(function() {
+//                            kuserList.fn.end(data.id);
+//                        });
+
                     },
                     "fnServerParams": function (aoData) {
                         aoData.mobile = $("#mobile").val();
                         aoData.isPay = $("#isPay").val();
-                        aoData.isUserCoupons = $("#isUserCoupons").val();
+                        aoData.isUseCoupons = $("#isUseCoupons").val();
                     },
                     "fnDrawCallback": function (row) {
                         $bluemobi.uiform();
                     }
                 });
             },
-            endToSnapUp: function (result) {
+            delete : function(id) {
                 $bluemobi.optNotify(function () {
-                    $.post("admin/pro/endToSnapUp", {id:JSON.stringify(data.id)}, function (result) {
+                    $.post("admin/pro/delete",{id:JSON.stringify(id)},function(result) {
                         kuserList.fn.responseComplete(result);
                     })
-                },"你确定要结束抢购吗？","确定");
+                },"确定删除吗？","确定");
             },
-            responseComplete: function (result,action) {
+            end : function (id) {
+                $bluemobi.optNotify(function () {
+                    $.post("admin/pro/tosnapup/end",{id:JSON.stringify(id)},function(result) {
+                        kuserList.fn.responseComplete(result);
+                    })
+                },"确定结束吗？","确定");
+            },
+            responseComplete: function (result, action) {
                 if (result.status == "0") {
-                    if(action){
+                    if (action) {
                         kuserList.v.dTable.ajax.reload(null, false);
-                    }else{
+                    } else {
                         kuserList.v.dTable.ajax.reload();
                     }
                     $bluemobi.notify(result.msg, "success");
