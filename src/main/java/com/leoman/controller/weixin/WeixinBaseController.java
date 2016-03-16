@@ -28,7 +28,9 @@ public class WeixinBaseController {
 
     public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model) {
         Boolean success = service.loginWeixin(request, mobile, password);
+        if(success) {
 
+        }
 
         return null;
     }
