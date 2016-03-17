@@ -101,4 +101,5 @@
 	</context:component-scan>
 	
 	<bean id="beanUtil" class="com.leoman.utils.BeanUtil"></bean>
+	<bean id="cacheTempCodeServiceImpl" class="com.leoman.cache.CacheTempCodeServiceImpl" />
 </beans>

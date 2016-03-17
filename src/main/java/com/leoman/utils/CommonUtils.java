@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -133,5 +134,19 @@ public class CommonUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
 		String id = sdf.format(new Date());
 		return id;
+	}
+
+	/**
+	 * 生成验证码
+	 * @param length
+	 * @return
+	 */
+	public static String getCode(int length) {
+		Random random = new Random();
+		StringBuffer result = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			result.append(random.nextInt(10));
+		}
+		return result.toString();
 	}
 }
