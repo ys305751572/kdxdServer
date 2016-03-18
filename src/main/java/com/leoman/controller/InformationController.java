@@ -133,6 +133,6 @@ public class InformationController extends CommonController {
     public void publish(HttpServletResponse response,String ids) {
         Long[] arrayId = JsonUtil.json2Obj(ids, Long[].class);
         service.publish(arrayId);
-        WebUtil.print(response, new Result(false).msg("操作成功!"));
+        WebUtil.print(response, new Result(true).msg("操作成功!"));
     }
 }

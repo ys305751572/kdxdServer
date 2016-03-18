@@ -1,13 +1,14 @@
 package com.leoman.service.impl;
 
 import com.leoman.core.Constant;
-import com.leoman.dao.InfomationDao;
+import com.leoman.core.bean.Result;
 import com.leoman.dao.ProductDao;
 import com.leoman.entity.*;
-import com.leoman.service.ProductImageService;
+import com.leoman.service.*;
 import com.leoman.service.ProductService;
-import com.leoman.service.PsService;
-import com.leoman.utils.ClassUtil;
+import com.leoman.utils.DateUtils;
+import com.leoman.utils.KdxgUtils;
+import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +24,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +49,13 @@ public class ProductServiceImpl implements ProductService {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private CouponService cService;
+
+    @Autowired
+    private ProductBuyRecordService pbservice;
+
 
     @Override
     public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
@@ -83,6 +95,75 @@ public class ProductServiceImpl implements ProductService {
         String sql = "select count(t) from ProductBuyRecord t where t.productId = " + id;
         Query query = em.createQuery(sql,Long.class);
         return (Long) query.getSingleResult();
+    }
+
+    @Transactional
+    @Override
+    public void buy(Long productId, Long serviceId, Long userId, Boolean isUsed, HttpServletRequest request,HttpServletResponse response) {
+
+        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        Integer buyCount = pbservice.findCountByProductId(productId);
+        Product product = this.getById(productId);
+        if(buyCount >= product.getCounts()) {
+            WebUtil.print(response, new Result(false).msg("商品已抢完!"));
+            return;
+        }
+
+        ProductBuyRecord record = new ProductBuyRecord();
+        if(isUsed) {
+            record.setResultStatus(0);
+            Integer counts = cService.findCountByUserId(weixinUser.getId());
+            if(counts == 0) {
+                WebUtil.print(response, new Result(false).msg("您没有优惠券!"));
+                return;
+            }
+        }
+        else {
+            // TODO 没有使用优惠券只有25%的概率可能抢到
+            // TODO 没有使用优惠券在抢购成功后有25%的概率能够得到优惠券
+            if(!KdxgUtils.isGetByprobability()) {
+                WebUtil.print(response, new Result(false).msg("很遗憾，您没有抢到!"));
+                record.setResultStatus(1);
+            }else {
+                record.setResultStatus(0);
+            }
+        }
+
+        KUser user = new KUser();
+        user.setId(weixinUser.getId());
+        record.setUser(user);
+
+        record.setProductId(productId);
+        record.setIsUserCoupons(1);
+
+        com.leoman.entity.ProductService ps = psService.getById(serviceId);
+        record.setPayMoney(ps.getMoney());
+        record.setPayDays(ps.getDays());
+
+        Long startDate = product.getStartDate();
+        Long endDate = DateUtils.daysAfter(new Date(startDate),ps.getDays());
+        String result = "";
+        try {
+            result = "水果一份(" + DateUtils.longToString(startDate,"yyyy-MM-dd HH:mm:ss") + "~" + DateUtils.longToString(endDate,"yyyy-MM-dd HH:mm:ss") + ")";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        record.setResult(result);
+        WebUtil.print(response, new Result(true).msg("抢购成功"));
+
+
+    }
+
+    /**
+     * 消费一张优惠券
+     * @param userId
+     */
+    public void toReduce(Long userId) {
+        String sql = "select a.* from tb_coupons a where a.user_id = " + userId + " and a.is_used = 0 and a.end_date > UNIX_TIMESTAMP() * 1000 ORDER BY a.end_date DESC limit 1" ;
+        Query query = em.createNativeQuery(sql,Coupon.class);
+        Coupon c = (Coupon) query.getSingleResult();
+        c.setIsUsed(1);
+        cService.update(c);
     }
 
     @Override

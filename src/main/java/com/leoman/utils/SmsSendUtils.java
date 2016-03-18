@@ -4,6 +4,7 @@ package com.leoman.utils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -77,15 +78,17 @@ public class SmsSendUtils {
 		return result;
 	}
 
-	public static String resultStatus(String result) {
+	public static boolean resultStatus(String result) {
 		Document document = null;
 		try {
 			document = DocumentHelper.parseText(result);
-//			document.get
+			Element e = document.getRootElement().element("mt");
+			String status = e.elementText("status");
+			return "0".equals(status) ? true : false;
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -101,7 +104,7 @@ public class SmsSendUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String sendTemplateSms(String mobile,String tempId,String content) throws Exception{
+	public static boolean sendTemplateSms(String mobile,String tempId,String content) throws Exception{
 		String address = HTTP_URL + "/service/httpService/httpInterface.do?method=sendMsg";
 		
 		StringBuilder params = new StringBuilder();
@@ -109,7 +112,7 @@ public class SmsSendUtils {
 		params.append("&password=").append(password);
 		params.append("&veryCode=").append(veryCode);
 		params.append("&mobile=").append(mobile);
-		params.append("&content=").append(content);
+		params.append("&content=").append("@1@=" + content);
 		params.append("&msgtype=").append("2");
 		params.append("&tempid=").append(tempId);
 		params.append("&code=").append("utf-8");
@@ -129,9 +132,8 @@ public class SmsSendUtils {
 		while (( temp = br.readLine()) != null) {
 			result += temp;
 		}
-		System.out.println(result);
-		
-		return result;
+		System.out.println("result:" + result);
+		return resultStatus(result);
 	}
 
 	/**
@@ -217,13 +219,15 @@ public class SmsSendUtils {
 //		result = sendTextSms("13476107753", "【踢踢同城】您的验证码为：3123，请勿向任何人提供短信验证码");
 
 		//发送模版短信
-		result = sendTemplateSms("13476107753", "JSM40387-0001", "@1@=3918");
+//		System.out.println(sendTemplateSms("13476107753", "JSM40387-0001", "3918"));
 		//获取短信状态报告
 		//result = queryReport();
-		
 		//获取上行短信
 //		result = queryMo();
-		System.out.println(result);
+//		System.out.println(result);
+
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sms><mt><status>0</status><msgid>63f0f0a9d5fa488aa9410e3ce5b85263</msgid></mt></sms>";
+		System.out.println(resultStatus(xml));
 	}
 
 }

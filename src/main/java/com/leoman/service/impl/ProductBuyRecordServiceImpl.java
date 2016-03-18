@@ -53,6 +53,11 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
     }
 
     @Override
+    public Integer findCountByProductId(Long id) {
+        return dao.findCountByProductId(id);
+    }
+
+    @Override
     public List<ProductBuyRecord> findAll() {
         return null;
     }

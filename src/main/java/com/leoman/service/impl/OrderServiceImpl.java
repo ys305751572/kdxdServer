@@ -68,6 +68,9 @@ public class OrderServiceImpl implements OrderService {
                 if(order.getStatus() != null) {
                     list.add(criteriaBuilder.equal(root.get("status").as(Integer.class), order.getStatus()));
                 }
+                if(order.getUser() != null && order.getUser().getId() != null) {
+                    list.add(criteriaBuilder.equal(root.get("user").get("id").as(Long.class),order.getUser().getId()));
+                }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
