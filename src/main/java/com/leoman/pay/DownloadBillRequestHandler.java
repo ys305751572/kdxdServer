@@ -1,9 +1,9 @@
 package com.leoman.pay;
 
+import com.leoman.pay.util.MD5Util;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.bluemobi.pay.util.MD5Util;
 
 public class DownloadBillRequestHandler extends RequestHandler {
 

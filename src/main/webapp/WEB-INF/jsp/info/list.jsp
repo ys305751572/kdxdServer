@@ -186,7 +186,8 @@
                     "columnDefs": [
                         {
                             "data": null,
-                            "defaultContent": "<a  title='查看'  class='btn btn-primary btn-circle add'>" +
+                            "defaultContent":
+                            "<a  title='查看'  class='btn btn-primary btn-circle add'>" +
                             "<i class='fa fa-edit'></i>" +
                             "</a>"
                             +

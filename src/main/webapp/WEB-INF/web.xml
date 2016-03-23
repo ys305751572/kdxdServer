@@ -19,7 +19,7 @@
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
+        <param-value>classpath:root-context.xml</param-value>
     </context-param>
 
     <filter>
@@ -40,7 +40,8 @@
         <filter-class>com.leoman.filter.WeixinFilter</filter-class>
         <init-param>
             <param-name>skipUrls</param-name>
-            <param-value>/weixin</param-value>
+            <param-value>/weixin/login/*,/weixin/login,/weixin/activity/*,/weixin/product/index,/weixin/product/list,
+                /weixin/product/detail,/weixin/information/index,/weixin/information/list,/weixin/information/detail</param-value>
         </init-param>
     </filter>
     <filter-mapping>
@@ -97,5 +98,12 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+    <jsp-config >
+        <taglib >
+            <taglib-uri>/tags</taglib-uri >
+            <taglib-location>/WEB-INF/datetag.tld</taglib-location >
+        </taglib >
+    </jsp-config >
 
 </web-app>

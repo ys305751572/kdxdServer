@@ -12,16 +12,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.leoman.pay.client.TenpayHttpClient;
+import com.leoman.pay.util.*;
 import org.jdom.JDOMException;
 import org.json.JSONException;
 
-import com.bluemobi.pay.client.TenpayHttpClient;
-import com.bluemobi.pay.util.ConstantUtil;
-import com.bluemobi.pay.util.JsonUtil;
-import com.bluemobi.pay.util.MD5Util;
-import com.bluemobi.pay.util.Sha1Util;
-import com.bluemobi.pay.util.XMLUtil;
-import com.bluemobi.utils.CommonUtils;
 
 public class PrepayIdRequestHandler extends RequestHandler {
 
@@ -45,7 +40,7 @@ public class PrepayIdRequestHandler extends RequestHandler {
 	/**
 	 * ����ǩ��SHA1
 	 * 
-	 * @param signParams
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -68,7 +63,7 @@ public class PrepayIdRequestHandler extends RequestHandler {
 	/**
 	 * ����ǩ��SHA1
 	 * 
-	 * @param signParams
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */

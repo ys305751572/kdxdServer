@@ -27,4 +27,6 @@ public interface Constant {
     String MEMBER_TYPE_GLOBLE = "GLOBLE";
 
     String MEMBER_TYPE_BUSINESS = "BUSINESS";
+
+    String GO_URL = "GO_URL";
 }

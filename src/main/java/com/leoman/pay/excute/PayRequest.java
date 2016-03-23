@@ -6,17 +6,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.leoman.pay.AccessTokenRequestHandler;
+import com.leoman.pay.ClientRequestHandler;
+import com.leoman.pay.PackageRequestHandler;
+import com.leoman.pay.PrepayIdRequestHandler;
+import com.leoman.pay.util.CommonUtils;
+import com.leoman.pay.util.ConstantUtil;
+import com.leoman.pay.util.TenpayUtil;
+import com.leoman.pay.util.WXUtil;
+
 import org.json.JSONException;
-
-import com.bluemobi.pay.AccessTokenRequestHandler;
-import com.bluemobi.pay.ClientRequestHandler;
-import com.bluemobi.pay.PackageRequestHandler;
-import com.bluemobi.pay.PrepayIdRequestHandler;
-import com.bluemobi.pay.util.ConstantUtil;
-import com.bluemobi.pay.util.TenpayUtil;
-import com.bluemobi.pay.util.WXUtil;
-import com.bluemobi.utils.CommonUtils;
-
 public class PayRequest {
 
 	public static Map<String,Object> pay(int type,HttpServletRequest request, HttpServletResponse response) {
@@ -79,7 +78,7 @@ public class PayRequest {
 //			prepayReqHandler.setParameter("timestamp", timestamp);
 //			prepayReqHandler.setParameter("traceid", traceid);
 
-			prepayReqHandler.setParameter("spbill_create_ip",CommonUtils.getRealAddress(request));
+			prepayReqHandler.setParameter("spbill_create_ip", CommonUtils.getRealAddress(request));
 			prepayReqHandler.setParameter("total_fee", request.getAttribute("fee").toString());    
 			prepayReqHandler.setParameter("trade_type", ConstantUtil.TRADE_TYPE); 
 			

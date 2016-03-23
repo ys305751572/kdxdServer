@@ -20,6 +20,15 @@ public  class HttpUtil {
         return fullUrl;
     }
 
+    /**
+     * 获取请求地址
+     * @param request
+     * @return
+     */
+    public static String getRemotePath(HttpServletRequest request) {
+        String path = request.getContextPath();
+        return request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    }
 
     public static String getFullUrl(HttpServletRequest httpRequest){
         String fullUrl = null;

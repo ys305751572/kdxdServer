@@ -1,6 +1,7 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.cache.CacheService;
+import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
 import com.leoman.entity.KUser;
 import com.leoman.pay.util.XMLUtil;
@@ -9,6 +10,7 @@ import com.leoman.service.LoginService;
 import com.leoman.utils.CommonUtils;
 import com.leoman.utils.SmsSendUtils;
 import com.leoman.utils.WebUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,37 +43,70 @@ public class WeixinBaseController {
     @Resource(name = "cacheTempCodeServiceImpl")
     private CacheService<String> cacheService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(HttpServletResponse response, String mobile, String code) {
-
-        // TODO 判断验证码
-        if (StringUtils.isBlank(mobile) && StringUtils.isBlank(code)) {
-            WebUtil.print(response, new Result(false).msg("参数错误"));
-        }
-        String hasCode = cacheService.get(mobile);
-        if (!code.equals(hasCode)) {
-            WebUtil.print(response, new Result(false).msg("验证码错误"));
-        }
-        // TODO 验证用户是否已注册
-        KUser _user = userService.findByMobile(mobile);
-        if (_user != null) {
-            WebUtil.print(response, new Result(false).msg("该手机号码已注册"));
-        }
-        KUser user = new KUser();
-        user.setMobile(mobile);
-        userService.register(user);
-        return "";
-
+    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
+    public String toLogin() {
+        return "weixin/login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
+    public String toRegister() {
+        return "weixin/register";
+    }
+
+    @RequestMapping(value = "/toPassword", method = RequestMethod.POST)
+    public String toSetPassword(String username,String yzm,Model model) {
+        Map<String,String> reg = new HashMap<String,String>();
+        reg.put("username",username);
+        reg.put("code",yzm);
+        model.addAttribute("reg",reg);
+        return "weixin/setpassword";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(HttpServletResponse response, String username,String password, String code) {
+        // 参数验证
+        if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
+            WebUtil.print(response, new Result(false).msg("参数错误"));
+            return null;
+        }
+
+        // TODO 判断验证码
+//        String hasCode = cacheService.get(username);
+//        if (!code.equals(hasCode)) {
+//            WebUtil.print(response, new Result(false).msg("验证码错误"));
+//            return null;
+//        }
+        // TODO 验证用户是否已注册
+        KUser _user = userService.findByMobile(username);
+        if (_user != null) {
+            WebUtil.print(response, new Result(false).msg("该手机号码已注册"));
+            return null;
+        }
+        KUser user = new KUser();
+        user.setMobile(username);
+        user.setPassword(password);
+        userService.register(user);
+        return "";
+    }
+
+    @RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
     public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model) {
         Boolean success = service.loginWeixin(request, mobile, password);
+        Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
         if (success) {
+            if(goUrlObj != null) {
+                String goUrl = (String) goUrlObj;
+                try {
+                    response.sendRedirect(goUrl);
+                    return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             return "";
         }
         model.addAttribute("error", "用户名密码错误");
-        return "";
+        return "weixin/login";
     }
 
     /**

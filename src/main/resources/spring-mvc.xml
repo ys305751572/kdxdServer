@@ -14,14 +14,9 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
-
     <mvc:annotation-driven />
-
     <mvc:resources mapping="/static/**" location="/static/"/>
-
     <mvc:resources mapping="/ueditor1_4_3/**" location="/ueditor1_4_3/"/>
-
-
     <mvc:interceptors>
         <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
         <mvc:interceptor>
@@ -36,7 +31,6 @@
             <bean class="com.leoman.filter.CommonInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-
 
     <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -60,5 +54,4 @@
             </props>
         </property>
     </bean>
-
 </beans>

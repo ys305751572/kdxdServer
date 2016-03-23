@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" href="static/weixin/css/tt.css">
+<script type="text/javascript">
+function changeStyle() {
+    var add1 = document.getElementById("add1");
+     if(add1.value==""){
+		add1.value = "配送地址空缺，此单无法配送";
+		add1.className = "add2";
+     }
+}
+</script>
+<title>抢购成功同时获得优惠卷</title>
+</head>
+<body>
+<header class="header">
+	<p>恭喜您！抢购到如下商品</p>
+</header>
+<section class="section">
+	<div class="list">
+	<img src="static/weixin/images/抢购成功.png">
+		<form>
+			<ul>
+				<li><h2><span id="toutiao">【脐橙五斤大抢购&nbsp;酸甜多汁】&nbsp;湖北</span></h3></li>	
+				<li id="pt">&nbsp;抢购方式：普通</li>
+			</ul>
+		</form>
+	</div>
+	<div class="bzq">
+		<div class="bz">
+		<span class="bz1">必中</span></div>
+		<div class="qg">
+		<form>
+			<ul>
+				<li><h2><span id="toutiao1">抢购必中卷</span></h3></li>	
+				<li id="pt1">有效期：2016年2月22日13；22；22</li>
+			</ul>
+		</form>
+		</div>
+	</div>
+	<div class="list1" id="list1">
+	<span>配送地址：</span><input id="add1" type="text" style="border: none;" class="add1">
+	</div>
+</section>
+<section class="fukuan" id="fukuan">
+	<span>必须支付抢购费用以后，您的订单才会生效</span>
+</section>
+<footer class="button">
+	<div class="button_box" >
+			<span class="box"><a href="#" onclick="changeStyle();">请付款</a></span>
+		</div>
+</footer>
+</body>
+</html>

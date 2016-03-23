@@ -1,6 +1,7 @@
 package com.leoman.service.impl;
 
 import com.leoman.dao.KUserDao;
+import com.leoman.entity.Address;
 import com.leoman.entity.KUser;
 import com.leoman.service.KUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,16 @@ public class KUserServiceImpl implements KUserService{
     @Override
     public KUser findByMobile(String mobile) {
         return dao.findByMobile(mobile);
+    }
+
+    @Override
+    public Address findDefaultAddressByUserId(Long userId) {
+        return dao.findAddressByUserId(userId);
+    }
+
+    @Override
+    public List<Address> findAllAddressByUserId(Long userId) {
+        return dao.findAllAddressByUserId(userId);
     }
 
     @Override

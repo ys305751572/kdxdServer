@@ -20,6 +20,9 @@ public class Product extends BaseEntity {
     @Column(name = "counts")
     private Integer counts;
 
+    @Column(name = "inventory")
+    private Integer inventory;
+
     @Column(name = "coupons_counts")
     private Integer couponsCounts;
 
@@ -50,6 +53,14 @@ public class Product extends BaseEntity {
 
     @Transient
     private Long buyCount = 0L;
+
+    public Integer getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Integer inventory) {
+        this.inventory = inventory;
+    }
 
     public Long getStartDate() {
         return startDate;

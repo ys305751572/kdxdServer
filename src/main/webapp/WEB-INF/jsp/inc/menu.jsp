@@ -43,6 +43,19 @@
                     </li>
                 </ul>
             </li>
+            <!-- 微信菜单测试 -->
+            <li>
+                <a href="#"><i class="fa fa-user fa-fw"></i>微信菜单测试<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li >
+                        <a href="admin/pro/index"><i class="fa fa-user fa-fw"></i>资讯列表</a>
+                    </li>
+                    <li >
+                        <a href="admin/order/index"><i class="fa fa-user fa-fw"></i>订单列表</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -56,6 +57,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductBuyRecordService pbservice;
 
+    @Autowired
+    private KUserService userService;
+
 
     @Override
     public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
@@ -92,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long findBuyCount(Long id) {
-        String sql = "select count(t) from ProductBuyRecord t where t.productId = " + id;
+        String sql = "select count(t) from ProductBuyRecord t where t.product.id = " + id;
         Query query = em.createQuery(sql,Long.class);
         return (Long) query.getSingleResult();
     }
@@ -133,7 +137,8 @@ public class ProductServiceImpl implements ProductService {
         user.setId(weixinUser.getId());
         record.setUser(user);
 
-        record.setProductId(productId);
+
+//        record.setProductId(productId);
         record.setIsUserCoupons(1);
 
         com.leoman.entity.ProductService ps = psService.getById(serviceId);
@@ -152,6 +157,72 @@ public class ProductServiceImpl implements ProductService {
         WebUtil.print(response, new Result(true).msg("抢购成功"));
 
 
+    }
+
+
+
+    @Override
+    public Product reduceInventory(Long id) {
+        Product product = dao.findOne(id);
+        product.setInventory(product.getInventory() - 1);
+        return dao.save(product);
+    }
+
+    /**
+     *
+     * @param id     商品ID
+     * @param isUsed
+     * @param userId
+     * @param model
+     * @return
+     */
+    @Transactional
+    @Override
+    public Model toOrder(Long id, Boolean isUsed, Long userId, Model model) {
+
+
+        boolean isGetCoupon = false;
+        boolean resultStatus = false;
+
+        // 获取用户默认地址 ,没有则为空
+        Address address = userService.findDefaultAddressByUserId(userId);
+        model.addAttribute("address",address);
+
+        // 是否获得优惠券
+        if(isUsed) {
+            resultStatus = true;
+        }
+        else {
+            if(KdxgUtils.isGetByprobability()) {
+                resultStatus = true;
+                model.addAttribute("success",true);
+                isGetCoupon = KdxgUtils.isGetByprobability();
+                if(isGetCoupon) {
+                    long endDate = DateUtils.daysAfter(new Date(),3);
+                    model.addAttribute("endDate",endDate);
+                }
+            }
+        }
+        ProductBuyRecord pbr = new ProductBuyRecord();
+
+        KUser user = new KUser();
+        user.setId(userId);
+        pbr.setUser(user);
+
+        Product _product = new Product();
+        _product.setId(id);
+        pbr.setProduct(_product);
+
+        pbr.setIsUserCoupons(isUsed ? 1 : 0);
+        pbr.setIsGetCoupons(isGetCoupon ? 1 : 0);
+        pbr.setResultStatus(resultStatus ? 0 : 1);
+        pbr.setPayDays(0);
+        pbr.setPayMoney(0.0);
+        pbr.setResult("");
+        pbr = pbservice.create(pbr);
+
+        model.addAttribute("pbr",pbr);
+        return model;
     }
 
     /**

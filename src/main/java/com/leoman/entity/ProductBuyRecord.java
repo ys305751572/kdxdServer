@@ -13,11 +13,15 @@ public class ProductBuyRecord extends BaseEntity{
     @JoinColumn(name = "user_id")
     private KUser user;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "is_use_coupons")
     private Integer isUserCoupons;
+
+    @Column(name = "is_get_coupons")
+    private Integer isGetCoupons;
 
     @Column(name = "result_status")
     private Integer resultStatus;
@@ -34,6 +38,14 @@ public class ProductBuyRecord extends BaseEntity{
     @Transient
     private String payResult;
 
+    public Integer getIsGetCoupons() {
+        return isGetCoupons;
+    }
+
+    public void setIsGetCoupons(Integer isGetCoupons) {
+        this.isGetCoupons = isGetCoupons;
+    }
+
     public String getPayResult() {
         if(payMoney == null || payMoney == 0) {
             return "未缴费";
@@ -46,12 +58,12 @@ public class ProductBuyRecord extends BaseEntity{
         this.payResult = payResult;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public KUser getUser() {
