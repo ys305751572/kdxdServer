@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping(value = "weixin/product")
-public class WeixinProductController extends CommonController{
+public class WeixinProductController extends CommonController {
 
     @Autowired
     private ProductService service;
@@ -49,12 +49,19 @@ public class WeixinProductController extends CommonController{
     @Autowired
     private KUserService userService;
 
-    @RequestMapping(value = "/index" , method = RequestMethod.GET)
+    /**
+     * 商品列表 测试
+     *
+     * @return
+     */
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
         return "weixin/product-list-test";
     }
 
     /**
+     * 商品列表查询
+     *
      * @param response
      * @param draw
      * @param start
@@ -87,6 +94,7 @@ public class WeixinProductController extends CommonController{
 
     /**
      * 商品详情
+     *
      * @param request
      * @param id
      * @param model
@@ -107,17 +115,18 @@ public class WeixinProductController extends CommonController{
 
     /**
      * 抢购
+     *
      * @param request
      * @param id
      * @param isUsed
      */
     @RequestMapping(value = "/snapUp", method = RequestMethod.POST)
-    public void snapUp(HttpServletRequest request,HttpServletResponse response,Long id,Boolean isUsed) {
+    public void snapUp(HttpServletRequest request, HttpServletResponse response, Long id, Boolean isUsed) {
 
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         try {
-            ProductBuyRecord pbr = service.createProductByRecord(response,id,isUsed,user.getId());
-            WebUtil.print(response,new Result(true).data(pbr));
+            ProductBuyRecord pbr = service.createProductByRecord(response, id, isUsed, user.getId());
+            WebUtil.print(response, new Result(true).data(pbr));
         } catch (Exception e) {
             e.printStackTrace();
             WebUtil.print(response, new Result(false).msg("操作失败!"));
@@ -125,7 +134,48 @@ public class WeixinProductController extends CommonController{
     }
 
     /**
-     * 抢购
+     * 抢购结果
+     *
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toSnapUpResult", method = RequestMethod.POST)
+    public String toSnapUpResult(HttpServletRequest request, Long pbrId, Model model) {
+
+        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        ProductBuyRecord pbr = pbservice.getById(pbrId);
+        model.addAttribute("pbr", pbr);
+
+        Address address = userService.findDefaultAddressByUserId(weixinUser.getId());
+        model.addAttribute("address", address);
+
+        return "weixin/order-detail";
+    }
+
+    /**
+     * 跳转支付详情页面
+     *
+     * @param id
+     * @param isUsed
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toPay", method = RequestMethod.POST)
+    public String toPay(Long id, Boolean isUsed, Model model) {
+//        Product product = service.reduceInventory(id);
+//        model.addAttribute("product",product);
+//        model.addAttribute("isUser",isUsed);
+//        model.addAttribute("id",id);
+        //TODO 查询 ProductService list
+
+
+        return "weixin/pay-detail";
+    }
+
+    /**
+     * 生成订单
+     *
      * @param request
      * @param response
      * @param id
@@ -133,48 +183,11 @@ public class WeixinProductController extends CommonController{
      * @param isUsed
      */
     @Deprecated
-    @RequestMapping(value = "creaeOrder", method = RequestMethod.POST)
-    public void buy(HttpServletRequest request, HttpServletResponse response, Long id,Long serviceId,Boolean isUsed) {
+    @RequestMapping(value = "createOrder", method = RequestMethod.POST)
+    public void buy(HttpServletRequest request, HttpServletResponse response, Long id, Long serviceId, Boolean isUsed) {
 //        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
 //        service.buy(id,serviceId,user.getId(),isUsed,request,response);
 
 
-    }
-
-
-
-    /**
-     * 跳转订单详情
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "toSnapUpResult", method = RequestMethod.POST)
-    public String toSnapUpResult(HttpServletRequest request,Long pbrId,Model model) {
-
-        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        ProductBuyRecord pbr = pbservice.getById(pbrId);
-        model.addAttribute("pbr",pbr);
-
-        Address address = userService.findDefaultAddressByUserId(weixinUser.getId());
-        model.addAttribute("address",address);
-
-        return "weixin/order-detail";
-    }
-
-    /**
-     * 跳转支付详情页面
-     * @param id
-     * @param isUsed
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "toPay", method = RequestMethod.POST)
-    public String toPay(Long id,Boolean isUsed,Model model) {
-        Product product = service.reduceInventory(id);
-        model.addAttribute("product",product);
-        model.addAttribute("isUser",isUsed);
-        model.addAttribute("id",id);
-        return "weixin/pay-detail";
     }
 }
