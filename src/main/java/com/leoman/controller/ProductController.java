@@ -212,15 +212,15 @@ public class ProductController extends CommonController {
             pbr.setUser(user);
 
             Page<ProductBuyRecord> page = pbService.findPage(pbr, isPay, isUseCoupons, pageNum, length);
-            List<ProductBuyRecord> list = page.getContent();
-            for (ProductBuyRecord _pbr : list) {
-                if(_pbr.getPayMoney() == null || _pbr.getPayMoney() == 0) {
-                    _pbr.setPayResult("未缴费");
-                }
-                else {
-                    _pbr.setPayResult("" + _pbr.getPayDays() + "天" + ("￥" + _pbr.getPayMoney()));
-                }
-            }
+//            List<ProductBuyRecord> list = page.getContent();
+//            for (ProductBuyRecord _pbr : list) {
+//                if(_pbr.getPayMoney() == null || _pbr.getPayMoney() == 0) {
+//                    _pbr.setPayResult("未缴费");
+//                }
+//                else {
+//                    _pbr.setPayResult("" + _pbr.getPayDays() + "天" + ("￥" + _pbr.getPayMoney()));
+//                }
+//            }
 
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
