@@ -4,11 +4,14 @@
 <head>
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/lrtk.css"/>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/awesome-bootstrap-checkbox.css"/>
+
     <script type="text/javascript" src="${contextPath}/static/weixin/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="${contextPath}/static/weixin/js/koala.min.1.5.js"></script>
+
+    <script type="text/javascript"></script>
     <title>抢购界面</title>
 </head>
 <body>
@@ -27,6 +30,8 @@
     </nav>
 </header>
 <section class="section1">
+
+
     <!-- 代码 开始 -->
     <div id="fsD1" class="focus">
         <div id="D1pic1" class="fPic">
@@ -80,20 +85,20 @@
     <!-- 代码 结束 -->
 </section>
 <section class="content">
+    <!-- 此处存放抢购商品id -->
+    <input type="hidden" id="productId"/>
     <div class="topbar">
-        <h3>${product.title}</h3>
+        <h3>【脐橙五斤大抢购酸甜多汁】湖北南漳脐橙</h3>
     </div>
     <div class="neirong">
-        ${product.content}
+        <p>脐橙五斤大抢购酸甜多汁】湖北南漳脐橙【脐橙五斤大抢购酸甜多汁】湖北南漳脐橙【脐橙五斤大抢购酸甜多汁】湖北南漳脐橙【脐橙五斤大抢购酸甜多汁】湖北南漳脐橙</p>
     </div>
     <aside class="aside1">
-        <span id="aside1">&nbsp;已抢中：${buyCount}</span>
+        <span id="aside1">&nbsp;已抢中：100</span>
     </aside>
     <div class="engding">
-        <%--<input type="hidden" id="id" name="id" value="${product.id}">--%>
-        <input type="hidden" id="id" name="id" value="12">
-        <button class="button3" onclick="rushToBuy.fn.goBuy(false)" style="background-color: #00a642">
-            必中卷抢购 <c:if test="${counts ne 0}">(${counts})</c:if>
+        <button class="button3" onclick="rushToBuy.fn.goBuy(true)" style="background-color: #00a642">
+            必中卷抢购（3）
         </button>
         <button class="button2" onclick="rushToBuy.fn.goBuy(false)" style="background-color: #ff8400">
             直接抢购
@@ -102,7 +107,9 @@
     <div class="check">
         <a href="#" id="check">查看活动详情<img src="${contextPath}/static/weixin/images/Group 6.png"></a>
     </div>
+
 </section>
+</body>
 <script type="application/javascript">
     var rushToBuy = {
         v: {},
@@ -112,13 +119,14 @@
             },
             goBuy: function (status) {
                 // 直接购买
+                var productId = $('#productId').val();
                 $.post("weixin/product/snapUp", {
-                    id: $('#id').val(),
+                    id: productId,
                     isUsed: status
                 }, function (result) {
                     if (null != result) {
                         // 如果返回结果不为空，代表抢购成功，此时跳转到抢购结果界面
-                        window.location.href = "${basePath}/weixin/product/toSnapUpResult?pbrId=" + result.id
+                        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.id
                     } else {
                         $bluemobi.notify("抢购失败", "error");
                     }
@@ -131,6 +139,4 @@
         rushToBuy.fn.init();
     })
 </script>
-
-</body>
 </html>

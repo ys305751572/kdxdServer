@@ -145,7 +145,7 @@
                     kuserList.v.dTable.ajax.reload();
                 })
 
-                $("#publish").click(function() {
+                $("#publish").click(function () {
                     var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
                     var ids = checkBox.getInputId();
                     kuserList.fn.publish(ids);
@@ -181,7 +181,7 @@
                                 if (data == 1) {
                                     return "抢购中";
                                 }
-                                else if(data == 2) {
+                                else if (data == 2) {
                                     return "已结束";
                                 }
                             }
@@ -194,8 +194,7 @@
                     "columnDefs": [
                         {
                             "data": null,
-                            "defaultContent":
-                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
+                            "defaultContent": "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
                             "<i class='fa fa-edit'></i>" +
                             "</a>"
                             +
@@ -208,7 +207,7 @@
                             "&nbsp;&nbsp;"
                             +
                             "<a  title='抢购人员'  class='btn btn-primary btn-circle kuserindex'>" +
-                            "<i class='fa fa-users'></i>"+
+                            "<i class='fa fa-users'></i>" +
                             "</a>"
                             +
                             "&nbsp;&nbsp;"
@@ -237,10 +236,10 @@
                         $('td', row).last().find(".edit").attr("href", 'weixin/product/detail?id=' + data.id);
                         $('td', row).last().find(".kuserindex").attr("href", 'admin/pro/kuserindex?id=' + data.id);
 
-                        $('td', row).last().find(".delete").click(function() {
+                        $('td', row).last().find(".delete").click(function () {
                             kuserList.fn.delete(data.id);
                         });
-                        $('td', row).last().find(".end").click(function() {
+                        $('td', row).last().find(".end").click(function () {
                             kuserList.fn.end(data.id);
                         });
 
@@ -254,19 +253,19 @@
                     }
                 });
             },
-            delete : function(id) {
+            delete: function (id) {
                 $bluemobi.optNotify(function () {
-                    $.post("admin/pro/delete",{id:JSON.stringify(id)},function(result) {
+                    $.post("admin/pro/delete", {id: JSON.stringify(id)}, function (result) {
                         kuserList.fn.responseComplete(result);
                     })
-                },"确定删除吗？","确定");
+                }, "确定删除吗？", "确定");
             },
-            end : function (id) {
+            end: function (id) {
                 $bluemobi.optNotify(function () {
-                    $.post("admin/pro/tosnapup/end",{id:JSON.stringify(id)},function(result) {
+                    $.post("admin/pro/tosnapup/end", {id: JSON.stringify(id)}, function (result) {
                         kuserList.fn.responseComplete(result);
                     })
-                },"确定结束吗？","确定");
+                }, "确定结束吗？", "确定");
             },
             responseComplete: function (result, action) {
                 if (result.status == "0") {
