@@ -34,7 +34,8 @@ public class CouponServiceImpl implements CouponService{
     public void createCoupon(Long userId) {
         Coupon c = new Coupon();
         c.setUserId(userId);
-        c.setIsUsed(0);
+        c.setIsUsed(0); // 默认为使用
+        c.setStatus(1); // 默认为无效
         c.setEndDate(DateUtils.daysAfter(new Date(),DAY));
         dao.save(c);
     }

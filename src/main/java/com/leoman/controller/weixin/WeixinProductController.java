@@ -5,13 +5,9 @@ import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
-import com.leoman.entity.KUser;
-import com.leoman.entity.Product;
-import com.leoman.entity.ProductBuyRecord;
-import com.leoman.service.CouponService;
-import com.leoman.service.ProductBuyRecordService;
+import com.leoman.entity.*;
+import com.leoman.service.*;
 import com.leoman.service.ProductService;
-import com.leoman.service.PsService;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.KdxgUtils;
 import com.leoman.utils.WebUtil;
@@ -50,6 +46,9 @@ public class WeixinProductController extends CommonController{
     @Autowired
     private PsService psService;
 
+    @Autowired
+    private KUserService userService;
+
     @RequestMapping(value = "/index" , method = RequestMethod.GET)
     public String index() {
         return "weixin/product-list-test";
@@ -87,38 +86,6 @@ public class WeixinProductController extends CommonController{
     }
 
     /**
-     * 抢购
-     * @param request
-     * @param id
-     * @param isUsed
-     * @param model
-     */
-    @RequestMapping(value = "/snapUp", method = RequestMethod.POST)
-    public void snapUp(HttpServletRequest request,Long id,Boolean isUsed,Model model) {
-
-    }
-
-    /**
-     * 抢购
-     * @param request
-     * @param response
-     * @param id
-     * @param serviceId
-     * @param isUsed
-     */
-    @RequestMapping(value = "buyWithCoupons", method = RequestMethod.POST)
-    public void buyWithCoupons(HttpServletRequest request, HttpServletResponse response, Long id,Long serviceId,Boolean isUsed) {
-        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        Integer buyCount = pbservice.findCountByProductId(id);
-        Product product = service.getById(id);
-        if(buyCount >= product.getCounts()) {
-            WebUtil.print(response, new Result(false).msg("商品已抢完!"));
-            return;
-        }
-        service.buy(id,serviceId,user.getId(),isUsed,request,response);
-    }
-
-    /**
      * 商品详情
      * @param request
      * @param id
@@ -129,7 +96,6 @@ public class WeixinProductController extends CommonController{
     public String detail(HttpServletRequest request, Long id, Model model) {
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-
         Product product = service.getById(id);
         Integer counts = cService.findCountByUserId(weixinUser.getId());
         Integer buyCount = pbservice.findCountByProductId(id);
@@ -140,23 +106,64 @@ public class WeixinProductController extends CommonController{
     }
 
     /**
-     * 跳转订单详情
+     * 抢购
      * @param request
      * @param id
      * @param isUsed
-     * @param model
-     * @return
      */
-    @RequestMapping(value = "toOrder", method = RequestMethod.POST)
-    public String toOrder(HttpServletRequest request,Long id,Boolean isUsed,Model model) {
+    @RequestMapping(value = "/snapUp", method = RequestMethod.POST)
+    public void snapUp(HttpServletRequest request,HttpServletResponse response,Long id,Boolean isUsed) {
 
-        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        model = service.toOrder(id,isUsed,weixinUser.getId(),model);
-        return "order-detail";
+        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        try {
+            ProductBuyRecord pbr = service.createProductByRecord(response,id,isUsed,user.getId());
+            WebUtil.print(response,new Result(true).data(pbr));
+        } catch (Exception e) {
+            e.printStackTrace();
+            WebUtil.print(response, new Result(false).msg("操作失败!"));
+        }
     }
 
     /**
-     * 跳转支付强请页面
+     * 抢购
+     * @param request
+     * @param response
+     * @param id
+     * @param serviceId
+     * @param isUsed
+     */
+    @Deprecated
+    @RequestMapping(value = "creaeOrder", method = RequestMethod.POST)
+    public void buy(HttpServletRequest request, HttpServletResponse response, Long id,Long serviceId,Boolean isUsed) {
+//        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+//        service.buy(id,serviceId,user.getId(),isUsed,request,response);
+
+
+    }
+
+
+
+    /**
+     * 跳转订单详情
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toSnapUpResult", method = RequestMethod.POST)
+    public String toSnapUpResult(HttpServletRequest request,Long pbrId,Model model) {
+
+        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        ProductBuyRecord pbr = pbservice.getById(pbrId);
+        model.addAttribute("pbr",pbr);
+
+        Address address = userService.findDefaultAddressByUserId(weixinUser.getId());
+        model.addAttribute("address",address);
+
+        return "weixin/order-detail";
+    }
+
+    /**
+     * 跳转支付详情页面
      * @param id
      * @param isUsed
      * @param model

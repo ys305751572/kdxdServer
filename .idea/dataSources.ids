@@ -54,10 +54,10 @@
 </comment>
       </table>
       <table id="16" parent="1" name="tb_coinlog"/>
-      <table id="17" parent="1" name="tb_coupons">
+      <table id="17" parent="1" name="tb_information_ws"/>
+      <table id="18" parent="1" name="tb_user_coupons">
         <comment>用户优惠券表</comment>
       </table>
-      <table id="18" parent="1" name="tb_information_ws"/>
       <column id="19" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(32)</data-type>
@@ -532,115 +532,123 @@
         <data-type>int(2)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="130" parent="15" name="result_status">
+      <column id="130" parent="15" name="coupons_end_date">
+        <comment>优惠券结束时间，没有获得则为0</comment>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="131" parent="15" name="result_status">
         <comment>抢购结果 0:成功 1:失败</comment>
         <data-type>int(2)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="131" parent="15" name="pay_money">
+      <column id="132" parent="15" name="pay_money">
         <comment>缴费金额</comment>
         <data-type>double</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="132" parent="15" name="pay_days">
+      <column id="133" parent="15" name="pay_days">
         <comment>缴费天数</comment>
         <data-type>int(2)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="133" parent="15" name="result">
+      <column id="134" parent="15" name="result">
         <comment>抢购结果</comment>
         <data-type>varchar(200)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="134" parent="15" name="create_date">
+      <column id="135" parent="15" name="create_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="135" parent="15" name="modify_date">
+      <column id="136" parent="15" name="modify_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <key id="136" parent="15" name="PRIMARY">
+      <key id="137" parent="15" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="137" parent="16" name="id">
+      <column id="138" parent="16" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(32)</data-type>
       </column>
-      <column id="138" parent="16" name="user_id">
+      <column id="139" parent="16" name="user_id">
         <comment>用户ID</comment>
         <data-type>bigint(32)</data-type>
       </column>
-      <column id="139" parent="16" name="money">
+      <column id="140" parent="16" name="money">
         <comment>充值金额</comment>
         <data-type>double</data-type>
       </column>
-      <column id="140" parent="16" name="create_date">
+      <column id="141" parent="16" name="create_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="141" parent="16" name="update_date">
+      <column id="142" parent="16" name="update_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <key id="142" parent="16" name="PRIMARY">
+      <key id="143" parent="16" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="143" parent="17" name="id">
+      <column id="144" parent="17" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(32)</data-type>
       </column>
-      <column id="144" parent="17" name="user_id">
-        <comment>用户ID</comment>
-        <data-type>bigint(32)</data-type>
-      </column>
-      <column id="145" parent="17" name="end_date">
-        <comment>失效时间</comment>
-        <data-type>bigint(32)</data-type>
-      </column>
-      <column id="146" parent="17" name="is_used">
-        <comment>是否使用 0:未使用 1:已使用</comment>
-        <data-type>int(2)</data-type>
-      </column>
-      <column id="147" parent="17" name="create_date">
-        <data-type>bigint(32)</data-type>
-      </column>
-      <column id="148" parent="17" name="modify_date">
-        <data-type>bigint(32)</data-type>
-      </column>
-      <key id="149" parent="17" name="PRIMARY">
-        <columns>id</columns>
-        <primary>1</primary>
-      </key>
-      <column id="150" parent="18" name="id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(32)</data-type>
-      </column>
-      <column id="151" parent="18" name="title">
+      <column id="145" parent="17" name="title">
         <comment>资讯标题</comment>
         <data-type>varchar(100)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="152" parent="18" name="content">
+      <column id="146" parent="17" name="content">
         <comment>资讯内容</comment>
         <data-type>varchar(6000)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="153" parent="18" name="status">
+      <column id="147" parent="17" name="status">
         <comment>状态 0:未发布 1:已发布 2:已下架</comment>
         <data-type>int(2)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="154" parent="18" name="type">
+      <column id="148" parent="17" name="type">
         <comment>类型 0:行业动态 1:热点新闻 2:今日话题</comment>
         <data-type>int(2)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="155" parent="18" name="create_date">
+      <column id="149" parent="17" name="create_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="156" parent="18" name="modify_date">
+      <column id="150" parent="17" name="modify_date">
         <data-type>bigint(20)</data-type>
       </column>
-      <key id="157" parent="18" name="PRIMARY">
+      <key id="151" parent="17" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="152" parent="18" name="id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(32)</data-type>
+      </column>
+      <column id="153" parent="18" name="user_id">
+        <comment>用户ID</comment>
+        <data-type>bigint(32)</data-type>
+      </column>
+      <column id="154" parent="18" name="end_date">
+        <comment>失效时间</comment>
+        <data-type>bigint(32)</data-type>
+      </column>
+      <column id="155" parent="18" name="status">
+        <comment>状态 0:正常 1:无效</comment>
+        <data-type>int(2)</data-type>
+      </column>
+      <column id="156" parent="18" name="is_used">
+        <comment>是否使用 0:未使用 1:已使用</comment>
+        <data-type>int(2)</data-type>
+      </column>
+      <column id="157" parent="18" name="create_date">
+        <data-type>bigint(32)</data-type>
+      </column>
+      <column id="158" parent="18" name="modify_date">
+        <data-type>bigint(32)</data-type>
+      </column>
+      <key id="159" parent="18" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>

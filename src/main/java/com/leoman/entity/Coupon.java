@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "tb_coupons")
+@Table(name = "tb_user_coupons")
 public class Coupon extends BaseEntity{
 
     @Column(name = "user_id")
@@ -15,11 +15,22 @@ public class Coupon extends BaseEntity{
     @Column(name = "end_date")
     private Long endDate;
 
+    @Column(name = "status")
+    private Integer status;
+
     @Column(name = "is_used")
     private Integer isUsed;
 
     @Transient
     private boolean isOverdue = false; // 是否过期 0:未过期 1:已过期
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public boolean isOverdue() {
         return isOverdue;

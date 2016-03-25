@@ -23,6 +23,9 @@ public class ProductBuyRecord extends BaseEntity{
     @Column(name = "is_get_coupons")
     private Integer isGetCoupons;
 
+    @Column(name = "coupons_end_date")
+    private Long couponsEndDate;
+
     @Column(name = "result_status")
     private Integer resultStatus;
 
@@ -35,8 +38,13 @@ public class ProductBuyRecord extends BaseEntity{
     @Column(name = "result")
     private String result;
 
-    @Transient
-    private String payResult;
+    public Long getCouponsEndDate() {
+        return couponsEndDate;
+    }
+
+    public void setCouponsEndDate(Long couponsEndDate) {
+        this.couponsEndDate = couponsEndDate;
+    }
 
     public Integer getIsGetCoupons() {
         return isGetCoupons;
@@ -44,18 +52,6 @@ public class ProductBuyRecord extends BaseEntity{
 
     public void setIsGetCoupons(Integer isGetCoupons) {
         this.isGetCoupons = isGetCoupons;
-    }
-
-    public String getPayResult() {
-        if(payMoney == null || payMoney == 0) {
-            return "未缴费";
-        }
-        payResult = "" + getPayDays() + "天" + ("￥" + getPayMoney());
-        return payResult;
-    }
-
-    public void setPayResult(String payResult) {
-        this.payResult = payResult;
     }
 
     public Product getProduct() {

@@ -103,43 +103,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void buy(Long productId, Long serviceId, Long userId, Boolean isUsed, HttpServletRequest request,HttpServletResponse response) {
+    public void createOrder(Long productId,Long pbrId, Long serviceId, HttpServletRequest request,HttpServletResponse response) {
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        Integer buyCount = pbservice.findCountByProductId(productId);
         Product product = this.getById(productId);
-        if(buyCount >= product.getCounts()) {
-            WebUtil.print(response, new Result(false).msg("商品已抢完!"));
-            return;
-        }
-
-        ProductBuyRecord record = new ProductBuyRecord();
-        if(isUsed) {
-            record.setResultStatus(0);
-            Integer counts = cService.findCountByUserId(weixinUser.getId());
-            if(counts == 0) {
-                WebUtil.print(response, new Result(false).msg("您没有优惠券!"));
-                return;
-            }
-        }
-        else {
-            // TODO 没有使用优惠券只有25%的概率可能抢到
-            // TODO 没有使用优惠券在抢购成功后有25%的概率能够得到优惠券
-            if(!KdxgUtils.isGetByprobability()) {
-                WebUtil.print(response, new Result(false).msg("很遗憾，您没有抢到!"));
-                record.setResultStatus(1);
-            }else {
-                record.setResultStatus(0);
-            }
-        }
-
-        KUser user = new KUser();
-        user.setId(weixinUser.getId());
-        record.setUser(user);
-
-
-//        record.setProductId(productId);
-        record.setIsUserCoupons(1);
+        ProductBuyRecord record = pbservice.getById(pbrId);
 
         com.leoman.entity.ProductService ps = psService.getById(serviceId);
         record.setPayMoney(ps.getMoney());
@@ -154,9 +122,7 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
         }
         record.setResult(result);
-        WebUtil.print(response, new Result(true).msg("抢购成功"));
-
-
+        WebUtil.print(response, new Result(true).msg("操作成功"));
     }
 
 
@@ -173,33 +139,36 @@ public class ProductServiceImpl implements ProductService {
      * @param id     商品ID
      * @param isUsed
      * @param userId
-     * @param model
      * @return
      */
     @Transactional
     @Override
-    public Model toOrder(Long id, Boolean isUsed, Long userId, Model model) {
-
-
+    public ProductBuyRecord createProductByRecord(HttpServletResponse response,Long id, Boolean isUsed, Long userId) {
         boolean isGetCoupon = false;
         boolean resultStatus = false;
+        long endDate = 0;
 
-        // 获取用户默认地址 ,没有则为空
-        Address address = userService.findDefaultAddressByUserId(userId);
-        model.addAttribute("address",address);
-
+        Integer buyCount = pbservice.findCountByProductId(id);
+        Product product = getById(id);
+        if(buyCount >= product.getCounts()) {
+            WebUtil.print(response, new Result(false).msg("商品已抢完!"));
+            return null;
+        }
         // 是否获得优惠券
         if(isUsed) {
             resultStatus = true;
+            Integer counts = cService.findCountByUserId(userId);
+            if(counts == 0) {
+                WebUtil.print(response, new Result(false).msg("您没有优惠券!"));
+                return null;
+            }
         }
         else {
             if(KdxgUtils.isGetByprobability()) {
                 resultStatus = true;
-                model.addAttribute("success",true);
                 isGetCoupon = KdxgUtils.isGetByprobability();
                 if(isGetCoupon) {
-                    long endDate = DateUtils.daysAfter(new Date(),3);
-                    model.addAttribute("endDate",endDate);
+                    endDate = DateUtils.daysAfter(new Date(),3);
                 }
             }
         }
@@ -215,14 +184,14 @@ public class ProductServiceImpl implements ProductService {
 
         pbr.setIsUserCoupons(isUsed ? 1 : 0);
         pbr.setIsGetCoupons(isGetCoupon ? 1 : 0);
+        pbr.setCouponsEndDate(endDate);
         pbr.setResultStatus(resultStatus ? 0 : 1);
         pbr.setPayDays(0);
         pbr.setPayMoney(0.0);
         pbr.setResult("");
         pbr = pbservice.create(pbr);
-
-        model.addAttribute("pbr",pbr);
-        return model;
+        cService.createCoupon(userId);
+        return pbr;
     }
 
     /**

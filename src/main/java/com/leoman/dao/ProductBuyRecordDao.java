@@ -16,6 +16,6 @@ public interface ProductBuyRecordDao extends JpaRepository<ProductBuyRecord,Long
      * @param id
      * @return
      */
-    @Query("select count(a) from ProductBuyRecord a where a.productId = ?1")
+    @Query("select count(a) from ProductBuyRecord a where a.product.id = ?1")
     public Integer findCountByProductId(Long id);
 }
