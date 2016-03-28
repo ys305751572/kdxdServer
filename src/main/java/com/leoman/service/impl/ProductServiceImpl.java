@@ -43,67 +43,59 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao dao;
 
     @Autowired
-    private ProductImageService service;
-
-    @Autowired
     private PsService psService;
 
     @PersistenceContext
     private EntityManager em;
 
     @Autowired
-    private CouponService cService;
+    private CouponService couponService;
 
     @Autowired
     private ProductBuyRecordService pbservice;
 
-    @Autowired
-    private KUserService userService;
-
 
     @Override
-    public Page<Product> findPage(final Product pro,final Integer type, int pagenum, int pagesize) {
+    public Page<Product> findPage(final Product pro, final Integer type, int pagenum, int pagesize) {
         Specification<Product> spec = new Specification<Product>() {
             @Override
             public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                if(pro.getTitle() != null) {
-                    criteriaBuilder.like(root.get("title").as(String.class),pro.getTitle());
+                if (pro.getTitle() != null) {
+                    criteriaBuilder.like(root.get("title").as(String.class), pro.getTitle());
                 }
-                if(type != null) {
-                    if(type == 0) {
+                if (type != null) {
+                    if (type == 0) {
                         // 待抢购 开始时间 大于 当前时间 && 状态 == 0
-                        criteriaBuilder.lt(root.get("startDate").as(Long.class),System.currentTimeMillis());
-                        criteriaBuilder.equal(root.get("status").as(Integer.class),0);
-                    }
-                    else if(type == 1) {
+                        criteriaBuilder.lt(root.get("startDate").as(Long.class), System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class), 0);
+                    } else if (type == 1) {
                         // 抢购中 开始时间 小于 当前时间 && 结束时间 大于 当前时间 && 状态 == 0
-                        criteriaBuilder.gt(root.get("startDate").as(Long.class),System.currentTimeMillis());
-                        criteriaBuilder.lt(root.get("endDate").as(Long.class),System.currentTimeMillis());
-                        criteriaBuilder.equal(root.get("status").as(Integer.class),0);
-                    }
-                    else {
+                        criteriaBuilder.gt(root.get("startDate").as(Long.class), System.currentTimeMillis());
+                        criteriaBuilder.lt(root.get("endDate").as(Long.class), System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class), 0);
+                    } else {
                         // 已结束  结束时间 小于 当前时间  && 状态 == 1
-                        criteriaBuilder.gt(root.get("endDate").as(Long.class),System.currentTimeMillis());
-                        criteriaBuilder.equal(root.get("status").as(Integer.class),1);
+                        criteriaBuilder.gt(root.get("endDate").as(Long.class), System.currentTimeMillis());
+                        criteriaBuilder.equal(root.get("status").as(Integer.class), 1);
                     }
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+        return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
     }
 
     @Override
     public Long findBuyCount(Long id) {
         String sql = "select count(t) from ProductBuyRecord t where t.product.id = " + id;
-        Query query = em.createQuery(sql,Long.class);
+        Query query = em.createQuery(sql, Long.class);
         return (Long) query.getSingleResult();
     }
 
     @Transactional
     @Override
-    public void createOrder(Long productId,Long pbrId, Long serviceId, HttpServletRequest request,HttpServletResponse response) {
+    public void createOrder(Long productId, Long pbrId, Long serviceId, HttpServletRequest request, HttpServletResponse response) {
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Product product = this.getById(productId);
@@ -114,17 +106,16 @@ public class ProductServiceImpl implements ProductService {
         record.setPayDays(ps.getDays());
 
         Long startDate = product.getStartDate();
-        Long endDate = DateUtils.daysAfter(new Date(startDate),ps.getDays());
+        Long endDate = DateUtils.daysAfter(new Date(startDate), ps.getDays());
         String result = "";
         try {
-            result = "水果一份(" + DateUtils.longToString(startDate,"yyyy-MM-dd HH:mm:ss") + "~" + DateUtils.longToString(endDate,"yyyy-MM-dd HH:mm:ss") + ")";
+            result = "水果一份(" + DateUtils.longToString(startDate, "yyyy-MM-dd HH:mm:ss") + "~" + DateUtils.longToString(endDate, "yyyy-MM-dd HH:mm:ss") + ")";
         } catch (ParseException e) {
             e.printStackTrace();
         }
         record.setResult(result);
         WebUtil.print(response, new Result(true).msg("操作成功"));
     }
-
 
 
     @Override
@@ -135,7 +126,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     *
      * @param id     商品ID
      * @param isUsed
      * @param userId
@@ -143,33 +133,34 @@ public class ProductServiceImpl implements ProductService {
      */
     @Transactional
     @Override
-    public ProductBuyRecord createProductByRecord(HttpServletResponse response,Long id, Boolean isUsed, Long userId) {
+    public ProductBuyRecord createProductByRecord(HttpServletResponse response, Long id, Boolean isUsed, Long userId) {
         boolean isGetCoupon = false;
-        boolean resultStatus = false;
         long endDate = 0;
 
         Integer buyCount = pbservice.findCountByProductId(id);
         Product product = getById(id);
-        if(buyCount >= product.getCounts()) {
+        if (buyCount >= product.getCounts()) {
             WebUtil.print(response, new Result(false).msg("商品已抢完!"));
             return null;
         }
-        // 是否获得优惠券
-        if(isUsed) {
-            resultStatus = true;
-            Integer counts = cService.findCountByUserId(userId);
-            if(counts == 0) {
+        // 是否使用优惠券
+        if (isUsed) {
+            List<Coupon> list = couponService.findListByUserId(userId);
+            if (null == list || list.size() == 0) {
                 WebUtil.print(response, new Result(false).msg("您没有优惠券!"));
                 return null;
+            } else {
+                Coupon coupon = list.get(0);
+                coupon.setIsUsed(1);
+
+                // 将优惠券状态更改为已使用
+                couponService.update(coupon);
+                //toReduce(userId);
             }
-        }
-        else {
-            if(KdxgUtils.isGetByprobability()) {
-                resultStatus = true;
-                isGetCoupon = KdxgUtils.isGetByprobability();
-                if(isGetCoupon) {
-                    endDate = DateUtils.daysAfter(new Date(),3);
-                }
+        } else {
+            isGetCoupon = KdxgUtils.isGetByprobability();
+            if (isGetCoupon) {
+                endDate = DateUtils.daysAfter(new Date(), 3);
             }
         }
         ProductBuyRecord pbr = new ProductBuyRecord();
@@ -185,25 +176,28 @@ public class ProductServiceImpl implements ProductService {
         pbr.setIsUserCoupons(isUsed ? 1 : 0);
         pbr.setIsGetCoupons(isGetCoupon ? 1 : 0);
         pbr.setCouponsEndDate(endDate);
-        pbr.setResultStatus(resultStatus ? 0 : 1);
+        pbr.setResultStatus(0);
         pbr.setPayDays(0);
         pbr.setPayMoney(0.0);
         pbr.setResult("");
         pbr = pbservice.create(pbr);
-        cService.createCoupon(userId);
+        if (isGetCoupon) {
+            couponService.createCoupon(userId);
+        }
         return pbr;
     }
 
     /**
      * 消费一张优惠券
+     *
      * @param userId
      */
     public void toReduce(Long userId) {
-        String sql = "select a.* from tb_coupons a where a.user_id = " + userId + " and a.is_used = 0 and a.end_date > UNIX_TIMESTAMP() * 1000 ORDER BY a.end_date DESC limit 1" ;
-        Query query = em.createNativeQuery(sql,Coupon.class);
+        String sql = "select a.* from tb_coupons a where a.user_id = " + userId + " and a.is_used = 0 and a.end_date > UNIX_TIMESTAMP() * 1000 ORDER BY a.end_date DESC limit 1";
+        Query query = em.createNativeQuery(sql, Coupon.class);
         Coupon c = (Coupon) query.getSingleResult();
         c.setIsUsed(1);
-        cService.update(c);
+        couponService.update(c);
     }
 
     @Override
@@ -240,6 +234,7 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 新增/编辑
+     *
      * @param product
      * @return
      */
@@ -267,7 +262,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteAll(Long[] ids) {
-        for(Long id : ids) {
+        for (Long id : ids) {
             deleteById(id);
         }
     }

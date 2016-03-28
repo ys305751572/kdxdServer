@@ -5,11 +5,10 @@ import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
-import com.leoman.entity.Address;
-import com.leoman.entity.KUser;
-import com.leoman.entity.Product;
-import com.leoman.entity.ProductBuyRecord;
+import com.leoman.entity.*;
 import com.leoman.service.*;
+import com.leoman.service.ProductService;
+import com.leoman.utils.DateUtils;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,9 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +42,19 @@ public class WeixinProductController extends CommonController {
     private ProductBuyRecordService pbservice;
 
     @Autowired
-    private PsService psService;
+    private CouponService couponService;
 
     @Autowired
     private KUserService userService;
+
+    @Autowired
+    private PsService psService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 商品列表 测试
@@ -96,15 +107,16 @@ public class WeixinProductController extends CommonController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    @RequestMapping("detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
-
+        // TODO 此处测试用
+        id = 12L;
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Product product = service.getById(id);
-        Integer counts = cService.findCountByUserId(weixinUser.getId());
+        List<Coupon> counts = cService.findListByUserId(weixinUser.getId());
         Integer buyCount = pbservice.findCountByProductId(id);
         model.addAttribute("product", product);
-        model.addAttribute("counts", counts);
+        model.addAttribute("counts", counts.size());
         model.addAttribute("buyCount", buyCount);
         return "weixin/product-detail";
     }
@@ -136,7 +148,7 @@ public class WeixinProductController extends CommonController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "toSnapUpResult", method = RequestMethod.POST)
+    @RequestMapping("toSnapUpResult")
     public String toSnapUpResult(HttpServletRequest request, Long pbrId, Model model) {
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
@@ -146,25 +158,87 @@ public class WeixinProductController extends CommonController {
         Address address = userService.findDefaultAddressByUserId(weixinUser.getId());
         model.addAttribute("address", address);
 
+        try {
+            if (pbr.getIsGetCoupons() == 1) {
+                // 查询是否有优惠券
+                Coupon coupon = couponService.findOneByUserId(pbr.getUser().getId());
+                model.addAttribute("coupon", coupon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return "weixin/order-detail";
     }
 
     /**
      * 跳转支付详情页面
      *
-     * @param id
-     * @param isUsed
+     * @param pbrId
      * @param model
      * @return
      */
-    @RequestMapping(value = "toPay", method = RequestMethod.POST)
-    public String toPay(Long id, Boolean isUsed, Model model) {
-//        Product product = service.reduceInventory(id);
-//        model.addAttribute("product",product);
-//        model.addAttribute("isUser",isUsed);
-//        model.addAttribute("id",id);
-        //TODO 查询 ProductService list
+    @RequestMapping("toPay")
+    public String toPay(Long pbrId, Model model) {
+        // 查询 ProductService list
+        ProductBuyRecord productBuyRecord = pbservice.getById(pbrId);
+        List<com.leoman.entity.ProductService> list = psService.findListByProductId(productBuyRecord.getProduct().getId());
 
+        // 默认加载第一条商品服务信息
+        if (null != list && list.size() > 0) {
+            com.leoman.entity.ProductService productService = list.get(0);
+            try {
+                String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+                String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
+                productService.setStartYear(startTime.substring(0, 4));
+                productService.setStartDate(startTime.substring(6));
+                productService.setEndYear(endTime.substring(0, 4));
+                productService.setEndDate(endTime.substring(6));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            model.addAttribute("productService", productService);
+        } else {
+            model.addAttribute("productService", new com.leoman.entity.ProductService());
+        }
+
+        model.addAttribute("productServiceList", list);
+        model.addAttribute("pbrId", pbrId);
+
+        return "weixin/pay-detail";
+    }
+
+    /**
+     * 根据商品服务id查询对应的服务信息
+     *
+     * @param pbrId
+     * @param productServiceId
+     * @param model
+     * @return
+     */
+    @RequestMapping("getInfo")
+    public String getInfo(Long pbrId, Long productServiceId, Model model) {
+        try {
+            // 查询 ProductService list
+            ProductBuyRecord productBuyRecord = pbservice.getById(pbrId);
+            List<com.leoman.entity.ProductService> list = psService.findListByProductId(productBuyRecord.getProduct().getId());
+
+            // 默认加载第一条商品服务信息
+            com.leoman.entity.ProductService productService = psService.getById(productServiceId);
+
+            String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+            String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
+            productService.setStartYear(startTime.substring(0, 4));
+            productService.setStartDate(startTime.substring(6));
+            productService.setEndYear(endTime.substring(0, 4));
+            productService.setEndDate(endTime.substring(6));
+
+            model.addAttribute("productService", productService);
+            model.addAttribute("productServiceList", list);
+            model.addAttribute("pbrId", pbrId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return "weixin/pay-detail";
     }
@@ -174,16 +248,43 @@ public class WeixinProductController extends CommonController {
      *
      * @param request
      * @param response
-     * @param id
-     * @param serviceId
-     * @param isUsed
+     * @param pbrId
+     * @param productServiceId
      */
     @Deprecated
     @RequestMapping(value = "createOrder", method = RequestMethod.POST)
-    public void buy(HttpServletRequest request, HttpServletResponse response, Long id, Long serviceId, Boolean isUsed) {
-//        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-//        service.buy(id,serviceId,user.getId(),isUsed,request,response);
+    @ResponseBody
+    public Long buy(HttpServletRequest request, HttpServletResponse response, Long pbrId, Long productServiceId) {
+        try {
+            // 获取抢购信息详情
+            ProductBuyRecord productBuyRecord = pbservice.getById(pbrId);
 
+            // 获取收货地址信息
+            Address address = addressService.findDefaultByUserId(productBuyRecord.getUser().getId());
 
+            // 获取服务信息
+            com.leoman.entity.ProductService productService = psService.getById(productServiceId);
+
+            // 生成订单信息
+            Order order = new Order();
+            order.setSn(new Date().getTime() + "");
+            order.setProductService(productService);
+            order.setProduct(productBuyRecord.getProduct());
+            order.setUser(productBuyRecord.getUser());
+            order.setMoney(productService.getMoney());
+            order.setStatus(0);
+            order.setName(address.getName());
+            order.setMobile(address.getMobile());
+            order.setAddress(address.getAddress());
+            order.setCreateDate(System.currentTimeMillis());
+
+            orderService.create(order);
+
+            return order.getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0L;
     }
 }

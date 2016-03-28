@@ -20,8 +20,14 @@ public class Order extends BaseEntity  {
     private KUser user;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ps_id")
+    private ProductService productService;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    private Double money;
 
     @Column(name = "status")
     private Integer status;
@@ -34,6 +40,14 @@ public class Order extends BaseEntity  {
 
     @Column(name = "address")
     private String address;
+
+    public ProductService getProductService() {
+        return productService;
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 
     public Product getProduct() {
         return product;
@@ -81,6 +95,14 @@ public class Order extends BaseEntity  {
 
     public void setSn(String sn) {
         this.sn = sn;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
     }
 
     public Integer getStatus() {

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "weixin/address")
-public class WeixinAddressController extends CommonController{
+public class WeixinAddressController extends CommonController {
 
     @Autowired
     private AddressService service;
@@ -31,33 +31,34 @@ public class WeixinAddressController extends CommonController{
         return null;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public String list(HttpServletResponse response,Long userId,Model model) {
-
+    @RequestMapping("/list")
+    public String list(HttpServletResponse response, Long userId, Long pbrId, Model model) {
         List<Address> list = service.findByUserId(userId);
-        model.addAttribute("list",list);
-        return null;
+        model.addAttribute("list", list);
+        model.addAttribute("userId", userId);
+        model.addAttribute("pbrId", pbrId);
+        return "weixin/address-list";
     }
 
     /**
      * 选择默认地址
+     *
      * @param response
      * @param userId
      * @param addressId
      */
     @RequestMapping(value = "addressDefault", method = RequestMethod.POST)
-    public void addressDefault(HttpServletResponse response,Long userId,Long addressId) {
-        service.addressDefault(userId,addressId);
+    public void addressDefault(HttpServletResponse response, Long userId, Long addressId) {
+        service.addressDefault(userId, addressId);
         WebUtil.print(response, new Result(true).msg("操作成功"));
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public void save(HttpServletResponse response,Long userId,Address address) {
-        if(address.getId() == null) {
+    public void save(HttpServletResponse response, Long userId, Address address) {
+        if (address.getId() == null) {
             address.setUserId(userId);
             service.create(address);
-        }
-        else {
+        } else {
             Address _address = service.getById(address.getId());
             _address.setName(address.getName());
             _address.setMobile(address.getMobile());

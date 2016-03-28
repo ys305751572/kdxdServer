@@ -17,8 +17,8 @@
 			<param name="ConversionPattern" value="%d--%p --%m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMin" value="INFO" />
-			<param name="LevelMax" value="INFO" />
+			<param name="LevelMin" value="STDOUT" />
+			<param name="LevelMax" value="ERROR" />
 		</filter>
 	</appender>
 
@@ -65,7 +65,7 @@
 	</appender>
 	
 	<root>
-		<priority value="info" />
+		<priority value="INFO" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="INFO" />
 		<appender-ref ref="WARN" />

@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/11.
  */
 @Service
-public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
+public class ProductBuyRecordServiceImpl implements ProductBuyRecordService {
 
     @Autowired
     private ProductBuyRecordDao dao;
@@ -32,24 +32,23 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
             @Override
             public Predicate toPredicate(Root<ProductBuyRecord> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                if(record.getUser().getMobile() != null) {
+                if (record.getUser().getMobile() != null) {
                     list.add(criteriaBuilder.like(root.get("user").get("mobile").as(String.class), "%" + record.getUser().getMobile() + "%"));
                 }
-                if(isPay != null) {
-                    if(isPay == 0) {
-                        list.add(criteriaBuilder.gt(root.get("payMoney").as(Double.class),0));
-                    }
-                    else {
-                        list.add(criteriaBuilder.le(root.get("payMoney").as(Double.class),0));
+                if (isPay != null) {
+                    if (isPay == 0) {
+                        list.add(criteriaBuilder.gt(root.get("payMoney").as(Double.class), 0));
+                    } else {
+                        list.add(criteriaBuilder.le(root.get("payMoney").as(Double.class), 0));
                     }
                 }
-                if(isUseCoupons != null) {
-                    list.add(criteriaBuilder.equal(root.get("isUserCoupons").as(Integer.class),isUseCoupons));
+                if (isUseCoupons != null) {
+                    list.add(criteriaBuilder.equal(root.get("isUserCoupons").as(Integer.class), isUseCoupons));
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+        return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
     }
 
     @Override
@@ -74,22 +73,23 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService{
 
     @Override
     public ProductBuyRecord getById(Long id) {
-        return null;
+        return dao.findOne(id);
     }
 
     @Override
     public ProductBuyRecord deleteById(Long id) {
+        dao.delete(id);
         return null;
     }
 
     @Override
     public ProductBuyRecord create(ProductBuyRecord productBuyRecord) {
-        return null;
+        return dao.save(productBuyRecord);
     }
 
     @Override
     public ProductBuyRecord update(ProductBuyRecord productBuyRecord) {
-        return null;
+        return dao.save(productBuyRecord);
     }
 
     @Override

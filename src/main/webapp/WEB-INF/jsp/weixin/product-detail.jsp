@@ -116,11 +116,11 @@
                     id: $('#id').val(),
                     isUsed: status
                 }, function (result) {
-                    if (null != result) {
+                    if (result.status == '0') {
                         // 如果返回结果不为空，代表抢购成功，此时跳转到抢购结果界面
-                        window.location.href = "${basePath}/weixin/product/toSnapUpResult?pbrId=" + result.id
+                        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.data.id
                     } else {
-                        $bluemobi.notify("抢购失败", "error");
+                        alert(result.msg);
                     }
                 });
             }

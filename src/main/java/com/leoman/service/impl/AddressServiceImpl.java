@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/18.
  */
 @Service
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressDao dao;
@@ -66,15 +66,26 @@ public class AddressServiceImpl implements AddressService{
 
     /**
      * 选择默认地址
+     *
      * @param userId
      * @param addressId
      */
     @Transactional
     @Override
     public void addressDefault(Long userId, Long addressId) {
-        dao.modifyAddressByUserId(userId);
+        // 先将该用户的所有地址更改为非默认地址
+        List<Address> list = dao.findByUserId(userId);
+        for (Address temp : list) {
+            temp.setIsDefault(1);
+            dao.save(temp);
+        }
         Address address = dao.findOne(addressId);
         address.setIsDefault(0);
         dao.save(address);
+    }
+
+    @Override
+    public Address findDefaultByUserId(Long userId) {
+        return dao.findDefaultByUserId(userId);
     }
 }

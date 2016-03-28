@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/18.
  */
 @Service
-public class CouponServiceImpl implements CouponService{
+public class CouponServiceImpl implements CouponService {
 
     public static final int DAY = 3;
 
@@ -34,9 +34,9 @@ public class CouponServiceImpl implements CouponService{
     public void createCoupon(Long userId) {
         Coupon c = new Coupon();
         c.setUserId(userId);
-        c.setIsUsed(0); // 默认为使用
-        c.setStatus(1); // 默认为无效
-        c.setEndDate(DateUtils.daysAfter(new Date(),DAY));
+        c.setIsUsed(0); // 默认为未使用
+        c.setStatus(0); // 默认为有效
+        c.setEndDate(DateUtils.daysAfter(new Date(), DAY));
         dao.save(c);
     }
 
@@ -46,11 +46,11 @@ public class CouponServiceImpl implements CouponService{
             @Override
             public Predicate toPredicate(Root<Coupon> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                list.add(criteriaBuilder.equal(root.get("userId").as(Long.class),userId));
+                list.add(criteriaBuilder.equal(root.get("userId").as(Long.class), userId));
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+        return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
     }
 
     @Override
@@ -61,8 +61,19 @@ public class CouponServiceImpl implements CouponService{
     }
 
     @Override
-    public Integer findCountByUserId(Long userId) {
-        return dao.findCountByUserId(userId,System.currentTimeMillis());
+    public List<Coupon> findListByUserId(Long userId) {
+        return dao.findListByUserId(userId, System.currentTimeMillis());
+    }
+
+    @Override
+    public Coupon findOneByUserId(Long userId) {
+        List<Coupon> list = dao.findListByUserId(userId);
+
+        if (null == list || list.size() == 0) {
+            return null;
+        } else {
+            return list.get(0);
+        }
     }
 
     @Override

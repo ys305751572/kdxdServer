@@ -10,15 +10,11 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/3/18.
  */
-public interface AddressDao extends JpaRepository<Address,Long>,JpaSpecificationExecutor<Address>{
+public interface AddressDao extends JpaRepository<Address, Long>, JpaSpecificationExecutor<Address> {
 
     @Query("select a from Address a where a.userId = ?1")
     public List<Address> findByUserId(Long userId);
 
-    /**
-     * 将用户地址改为非选择状态
-     * @param userId
-     */
-    @Query("update Address a set a.isDefault = 1 where a.userId = ?1")
-    public void modifyAddressByUserId(Long userId);
+    @Query("select a from Address a where a.userId = ?1 and a.isDefault = 0")
+    public Address findDefaultByUserId(Long userId);
 }

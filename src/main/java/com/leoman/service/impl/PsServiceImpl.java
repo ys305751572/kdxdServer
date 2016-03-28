@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/15.
  */
 @Service
-public class PsServiceImpl implements PsService{
+public class PsServiceImpl implements PsService {
 
     @Autowired
     private PsDao dao;
@@ -35,7 +35,7 @@ public class PsServiceImpl implements PsService{
 
     @Override
     public ProductService getById(Long id) {
-        return null;
+        return dao.findOne(id);
     }
 
     @Override
@@ -56,5 +56,10 @@ public class PsServiceImpl implements PsService{
     @Override
     public void deleteAll(Long[] ids) {
 
+    }
+
+    @Override
+    public List<ProductService> findListByProductId(Long productId) {
+        return dao.findListbyProductId(productId);
     }
 }

@@ -43,17 +43,17 @@ public class WeixinBaseController {
     @Resource(name = "cacheTempCodeServiceImpl")
     private CacheService<String> cacheService;
 
-    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
+    @RequestMapping("/toLogin")
     public String toLogin() {
         return "weixin/login";
     }
 
-    @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
+    @RequestMapping("/toRegister")
     public String toRegister() {
         return "weixin/register";
     }
 
-    @RequestMapping(value = "/toPassword", method = RequestMethod.POST)
+    @RequestMapping("/toPassword")
     public String toSetPassword(String username,String yzm,Model model) {
         Map<String,String> reg = new HashMap<String,String>();
         reg.put("username",username);
@@ -62,7 +62,7 @@ public class WeixinBaseController {
         return "weixin/setpassword";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping("/register")
     public String register(HttpServletResponse response, String username,String password, String code) {
         // 参数验证
         if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
@@ -89,7 +89,7 @@ public class WeixinBaseController {
         return "";
     }
 
-    @RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
+    @RequestMapping("/loginCheck")
     public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model) {
         Boolean success = service.loginWeixin(request, mobile, password);
         Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
@@ -103,7 +103,7 @@ public class WeixinBaseController {
                     e.printStackTrace();
                 }
             }
-            return "weixin/product-detail";
+            return "redirect:/weixin/product/detail";
         }
         model.addAttribute("error", "用户名密码错误");
         return "weixin/login";
@@ -115,7 +115,7 @@ public class WeixinBaseController {
      * @param response
      * @param mobile
      */
-    @RequestMapping(value = "/sendCode", method = RequestMethod.POST)
+    @RequestMapping("/sendCode")
     public void sendCode(HttpServletResponse response, String mobile) {
         try {
             String code = CommonUtils.getCode(6);
@@ -129,7 +129,7 @@ public class WeixinBaseController {
         }
     }
 
-    @RequestMapping(value = "modifyPassword", method = RequestMethod.POST)
+    @RequestMapping("modifyPassword")
     public String modifyPassword(HttpServletResponse response, String mobile, String password, String code) {
 
         String hasCode = cacheService.get(mobile);

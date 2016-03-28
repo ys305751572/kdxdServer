@@ -1,6 +1,7 @@
 package com.leoman.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_user")
-public class KUser extends BaseEntity{
+public class KUser implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "mobile")
     private String mobile;
@@ -39,6 +44,14 @@ public class KUser extends BaseEntity{
 
     public void setList(List<Address> list) {
         this.list = list;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMobile() {

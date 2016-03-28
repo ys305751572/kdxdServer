@@ -5,6 +5,7 @@ import com.leoman.service.common.ICommonService;
 
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +20,6 @@ public interface WxUserService extends ICommonService<WxUser> {
     public WxUser findByOpenId(String openid);
 
     public WxUser getWxUserByToken(WxMpOAuth2AccessToken wxMpOAuth2AccessToken);
-
 
     public WxUser getWXUserByRequest(HttpServletRequest request);
 }

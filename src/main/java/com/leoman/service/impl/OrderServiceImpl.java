@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order modifyStatus(Long id, Integer status) {
         Order _order = dao.findOne(id);
-        switch (status){
+        switch (status) {
             case 0:
                 _order.setStatus(1);
                 break;
@@ -53,28 +53,38 @@ public class OrderServiceImpl implements OrderService {
             public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
                 Predicate result = null;
-                if(StringUtils.isNotBlank(order.getSn())) {
+                if (StringUtils.isNotBlank(order.getSn())) {
                     list.add(criteriaBuilder.like(root.get("sn").as(String.class), '%' + order.getSn() + '%'));
                 }
-                if(order.getProduct() != null && StringUtils.isNotBlank(order.getProduct().getTitle())) {
+                if (order.getProduct() != null && StringUtils.isNotBlank(order.getProduct().getTitle())) {
                     list.add(criteriaBuilder.equal(root.get("product").get("title").as(String.class), '%' + order.getProduct().getTitle() + '%'));
                 }
-                if(StringUtils.isNotBlank(order.getUser().getNickname())) {
+                if (StringUtils.isNotBlank(order.getUser().getNickname())) {
                     list.add(criteriaBuilder.equal(root.get("user").get("nickname").as(String.class), order.getUser().getNickname()));
                 }
-                if(order.getCreateDate() != null) {
+                if (order.getCreateDate() != null) {
                     list.add(criteriaBuilder.equal(root.get("createDate").as(Long.class), order.getCreateDate()));
                 }
-                if(order.getStatus() != null) {
+                if (order.getStatus() != null) {
                     list.add(criteriaBuilder.equal(root.get("status").as(Integer.class), order.getStatus()));
                 }
-                if(order.getUser() != null && order.getUser().getId() != null) {
-                    list.add(criteriaBuilder.equal(root.get("user").get("id").as(Long.class),order.getUser().getId()));
+                if (order.getUser() != null && order.getUser().getId() != null) {
+                    list.add(criteriaBuilder.equal(root.get("user").get("id").as(Long.class), order.getUser().getId()));
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+        return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
+    }
+
+    @Override
+    public Order findByOrderSn(String sn) {
+        return dao.findByOrderSn(sn);
+    }
+
+    @Override
+    public List<Order> findListByUserId(Long userId) {
+        return dao.findListByUserId(userId);
     }
 
     @Override
@@ -105,13 +115,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order create(Order Order) {
-        return null;
+    public Order create(Order order) {
+        return dao.save(order);
     }
 
     @Override
-    public Order update(Order Order) {
-        return null;
+    public Order update(Order order) {
+        return dao.save(order);
     }
 
     @Override

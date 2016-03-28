@@ -18,12 +18,10 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 
         Object business = request.getSession().getAttribute(Constant.SESSION_MEMBER_BUSINESS);
         Object globle = request.getSession().getAttribute(Constant.SESSION_MEMBER_GLOBLE);
-        if(business==null&&globle==null){
+        if (business == null && globle == null) {
             GeneralExceptionHandler.handle("没有访问权限!");
         }
         return true;
     }
-
-
 
 }

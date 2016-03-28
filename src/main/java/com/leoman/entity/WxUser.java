@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by wangbin on 2015/7/8.
  */
 @Entity
-@Table(name = "wx_user")
+@Table(name = "tb_wx_user")
 public class WxUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,19 +18,13 @@ public class WxUser implements Serializable {
     private Integer id;
 
     private String openId;
+
     private String nickname;
+
     private String sex;
-    private String city;
-    private String province;
-    private String country;
 
-    @Column(name = "headimgurl")
-    private String headImgUrl;
-
-    @Column(name = "subscribe_time")
-    private Long subscribeTime;
-
-    private String unionId;
+    @Column(name = "head_url")
+    private String headUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
@@ -68,54 +62,12 @@ public class WxUser implements Serializable {
         this.sex = sex;
     }
 
-
-
-    public String getCity() {
-        return city;
+    public String getHeadUrl() {
+        return headUrl;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getHeadImgUrl() {
-        return headImgUrl;
-    }
-
-    public void setHeadImgUrl(String headImgUrl) {
-        this.headImgUrl = headImgUrl;
-    }
-
-    public Long getSubscribeTime() {
-        return subscribeTime;
-    }
-
-    public void setSubscribeTime(Long subscribeTime) {
-        this.subscribeTime = subscribeTime;
-    }
-
-    public String getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(String unionId) {
-        this.unionId = unionId;
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
     }
 
     public Date getCreateDate() {
