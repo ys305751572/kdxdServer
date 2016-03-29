@@ -32,16 +32,26 @@ public class WeixinOrderController extends CommonController {
     private OrderService orderService;
 
     @RequestMapping("/index")
-    public String index(HttpServletRequest request, ModelMap model) {
+    public String index(HttpServletRequest request, ModelMap model, Integer pageNum, Integer pageSize) {
         List<Order> list = null;
         try {
+            if (null == pageNum) {
+                pageNum = 1;
+            }
+            if (null == pageSize) {
+                pageSize = 10;
+            }
+
             KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-            list = orderService.findListByUserId(kUser.getId());
+            Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
+            list = page.getContent();
+
+            model.addAttribute("orderList", list);
+            model.addAttribute("current", pageNum);
+            model.addAttribute("totalPage", page.getTotalPages());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        model.addAttribute("orderList", list);
 
         return "weixin/order-list";
     }

@@ -13,7 +13,7 @@
 </head>
 <body style="background: #f7f7f7">
 
-<c:forEach items="${addressList}" var="address">
+<c:forEach items="${list}" var="address">
     <section class="shdz">
         <div class="address">
             <address>
@@ -32,32 +32,20 @@
         </div>
     </section>
 </c:forEach>
-<footer class="footer">
-    <div class="btn2">
-        <input type="hidden" id="tempId"/>
-        <input type="button" class="button5" id="btn1" name="address" onclick="updateInfo()" value="编辑"/>
-        <input type="button" class="button5" id="btn2" name="address" onclick="updateAddress()" value="添加" style="background:#ff8400"/>
-    </div>
-</footer>
+<input type="hidden" id="userId" value="${userId}"/>
+<input type="hidden" id="pbrId" value="${pbrId}"/>
 <script type="application/javascript">
     $(function () {
         $("input[name = 'radio2']").click(function () {
             // 点击单选按钮，将该地址设置为默认地址
             $.post("${contextPath}/weixin/address/addressDefault", {
+                userId: $('#userId').val(),
                 addressId: $(this).prop('id').replace('radio', '')
-            }, null);
+            }, function () {
+                window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + $('#pbrId').val()
+            });
         });
     });
-
-    // 添加 or 编辑收货地址
-    function updateAddress() {
-        window.location.href = "weixin/address/update?id=" + $('#tempId').val();
-    }
-
-    // 测试编辑收货地址
-    function updateInfo() {
-        window.location.href = "weixin/address/update?id=1";
-    }
 </script>
 </body>
 </html>

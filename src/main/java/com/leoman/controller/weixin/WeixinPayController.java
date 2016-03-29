@@ -1,15 +1,10 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.core.Configue;
-import com.leoman.core.Constant;
 import com.leoman.entity.Order;
-import com.leoman.entity.WxUser;
 import com.leoman.service.OrderService;
-import com.leoman.service.WxUserService;
 import com.leoman.utils.WebUtil;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +23,6 @@ public class WeixinPayController {
 
     @Autowired
     private WxMpService wxMpService;
-
-    @Autowired
-    private WxUserService wxUserService;
 
     @Autowired
     private OrderService orderService;

@@ -5,43 +5,25 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ccc.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/dd.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
-    <title>我的订单列表</title>
+    <title>我的充值记录</title>
 </head>
-<body style="background: #f7f7f7;overflow: auto;">
+<body style="max-height: 855px">
 <input type="hidden" id="pageSize" value="10"/>
 <input type="hidden" id="current" value="${current}"/>
 <input type="hidden" id="totalPage" value="${totalPage}"/>
 
-<section class="section2">
+<c:forEach var="n" items="${coinList}">
     <div class="list">
-        <c:forEach var="n" items="${orderList}">
-            <div class="ddbh">
-                <span class="ddbh1">订单编号：${n.sn}</span>
-                <span class="ddbh2">状态：
-                    <c:if test="${n.status == 0}"><span style="color: #ff8400">待发货</span></c:if>
-                    <c:if test="${n.status == 1}"><span style="color: #ff8400">已发货</span></c:if>
-                    <c:if test="${n.status == 2}"><span style="color: #ff8400">已签收</span></c:if>
-                </span>
-            </div>
-            <div class="nr">
-                <span class="nr2"><h3>${n.product.title}</h3></span>
-                <address class="nr3">
-                    <ul>
-                        <li>${n.name}</li>
-                        <li>${n.mobile}</li>
-                        <li>${n.address}</li>
-                    </ul>
-                </address>
-            </div>
-            <div class="sj">
-                <span class="sj1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
-            </div>
-        </c:forEach>
+        <div class="list1">
+            <span class="cz">充值金额</span><span class="sz">${n.money}</span>
+            <br>
+            <time class="time1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></time>
+        </div>
     </div>
-</section>
-<div class="fy1">
+</c:forEach>
+<div class="fy">
     <button class="btn3" value="上一页" onclick="prevPage()">上一页</button>
     <button class="btn4" value="下一页" onclick="nextPage()">下一页</button>
 </div>
@@ -52,7 +34,7 @@
         // 当数据只有一页时，隐藏翻页按钮
         var totalPage = $('#totalPage').val();
         if (Number(totalPage) <= Number(1)) {
-            $('.fy1').remove();
+            $('.fy').remove();
         }
     });
 
@@ -67,7 +49,7 @@
             return;
         }
 
-        window.location.href = "${contextPath}/weixin/order/index?pageNum=" + (Number(current) - Number(1)) + "&pageSize=" + pageSize;
+        window.location.href = "${contextPath}/weixin/coinlog/list?pageNum=" + (Number(current) - Number(1)) + "&pageSize=" + pageSize;
     }
 
     // 下一页
@@ -81,6 +63,6 @@
             return;
         }
 
-        window.location.href = "${contextPath}/weixin/order/index?pageNum=" + (Number(current) + Number(1)) + "&pageSize=" + pageSize;
+        window.location.href = "${contextPath}/weixin/coinlog/list?pageNum=" + (Number(current) + Number(1)) + "&pageSize=" + pageSize;
     }
 </script>

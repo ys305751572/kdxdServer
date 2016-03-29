@@ -103,7 +103,8 @@ public class WeixinBaseController {
                     e.printStackTrace();
                 }
             }
-            return "redirect:/weixin/product/detail";
+            // return "redirect:/weixin/product/index";
+            return "redirect:/weixin/user/index";
         }
         model.addAttribute("error", "用户名密码错误");
         return "weixin/login";

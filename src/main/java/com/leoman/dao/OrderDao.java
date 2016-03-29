@@ -1,7 +1,9 @@
 package com.leoman.dao;
 
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -19,6 +21,9 @@ public interface OrderDao extends JpaRepository<Order, Long>, JpaSpecificationEx
     @Query("select a from Order a where a.sn = ?1")
     public Order findByOrderSn(String sn);
 
-    @Query("select a from Order a where a.user.id = ?1")
+    @Query("select a from Order a where a.user.id = ?1 order by a.id desc")
     public List<Order> findListByUserId(Long userId);
+
+    @Query("select a from Order a where a.user.id = ?1 order by a.id desc")
+    public Page<Order> pageByUserId(Long userId, Pageable pageable);
 }

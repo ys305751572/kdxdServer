@@ -92,15 +92,31 @@
     <div class="engding">
         <%--<input type="hidden" id="id" name="id" value="${product.id}">--%>
         <input type="hidden" id="id" name="id" value="12">
-        <button class="button3" onclick="rushToBuy.fn.goBuy(false)" style="background-color: #00a642">
-            必中卷抢购 <c:if test="${counts ne 0}">(${counts})</c:if>
-        </button>
-        <button class="button2" onclick="rushToBuy.fn.goBuy(false)" style="background-color: #ff8400">
-            直接抢购
-        </button>
+        <c:if test="${counts > 0}">
+            <c:if test="${buyCount < product.counts}">
+                <button class="button3" onclick="rushToBuy.fn.goBuy(true)" style="background-color: #00a642">
+                    必中卷抢购 (${counts})
+                </button>
+            </c:if>
+        </c:if>
+        <c:if test="${counts <= 0}">
+            <button class="button3">
+                没有必中卷
+            </button>
+        </c:if>
+        <c:if test="${buyCount < product.counts}">
+            <button class="button2" onclick="rushToBuy.fn.goBuy(false)" style="background-color: #ff8400">
+                直接抢购
+            </button>
+        </c:if>
+        <c:if test="${buyCount >= product.counts}">
+            <button class="button2">
+                已抢完
+            </button>
+        </c:if>
     </div>
-    <div class="check">
-        <a href="#" id="check">查看活动详情<img src="${contextPath}/static/weixin/images/Group 6.png"></a>
+    <div class="check" onclick="rushToBuy.fn.goActivityInfo()">
+        <a href="javascript:void(0)" id="check">查看活动详情<img src="${contextPath}/static/weixin/images/Group 6.png"></a>
     </div>
 </section>
 <script type="application/javascript">
@@ -118,11 +134,14 @@
                 }, function (result) {
                     if (result.status == '0') {
                         // 如果返回结果不为空，代表抢购成功，此时跳转到抢购结果界面
-                        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.data.id
+                        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.data.id;
                     } else {
                         alert(result.msg);
                     }
                 });
+            },
+            goActivityInfo: function () {
+                window.location.href = "${contextPath}/weixin/activity/info";
             }
         }
     }

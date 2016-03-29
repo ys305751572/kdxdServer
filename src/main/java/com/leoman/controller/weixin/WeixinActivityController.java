@@ -20,12 +20,10 @@ public class WeixinActivityController {
     @Autowired
     private ActivityService service;
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index(Model model) {
-        List<Activity> list = service.findAll();
-        if(list != null && !list.isEmpty()) {
-            model.addAttribute("act",list.get(0));
-        }
-        return null;
+    @RequestMapping("/info")
+    public String info(Model model, Long id) {
+        Activity activity = service.getById(id);
+        model.addAttribute("activity", activity);
+        return "weixin/activity-detail";
     }
 }

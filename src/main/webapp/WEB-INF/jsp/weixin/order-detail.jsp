@@ -54,8 +54,7 @@
     $(function () {
         var $address = $("#add1").val();
         if ($address == null || $address == "") {
-            $.post(
-                    "${contextPath}/weixin/user/findDefaultAddress",
+            $.post("${contextPath}/weixin/user/findDefaultAddress",
                     function (result) {
                         if (result == null) {
                             $("#add1").val("配送地址空缺，此单无法配送");
@@ -77,7 +76,7 @@
 
     // 跳转到用户的收货地址界面
     function addressList(pbrId, userId) {
-        window.location.href = "${contextPath}/weixin/address/list?pbrId=" + pbrId + "&userId=" + userId;
+        window.location.href = "${contextPath}/weixin/address/addressList?pbrId=" + pbrId + "&userId=" + userId;
     }
 
     // 跳转到付款详情界面

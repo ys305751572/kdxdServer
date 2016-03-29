@@ -20,4 +20,7 @@ public interface OrderService extends ICommonService<Order> {
 
     // 根据用户id查询对应用户的订单列表
     public List<Order> findListByUserId(Long userId);
+
+    // 根据用户id查询对应用户的订单列表（分页）
+    public Page<Order> pageByUserId(Long userId, Integer pageNum, Integer pageSize);
 }

@@ -20,24 +20,37 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "weixin/user")
-public class WeixinUserController extends CommonController{
+public class WeixinUserController extends CommonController {
 
     @Autowired
     private KUserService service;
 
-    @RequestMapping(value = "toAddress", method = RequestMethod.GET)
+    @RequestMapping("index")
+    public String index(HttpServletRequest request, Model model) {
+        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        model.addAttribute("user", user);
+        return "weixin/user-detail";
+    }
+
+    @RequestMapping("toAddress")
     public String toAddress(HttpServletRequest request, Model model) {
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         List<Address> list = service.findAllAddressByUserId(weixinUser.getId());
-        model.addAttribute("list",list);
+        model.addAttribute("list", list);
         return "weixin/address-list";
     }
 
-    @RequestMapping(value = "findDefaultAddress", method = RequestMethod.POST)
+    @RequestMapping("findDefaultAddress")
     @ResponseBody
     public Address findDefaultAddress(HttpServletRequest request) {
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Address address = service.findDefaultAddressByUserId(weixinUser.getId());
         return address;
+    }
+
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest request, Model model) {
+        request.getSession().removeAttribute(Constant.SESSION_WEIXIN_USER);
+        return "weixin/login";
     }
 }

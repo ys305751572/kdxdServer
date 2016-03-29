@@ -80,7 +80,7 @@
                 // 调用微信浏览器内置功能实现微信支付
                 // weixinPay(result);
                 alert("支付成功");
-                window.location.href = "${contextPath}/weixin/order/index";
+                window.location.href = "${contextPath}/weixin/order/index?pageNum=1&pageSize=10";
             } else {
                 alert("操作失败");
             }

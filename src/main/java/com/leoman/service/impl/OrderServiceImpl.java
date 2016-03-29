@@ -88,6 +88,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Order> pageByUserId(Long userId, Integer pageNum, Integer pageSize) {
+        return dao.pageByUserId(userId, new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id"));
+    }
+
+    @Override
     public List<Order> findAll() {
         return null;
     }
