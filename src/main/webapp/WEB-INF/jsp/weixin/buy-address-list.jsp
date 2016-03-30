@@ -13,39 +13,24 @@
 </head>
 <body style="background: #f7f7f7">
 
-<c:forEach items="${list}" var="address">
+<c:forEach items="${addressList}" var="address">
     <section class="shdz">
-        <div class="address">
+        <div class="address" onclick="goPbr(${address.id})">
             <address>
                 <span class="lw">${address.name}&nbsp;&nbsp;${address.mobile}</span><br>
                 <span class="wh">${address.address}</span>
             </address>
-        </div>
-        <div class="mr">
-            <div class="radio">
-                <input type="radio" id="radio${address.id}" name="radio2"
-                       <c:if test="${address.isDefault eq 0}">checked</c:if> />
-                <label for="radio${address.id}">
-                    设为默认地址
-                </label>
-            </div>
+            <c:if test="${address.isDefault eq 0}">默认地址</c:if>
         </div>
     </section>
 </c:forEach>
 <input type="hidden" id="userId" value="${userId}"/>
 <input type="hidden" id="pbrId" value="${pbrId}"/>
 <script type="application/javascript">
-    $(function () {
-        $("input[name = 'radio2']").click(function () {
-            // 点击单选按钮，将该地址设置为默认地址
-            $.post("${contextPath}/weixin/address/addressDefault", {
-                userId: $('#userId').val(),
-                addressId: $(this).prop('id').replace('radio', '')
-            }, function () {
-                window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + $('#pbrId').val()
-            });
-        });
-    });
+    // 跳回抢购界面
+    function goPbr(addressId) {
+        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + $('#pbrId').val() + "&addressId=" + addressId;
+    }
 </script>
 </body>
 </html>

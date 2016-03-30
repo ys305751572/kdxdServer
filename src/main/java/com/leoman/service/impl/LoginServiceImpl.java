@@ -4,6 +4,7 @@ import com.leoman.core.Constant;
 import com.leoman.entity.Admin;
 import com.leoman.entity.KUser;
 import com.leoman.entity.Member;
+import com.leoman.entity.WxUser;
 import com.leoman.service.AdminService;
 import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;

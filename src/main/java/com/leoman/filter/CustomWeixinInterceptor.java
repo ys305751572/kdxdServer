@@ -34,6 +34,4 @@ public class CustomWeixinInterceptor extends HandlerInterceptorAdapter {
         }
         return true;
     }
-
-
 }

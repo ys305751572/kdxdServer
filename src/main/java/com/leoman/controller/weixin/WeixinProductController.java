@@ -149,13 +149,18 @@ public class WeixinProductController extends CommonController {
      * @return
      */
     @RequestMapping("toSnapUpResult")
-    public String toSnapUpResult(HttpServletRequest request, Long pbrId, Model model) {
+    public String toSnapUpResult(HttpServletRequest request, Long pbrId, Long addressId, Model model) {
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         ProductBuyRecord pbr = pbservice.getById(pbrId);
         model.addAttribute("pbr", pbr);
 
-        Address address = userService.findDefaultAddressByUserId(weixinUser.getId());
+        Address address = null;
+        if (null == addressId) {
+            address = userService.findDefaultAddressByUserId(weixinUser.getId());
+        } else {
+            address = addressService.getById(addressId);
+        }
         model.addAttribute("address", address);
 
         try {

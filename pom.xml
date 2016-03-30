@@ -322,6 +322,16 @@
 				<pro.upload.path>D:/tomcat7/webapps/files/upload/</pro.upload.path>
 			</properties>
 		</profile>
+		<profile>
+			<id>dev-aliyun</id>
+			<properties>
+				<pro.jdbc.url>jdbc:mysql://10.10.213.130:3306/kdxg?characterEncoding=UTF-8</pro.jdbc.url>
+				<pro.jdbc.username>expressBrother</pro.jdbc.username>
+				<pro.jdbc.password>express.123</pro.jdbc.password>
+				<pro.upload.url>http://123.59.40.32:80/files/upload/</pro.upload.url>
+				<pro.upload.path>/usr/local/tomcat7/webapps/files/upload/</pro.upload.path>
+			</properties>
+		</profile>
 	</profiles>
 
 

@@ -70,58 +70,55 @@ public class WeixinFilter implements Filter {
             }
         }
 
-        KUser user = (KUser)httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        KUser user = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
 
-        if(user == null) {
+        if (user == null) {
             Logger.info("url:" + httpRequest.getContextPath());
-            Map<String,String[]> paramsMap = httpRequest.getParameterMap();
+            Map<String, String[]> paramsMap = httpRequest.getParameterMap();
             StringBuffer buffer = new StringBuffer("?");
             for (String s : paramsMap.keySet()) {
-               String[] value = paramsMap.get(s);
+                String[] value = paramsMap.get(s);
                 for (String v : value) {
                     buffer.append(s).append("=").append(v).append("&");
                 }
             }
-            String goUrl = httpRequest.getRequestURL() + buffer.toString().substring(0,buffer.length() - 1);
+            String goUrl = httpRequest.getRequestURL() + buffer.toString().substring(0, buffer.length() - 1);
             System.out.println("goUrl:" + goUrl);
-            ((HttpServletRequest) request).getSession().setAttribute(Constant.GO_URL,goUrl);
+            ((HttpServletRequest) request).getSession().setAttribute(Constant.GO_URL, goUrl);
             final String toLoginUrl = httpRequest.getContextPath() + "/weixin/login/toLogin";
             httpResponse.sendRedirect(toLoginUrl);
-        }
-        else {
-            chain.doFilter(request,response);
-            return;
-        }
+        } else {
+            /*chain.doFilter(request, response);
+            return;*/
+            System.out.println("domain:" + httpRequest.getSession().getAttributeNames());
+            Enumeration<String> enumeration = httpRequest.getSession().getAttributeNames();
 
-//        System.out.println("domain:"+httpRequest.getSession().getAttributeNames());
-//        Enumeration<String> enumeration = httpRequest.getSession().getAttributeNames();
-//
-//        while (enumeration.hasMoreElements()){
-//            System.out.println("-----");
-//            System.out.println(enumeration.nextElement());
-//            System.out.println("-----");
-//        }
-//
-//        WxUser wxUser = (WxUser)httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-//        System.out.println("wxUser:"+wxUser);
-//        if(wxUser!=null){
-//            chain.doFilter(request, response);
-//            return;
-//        }
-//        if(Constant.WEIXIN_STATE.equals(request.getParameter("state"))){
-//            chain.doFilter(request, response);
-//            return;
-//        }
-//
-//        WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
-//        String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
-//        System.out.println("fullUrl:" +fullUrl);
-//
-//        String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_BASE, Constant.WEIXIN_STATE);
-//        httpResponse.sendRedirect(OAUTH_URL);
-//        System.out.println("OAUTH_URL:" + OAUTH_URL);
-        //chain.doFilter(request, response);
+            while (enumeration.hasMoreElements()) {
+                System.out.println("-----");
+                System.out.println(enumeration.nextElement());
+                System.out.println("-----");
+            }
 
+            WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            System.out.println("wxUser:" + wxUser);
+            if (wxUser != null) {
+                chain.doFilter(request, response);
+                return;
+            }
+            if (Constant.WEIXIN_STATE.equals(request.getParameter("state"))) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
+            String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
+            System.out.println("fullUrl:" + fullUrl);
+
+            String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_BASE, Constant.WEIXIN_STATE);
+            httpResponse.sendRedirect(OAUTH_URL);
+            System.out.println("OAUTH_URL:" + OAUTH_URL);
+            chain.doFilter(request, response);
+        }
     }
 
     @Override
