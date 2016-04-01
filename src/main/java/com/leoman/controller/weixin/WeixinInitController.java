@@ -41,30 +41,46 @@ public class WeixinInitController {
 
         WxMenu menu = new WxMenu();
         WxMenu.WxMenuButton button1 = new WxMenu.WxMenuButton();
-        button1.setType(WxConsts.BUTTON_CLICK);
-        button1.setName("在线选酒");
+        button1.setType(WxConsts.BUTTON_VIEW);
+        button1.setName("活动资讯");
+        button1.setUrl("http://t.cn/RyhQ2V2");
 
         WxMenu.WxMenuButton button2 = new WxMenu.WxMenuButton();
         button2.setType(WxConsts.BUTTON_VIEW);
-        button2.setName("酒店入驻");
-        button2.setUrl(UrlManage.getProUrl("weixin/business/in"));
+        button2.setName("限时抢购");
+        button2.setUrl("http://t.cn/RyhQ2V2");
+
+        WxMenu.WxMenuButton button3 = new WxMenu.WxMenuButton();
+        button3.setName("个人中心");
+
+        WxMenu.WxMenuButton button4 = new WxMenu.WxMenuButton();
+        button4.setType(WxConsts.BUTTON_CLICK);
+        button4.setName("个人信息");
+        button4.setKey(UrlManage.getProUrl("weixin/user/index"));
+
+        WxMenu.WxMenuButton button5 = new WxMenu.WxMenuButton();
+        button5.setType(WxConsts.BUTTON_CLICK);
+        button5.setName("我的优惠券");
+        button5.setKey(UrlManage.getProUrl("weixin/coupons/list"));
+
+        WxMenu.WxMenuButton button6 = new WxMenu.WxMenuButton();
+        button6.setType(WxConsts.BUTTON_CLICK);
+        button6.setName("我的订单");
+        button6.setKey(UrlManage.getProUrl("weixin/order/index"));
+
+        WxMenu.WxMenuButton button7 = new WxMenu.WxMenuButton();
+        button7.setType(WxConsts.BUTTON_CLICK);
+        button7.setName("邀请好友");
+        button7.setKey(UrlManage.getProUrl("weixin/user/invite"));
+
+        button3.getSubButtons().add(button4);
+        button3.getSubButtons().add(button5);
+        button3.getSubButtons().add(button6);
+        button3.getSubButtons().add(button7);
 
         menu.getButtons().add(button1);
         menu.getButtons().add(button2);
-
-
-        WxMenu.WxMenuButton button11 = new WxMenu.WxMenuButton();
-        button11.setType(WxConsts.BUTTON_CLICK);
-        button11.setName("家庭用酒");
-        button11.setKey(Constant.EVENT_WINE_ONLINE_HOME);
-
-        WxMenu.WxMenuButton button12 = new WxMenu.WxMenuButton();
-        button12.setType(WxConsts.BUTTON_CLICK);
-        button12.setName("餐厅直送");
-        button12.setKey(Constant.EVENT_WINE_ONLINE_HOTEL);
-
-        button1.getSubButtons().add(button11);
-        button1.getSubButtons().add(button12);
+        menu.getButtons().add(button3);
 
         try {
             wxMpService.menuCreate(menu);

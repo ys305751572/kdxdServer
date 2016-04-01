@@ -32,6 +32,13 @@ public class WeixinUserController extends CommonController {
         return "weixin/user-detail";
     }
 
+    @RequestMapping("invite")
+    public String invite(HttpServletRequest request, Model model) {
+        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        model.addAttribute("user", user);
+        return "weixin/invite-friend";
+    }
+
     @RequestMapping("toAddress")
     public String toAddress(HttpServletRequest request, Model model) {
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
