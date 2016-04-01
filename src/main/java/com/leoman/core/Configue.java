@@ -16,17 +16,11 @@ public class Configue {
         return ConfigUtil.getString("upload.path");
     }
 
-
     public static String getBaseUrl(){
         return ConfigUtil.getString("base.url");
     }
 
-
     public static String getBaseDomain(){
         return ConfigUtil.getString("base.domain");
     }
-
-
-
-
 }

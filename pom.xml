@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.leoman</groupId>
-	<artifactId>wine-tasting</artifactId>
+	<artifactId>kdxgServer</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -336,7 +336,7 @@
 
 
 	<build>
-		<finalName>wine-tasting</finalName>
+		<finalName>kdxgServer</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -360,7 +360,7 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>2.3</version>
 					<configuration>
-						<warName>wine-tasting</warName>
+						<warName>kdxgServer</warName>
 					</configuration>
 				</plugin>
 			</plugins>

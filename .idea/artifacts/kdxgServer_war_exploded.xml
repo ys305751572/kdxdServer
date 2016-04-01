@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="kdxgServer:war exploded">
-    <output-path>$PROJECT_DIR$/target/wine-tasting</output-path>
+    <output-path>$PROJECT_DIR$/target/kdxgServer</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -82,7 +82,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/wine-tasting/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/kdxgServer/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="kdxgServer/web/Web" />
     </root>
