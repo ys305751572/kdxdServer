@@ -1,5 +1,6 @@
 package com.leoman.controller.weixin;
 
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.core.UrlManage;
 import com.leoman.utils.WebUtil;
@@ -83,6 +84,10 @@ public class WeixinInitController {
         menu.getButtons().add(button3);
 
         try {
+            System.out.println("*************************************************************************************************************************");
+            System.out.println(Configue.getBaseUrl());
+            System.out.println("*************************************************************************************************************************");
+
             wxMpService.menuCreate(menu);
         } catch (Exception e) {
             e.printStackTrace();
