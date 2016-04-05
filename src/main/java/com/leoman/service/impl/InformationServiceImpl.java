@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/9.
  */
 @Service
-public class InformationServiceImpl implements InfomationService{
+public class InformationServiceImpl implements InfomationService {
 
     @Autowired
     private InfomationDao dao;
@@ -32,24 +32,55 @@ public class InformationServiceImpl implements InfomationService{
             @Override
             public Predicate toPredicate(Root<Information> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                if(info.getTitle() != null) {
-                    criteriaBuilder.like(root.get("title").as(String.class),info.getTitle());
+                if (info.getTitle() != null) {
+                    criteriaBuilder.like(root.get("title").as(String.class), info.getTitle());
                 }
-                if(info.getIsList() != null) {
-                   criteriaBuilder.equal(root.get("isList").as(Integer.class),info.getIsList());
+                if (info.getIsList() != null) {
+                    criteriaBuilder.equal(root.get("isList").as(Integer.class), info.getIsList());
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+        return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
     }
 
     // 发布
     @Override
     public void publish(Long[] ids) {
-        for(Long id : ids) {
+        for (Long id : ids) {
             publishInformation(id);
         }
+    }
+
+    @Override
+    public Page<Information> findList(Integer pageNum, Integer pageSize) {
+        PageRequest pageRequest = new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id");
+
+        Page<Information> page = dao.findAll(new Specification<Information>() {
+            @Override
+            public Predicate toPredicate(Root<Information> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate result = null;
+                List<Predicate> predicateList = new ArrayList<Predicate>();
+
+                Predicate pre = cb.equal(root.get("isList").as(Integer.class), 1);
+                predicateList.add(pre);
+
+                Predicate pre1 = cb.notEqual(root.get("id").as(Integer.class), 0);
+                predicateList.add(pre1);
+
+                if (predicateList.size() > 0) {
+                    result = cb.and(predicateList.toArray(new Predicate[]{}));
+                }
+
+                if (result != null) {
+                    query.where(result);
+                }
+                return query.getGroupRestriction();
+            }
+
+        }, pageRequest);
+
+        return page;
     }
 
     public void publishInformation(Long id) {
@@ -97,7 +128,7 @@ public class InformationServiceImpl implements InfomationService{
 
     @Override
     public void deleteAll(Long[] ids) {
-        for(Long id : ids) {
+        for (Long id : ids) {
             deleteById(id);
         }
     }

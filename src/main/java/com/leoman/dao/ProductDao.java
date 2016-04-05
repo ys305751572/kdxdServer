@@ -1,5 +1,7 @@
 package com.leoman.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +18,7 @@ public interface ProductDao extends JpaRepository<Product, Long>,JpaSpecificatio
 
 
     Product findOne(Long id);
+
+    @Query("select a from Product a where a.counts > (select count(b) from ProductBuyRecord b where b.product.id = a.id)")
+    public Page<Product> findPage(Pageable pageable);
 }

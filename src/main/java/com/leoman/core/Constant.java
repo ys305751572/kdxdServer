@@ -20,9 +20,9 @@ public interface Constant {
     String MSG_DEF_TEXT = "您输入的序列号不正确，请重新输入!";
 
 
-    String EVENT_WINE_ONLINE_HOME = "WINE_ONLINE_HOME";
+    String EVENT_ACTIVITY_LIST = "ACTIVITY_LIST";
 
-    String EVENT_WINE_ONLINE_HOTEL = "WINE_ONLINE_HOTEL";
+    String EVENT_PRODUCT_LIST = "PRODUCT_LIST";
 
     String MEMBER_TYPE_GLOBLE = "GLOBLE";
 

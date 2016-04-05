@@ -99,9 +99,9 @@ public class WeixinFilter implements Filter {
                 System.out.println("-----");
             }
 
-            WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-            System.out.println("wxUser:" + wxUser);
-            if (wxUser != null) {
+            KUser loginUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            System.out.println("wxUser:" + loginUser);
+            if (loginUser != null) {
                 chain.doFilter(request, response);
                 return;
             }

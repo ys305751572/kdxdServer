@@ -1,10 +1,8 @@
 package com.leoman.controller.weixin;
 
-import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.core.UrlManage;
 import com.leoman.utils.WebUtil;
-
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -42,37 +40,37 @@ public class WeixinInitController {
 
         WxMenu menu = new WxMenu();
         WxMenu.WxMenuButton button1 = new WxMenu.WxMenuButton();
-        button1.setType(WxConsts.BUTTON_VIEW);
+        button1.setType(WxConsts.BUTTON_CLICK);
         button1.setName("活动资讯");
-        button1.setUrl("http://t.cn/RyhQ2V2");
+        button1.setKey(Constant.EVENT_ACTIVITY_LIST);
 
         WxMenu.WxMenuButton button2 = new WxMenu.WxMenuButton();
-        button2.setType(WxConsts.BUTTON_VIEW);
+        button2.setType(WxConsts.BUTTON_CLICK);
         button2.setName("限时抢购");
-        button2.setUrl("http://t.cn/RyhQ2V2");
+        button2.setKey(Constant.EVENT_PRODUCT_LIST);
 
         WxMenu.WxMenuButton button3 = new WxMenu.WxMenuButton();
         button3.setName("个人中心");
 
         WxMenu.WxMenuButton button4 = new WxMenu.WxMenuButton();
-        button4.setType(WxConsts.BUTTON_CLICK);
+        button4.setType(WxConsts.BUTTON_VIEW);
         button4.setName("个人信息");
-        button4.setKey(UrlManage.getProUrl("weixin/user/index"));
+        button4.setUrl(UrlManage.getProUrl("weixin/user/index"));
 
         WxMenu.WxMenuButton button5 = new WxMenu.WxMenuButton();
-        button5.setType(WxConsts.BUTTON_CLICK);
+        button5.setType(WxConsts.BUTTON_VIEW);
         button5.setName("我的优惠券");
-        button5.setKey(UrlManage.getProUrl("weixin/coupons/list"));
+        button5.setUrl(UrlManage.getProUrl("weixin/coupons/list"));
 
         WxMenu.WxMenuButton button6 = new WxMenu.WxMenuButton();
-        button6.setType(WxConsts.BUTTON_CLICK);
+        button6.setType(WxConsts.BUTTON_VIEW);
         button6.setName("我的订单");
-        button6.setKey(UrlManage.getProUrl("weixin/order/index"));
+        button6.setUrl(UrlManage.getProUrl("weixin/order/index"));
 
         WxMenu.WxMenuButton button7 = new WxMenu.WxMenuButton();
-        button7.setType(WxConsts.BUTTON_CLICK);
+        button7.setType(WxConsts.BUTTON_VIEW);
         button7.setName("邀请好友");
-        button7.setKey(UrlManage.getProUrl("weixin/user/invite"));
+        button7.setUrl(UrlManage.getProUrl("weixin/user/invite"));
 
         button3.getSubButtons().add(button4);
         button3.getSubButtons().add(button5);
@@ -84,10 +82,6 @@ public class WeixinInitController {
         menu.getButtons().add(button3);
 
         try {
-            System.out.println("*************************************************************************************************************************");
-            System.out.println(Configue.getBaseUrl());
-            System.out.println("*************************************************************************************************************************");
-
             wxMpService.menuCreate(menu);
         } catch (Exception e) {
             e.printStackTrace();

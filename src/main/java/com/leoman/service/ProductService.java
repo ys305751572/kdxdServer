@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface ProductService extends ICommonService<Product> {
 
-    public Page<Product> findPage(Product project,Integer type, int pagenum, int pagesize);
+    public Page<Product> findPage(Product project, Integer type, int pagenum, int pagesize);
 
     public Long findBuyCount(Long id);
 
     public Product reduceInventory(Long id);
 
-    public ProductBuyRecord createProductByRecord(HttpServletResponse response,Long id, Boolean isUsed, Long userId);
+    public ProductBuyRecord createProductByRecord(HttpServletResponse response, Long id, Boolean isUsed, Long userId);
 
-    public void createOrder(Long productId,Long pbrId, Long serviceId, HttpServletRequest request,HttpServletResponse response);
+    public void createOrder(Long productId, Long pbrId, Long serviceId, HttpServletRequest request, HttpServletResponse response);
 
-
+    public Page<Product> findList(int pageNum, int pageSize);
 }

@@ -3,9 +3,14 @@ package com.leoman.service.impl;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
 import com.leoman.dao.ProductDao;
-import com.leoman.entity.*;
-import com.leoman.service.*;
+import com.leoman.entity.Coupon;
+import com.leoman.entity.KUser;
+import com.leoman.entity.Product;
+import com.leoman.entity.ProductBuyRecord;
+import com.leoman.service.CouponService;
+import com.leoman.service.ProductBuyRecordService;
 import com.leoman.service.ProductService;
+import com.leoman.service.PsService;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.KdxgUtils;
 import com.leoman.utils.WebUtil;
@@ -16,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,7 +35,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2016/3/10.
@@ -115,6 +118,11 @@ public class ProductServiceImpl implements ProductService {
         }
         record.setResult(result);
         WebUtil.print(response, new Result(true).msg("操作成功"));
+    }
+
+    @Override
+    public Page<Product> findList(int pageNum, int pageSize) {
+        return dao.findPage(new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id"));
     }
 
 
