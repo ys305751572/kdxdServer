@@ -20,9 +20,13 @@ public class WxMpMessageHandlerRuleInilizer {
 
     @PostConstruct
 	public void init(){
-        router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent("\\d").handler(new NumberMessageHandler()).end();
-        router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).handler(new TextMessageHandler()).end();
-        router.rule().async(false).msgType(WxConsts.XML_MSG_EVENT).handler(new EventMessageHandler()).end();
+        System.out.println("***************************************************************************************************************");
+        System.out.println("检测点击事件");
+        System.out.println("***************************************************************************************************************");
+
+        // router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent("\\d").handler(new NumberMessageHandler()).end();
+        // router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).handler(new TextMessageHandler()).end();
+        router.rule().async(false).msgType(WxConsts.EVT_CLICK).handler(new EventMessageHandler()).end();
 	}
 	
 }
