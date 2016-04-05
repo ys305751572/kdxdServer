@@ -25,7 +25,7 @@ public class WxMpMessageHandlerRuleInilizer {
         System.out.println("***************************************************************************************************************");
 
         // router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).rContent("\\d").handler(new NumberMessageHandler()).end();
-        // router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).handler(new TextMessageHandler()).end();
+        router.rule().async(false).msgType(WxConsts.XML_MSG_TEXT).handler(new TextMessageHandler()).end();
         router.rule().async(false).msgType(WxConsts.EVT_CLICK).handler(new EventMessageHandler()).end();
 	}
 	

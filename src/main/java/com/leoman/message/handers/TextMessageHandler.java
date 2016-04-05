@@ -18,15 +18,10 @@ import com.leoman.core.UrlManage;
  */
 public class TextMessageHandler implements WxMpMessageHandler {
 
-
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
         String content =  wxMessage.getContent();
         return  WxMpXmlOutMessage.TEXT().content("你说:"+content).fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
     }
-
-
-
-
 
 }
