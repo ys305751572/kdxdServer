@@ -54,16 +54,16 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/toPassword")
-    public String toSetPassword(String username,String yzm,Model model) {
-        Map<String,String> reg = new HashMap<String,String>();
-        reg.put("username",username);
-        reg.put("code",yzm);
-        model.addAttribute("reg",reg);
+    public String toSetPassword(String username, String yzm, Model model) {
+        Map<String, String> reg = new HashMap<String, String>();
+        reg.put("username", username);
+        reg.put("code", yzm);
+        model.addAttribute("reg", reg);
         return "weixin/setpassword";
     }
 
     @RequestMapping("/register")
-    public String register(HttpServletResponse response, String username,String password, String code) {
+    public String register(HttpServletResponse response, String username, String password, String code) {
         // 参数验证
         if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
             WebUtil.print(response, new Result(false).msg("参数错误"));
@@ -71,11 +71,11 @@ public class WeixinBaseController {
         }
 
         // TODO 判断验证码
-//        String hasCode = cacheService.get(username);
-//        if (!code.equals(hasCode)) {
-//            WebUtil.print(response, new Result(false).msg("验证码错误"));
-//            return null;
-//        }
+        String hasCode = cacheService.get(username);
+        if (!code.equals(hasCode)) {
+            WebUtil.print(response, new Result(false).msg("验证码错误"));
+            return null;
+        }
         // TODO 验证用户是否已注册
         KUser _user = userService.findByMobile(username);
         if (_user != null) {
@@ -86,7 +86,7 @@ public class WeixinBaseController {
         user.setMobile(username);
         user.setPassword(password);
         userService.register(user);
-        return "";
+        return "weixin/login";
     }
 
     @RequestMapping("/loginCheck")
@@ -94,7 +94,7 @@ public class WeixinBaseController {
         Boolean success = service.loginWeixin(request, mobile, password);
         Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
         if (success) {
-            if(goUrlObj != null) {
+            if (goUrlObj != null) {
                 String goUrl = (String) goUrlObj;
                 try {
                     response.sendRedirect(goUrl);
@@ -143,7 +143,7 @@ public class WeixinBaseController {
         }
         _user.setPassword(password);
         userService.update(_user);
-        return null;
+        return "weixin/login";
     }
 
     @RequestMapping(value = "")
