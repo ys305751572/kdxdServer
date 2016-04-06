@@ -10,33 +10,47 @@
     <title>注册页面</title>
 
     <script type="text/javascript">
-        var mobile = $('#username').val().trim();
-        if (null == mobile || mobile == '') {
-            alert('手机号不能为空');
-        } else {
-            var countdown = 60;
-            function settime(btn) {
-                var tg = document.getElementById("tg1");
-                if (countdown == 0) {
-                    btn.removeAttribute("disabled");
-                    btn.value = "点击发送验证码";
-                    countdown = 60;
-                    btn.className = "btn_sendcode1";
-                    tg.className = "register1";
-                } else {
-                    countdown--;
-                    btn.setAttribute("disabled", true);
-                    btn.value = countdown + "秒后重新发送";
-                    btn.className = "btn_sendcode2";
-                    tg.className = "register2";
-                    setTimeout(function () {
-                        settime(btn)
-                    }, 1000)
-                }
+        var countdown = 60;
+        function settime(btn) {
+            var mobile = $('#username').val();
+            if (null == mobile || mobile == '') {
+                alert('手机号不能为空');
+            } else {
+                // 发送验证码
+                $.ajax({
+                    type: "post",
+                    url: "weixin/login/sendCode",
+                    data: {
+                        mobile: mobile
+                    },
+                    success: function (result) {
+                        if (result.status != 0) {
+                            alert(result.msg);
+                        }
+                    }
+                });
+                jian(btn);
             }
+        }
 
-            // 发送验证码
-            window.location.href = "weixin/login/sendCode?mobile=" + $('#username').val();
+        function jian(btn) {
+            var tg = document.getElementById("tg1");
+            if (countdown == 0) {
+                btn.removeAttribute("disabled");
+                btn.value = "点击发送验证码";
+                countdown = 60;
+                btn.className = "btn_sendcode1";
+                tg.className = "register1";
+            } else {
+                countdown--;
+                btn.setAttribute("disabled", true);
+                btn.value = countdown + "秒后重新发送";
+                btn.className = "btn_sendcode2";
+                tg.className = "register2";
+                setTimeout(function () {
+                    jian(btn)
+                }, 1000)
+            }
         }
     </script>
 </head>

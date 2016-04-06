@@ -63,30 +63,30 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/register")
-    public String register(HttpServletResponse response, String username, String password, String code) {
+    public void register(HttpServletResponse response, String username, String password, String code) {
         // 参数验证
         if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
             WebUtil.print(response, new Result(false).msg("参数错误"));
-            return null;
+            return;
         }
 
         // TODO 判断验证码
         String hasCode = cacheService.get(username);
         if (!code.equals(hasCode)) {
             WebUtil.print(response, new Result(false).msg("验证码错误"));
-            return null;
+            return;
         }
         // TODO 验证用户是否已注册
         KUser _user = userService.findByMobile(username);
         if (_user != null) {
             WebUtil.print(response, new Result(false).msg("该手机号码已注册"));
-            return null;
+            return;
         }
         KUser user = new KUser();
         user.setMobile(username);
         user.setPassword(password);
         userService.register(user);
-        return "weixin/login";
+        WebUtil.print(response, new Result(true));
     }
 
     @RequestMapping("/loginCheck")
@@ -120,9 +120,9 @@ public class WeixinBaseController {
     public void sendCode(HttpServletResponse response, String mobile) {
         try {
             String code = CommonUtils.getCode(6);
-            if (SmsSendUtils.sendTemplateSms(mobile, "JSM40387-0001", CommonUtils.getCode(6))) {
+            if (SmsSendUtils.sendTemplateSms(mobile, "JSM40387-0001", code)) {
                 cacheService.put(mobile, code);
-                WebUtil.print(response, new Result(true).msg("操作成功!"));
+                WebUtil.print(response, new Result(true));
             }
         } catch (Exception e) {
             e.printStackTrace();
