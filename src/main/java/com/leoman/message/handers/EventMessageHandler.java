@@ -26,25 +26,14 @@ public class EventMessageHandler implements WxMpMessageHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-        System.out.println("***************************************************************************************************************");
-        System.out.println("进入过滤器");
-        System.out.println("事件类型：" + wxMessage.getEvent());
-        System.out.println("fromUser：" + wxMessage.getToUserName());
-        System.out.println("toUser：" + wxMessage.getFromUserName());
-        System.out.println("***************************************************************************************************************");
-
         if (WxConsts.EVT_SUBSCRIBE.equals(wxMessage.getEvent())) {
             return WxMpXmlOutMessage.TEXT().content(Constant.EVENT_DEF_SUBSCRIBE_TEXT).fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
         }
-        if (WxConsts.BUTTON_CLICK.equals(wxMessage.getEvent())) {
+        if (WxConsts.EVT_CLICK.equals(wxMessage.getEvent())) {
             // 活动资讯
             if (Constant.EVENT_ACTIVITY_LIST.equals(wxMessage.getEventKey())) {
-                System.out.println("***************************************************************************************************************");
-                System.out.println("获取活动资讯列表");
-                System.out.println("***************************************************************************************************************");
-
                 // 获取活动资讯列表
-                InfomationService infomationService = (InfomationService) BeanUtil.getBean("infomationService");
+                InfomationService infomationService = (InfomationService) BeanUtil.getBean("informationServiceImpl");
                 List<Information> list = infomationService.findList(1, 10).getContent();
 
                 WxMpXmlOutNewsMessage.Item item = null;
@@ -53,11 +42,11 @@ public class EventMessageHandler implements WxMpMessageHandler {
 
                 for (Information info : list) {
                     item = new WxMpXmlOutNewsMessage.Item();
-                    item.setUrl("http://t.cn/RyhQ2V2");
-                    item.setPicUrl(Configue.getUploadPath() + info.getImage().getPath());
+                    item.setUrl(Configue.getBaseUrl() + "weixin/information/detail?id=" + info.getId());
+                    item.setPicUrl(Configue.getUploadUrl() + info.getImage().getPath());
                     item.setDescription(info.getContent());
                     item.setTitle(info.getTitle());
-
+                    System.out.println("图片地址：" + item.getPicUrl());
                     news.addArticle(item);
                 }
 
@@ -65,29 +54,22 @@ public class EventMessageHandler implements WxMpMessageHandler {
             }
             // 限时抢购
             else if (Constant.EVENT_PRODUCT_LIST.equals(wxMessage.getEventKey())) {
-                System.out.println("***************************************************************************************************************");
-                System.out.println("获取限时抢购列表");
-                System.out.println("***************************************************************************************************************");
-
                 // 获取限时抢购列表
-                com.leoman.service.ProductService productService = (com.leoman.service.ProductService) BeanUtil.getBean("productService");
+                com.leoman.service.ProductService productService = (com.leoman.service.ProductService) BeanUtil.getBean("productServiceImpl");
                 List<Product> list = productService.findList(1, 10).getContent();
-
-                WxMpXmlOutNewsMessage.Item item = null;
 
                 NewsBuilder news = WxMpXmlOutMessage.NEWS();
 
                 for (Product product : list) {
-                    item = new WxMpXmlOutNewsMessage.Item();
-                    item.setUrl("http://t.cn/RyhQ2V2");
-                    item.setPicUrl(Configue.getUploadPath() + product.getCoverImage().getPath());
+                    WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
+                    item.setUrl(Configue.getBaseUrl() + "weixin/product/detail?id=" + product.getId());
+                    item.setPicUrl(Configue.getUploadUrl() + product.getCoverImage().getPath());
                     item.setDescription(product.getContent());
                     item.setTitle(product.getTitle());
-
+                    System.out.println("图片地址：" + item.getPicUrl());
                     news.addArticle(item);
                 }
-
-                return news.build();
+                return news.fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
             }
         }
 

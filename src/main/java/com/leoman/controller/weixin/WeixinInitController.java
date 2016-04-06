@@ -82,9 +82,6 @@ public class WeixinInitController {
         menu.getButtons().add(button3);
 
         try {
-            System.out.println("*******************************************************************************************************************************");
-            System.out.print("菜单内容：" + menu);
-            System.out.println("*******************************************************************************************************************************");
             wxMpService.menuCreate(menu);
         } catch (Exception e) {
             e.printStackTrace();

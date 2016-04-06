@@ -8,10 +8,10 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/dd.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <script type="text/javascript"></script>
-    <title>收货地址编辑</title>
+    <title>活动详情</title>
 </head>
 <body>
-<header class="header">
+<%--<header class="header">
     <div class="all">
         <div class="note"></div>
         <div class="header_box" id="header_box">
@@ -21,17 +21,18 @@
             </h3>
         </div>
     </div>
-</header>
+</header>--%>
 <section>
     <div class="section">
-        <img src="${contextPath}/static/weixin/images/Bitmap.png">
+        <%--<img src="${contextPath}/static/weixin/images/Bitmap.png">
         <p>
             福利大派送，水果大抢购.只要分享100%中奖率，就是这么任性!
             福利大派送，水果大抢购.只要分享100%中奖率，就是这么任性!
             福利大派送，水果大抢购.只要分享100%中奖率，就是这么任性!
             福利大派送，水果大抢购.只要分享100%中奖率，就是这么任性!
             福利大派送，水果大抢购.只要分享100%中奖率，就是这么任性!
-        </p>
+        </p>--%>
+        ${activity.content}
     </div>
     <div style="position: absolute;bottom: 30px;left: 60px;font-size: 30px;color: rgba(0,0,0,0.5);">
         <script language="JavaScript">

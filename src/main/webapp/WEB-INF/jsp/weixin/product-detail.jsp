@@ -141,7 +141,7 @@
                 });
             },
             goActivityInfo: function () {
-                window.location.href = "${contextPath}/weixin/activity/info";
+                window.location.href = "${contextPath}/weixin/activity/info?id=1";
             }
         }
     }

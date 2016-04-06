@@ -5,7 +5,7 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/sss.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/awesome-bootstrap-checkbox.css"/>
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <script type="text/javascript"></script>
@@ -29,17 +29,22 @@
                     设为默认地址
                 </label>
             </div>
+            <div class="write" id="write1">
+                <a href="javascript:void(0)" onclick="updateInfo(${address.id})"><img src="${contextPath}/static/weixin/images/1182053.png"></a>
+            </div>
         </div>
     </section>
 </c:forEach>
 <footer class="footer">
     <div class="btn2">
         <input type="hidden" id="tempId"/>
-        <input type="button" class="button5" id="btn1" name="address" onclick="updateInfo()" value="编辑"/>
+        <input type="button" class="button5" id="btn1" name="address" onclick="controlDIV()" value="编辑"/>
         <input type="button" class="button5" id="btn2" name="address" onclick="updateAddress()" value="添加" style="background:#ff8400"/>
     </div>
 </footer>
 <script type="application/javascript">
+    var flag = 0;
+
     $(function () {
         $("input[name = 'radio2']").click(function () {
             // 点击单选按钮，将该地址设置为默认地址
@@ -55,8 +60,21 @@
     }
 
     // 测试编辑收货地址
-    function updateInfo() {
-        window.location.href = "weixin/address/update?id=1";
+    function updateInfo(id) {
+        window.location.href = "weixin/address/update?id=" + id;
+    }
+
+    function controlDIV() {
+        if (flag == 0) {
+            $("write").style.display = "block";
+            $("write1").style.display = "block";
+            flag = 1;
+        }
+        else {
+            $("write").style.display = "none";
+            $("write1").style.display = "none";
+            flag = 0;
+        }
     }
 </script>
 </body>

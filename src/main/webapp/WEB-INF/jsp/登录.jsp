@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>品酒网总后台登录</title>
+    <title>踢踢同城总后台登录</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">品酒后台系统</h3>
+                    <h3 class="panel-title">踢踢同城后台系统</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form" action="admin/login/check" method="post">

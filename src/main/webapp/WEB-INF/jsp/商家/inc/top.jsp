@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="dashboard">品酒网-${session_business_member.business.name}后台管理系统</a>
+    <a class="navbar-brand" href="dashboard">踢踢同城-${session_business_member.business.name}后台管理系统</a>
 </div>
 <!-- /.navbar-header -->
 
