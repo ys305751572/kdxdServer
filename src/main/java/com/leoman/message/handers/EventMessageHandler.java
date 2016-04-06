@@ -28,12 +28,15 @@ public class EventMessageHandler implements WxMpMessageHandler {
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
         System.out.println("***************************************************************************************************************");
         System.out.println("进入过滤器");
+        System.out.println("事件类型：" + wxMessage.getEvent());
+        System.out.println("fromUser：" + wxMessage.getToUserName());
+        System.out.println("toUser：" + wxMessage.getFromUserName());
         System.out.println("***************************************************************************************************************");
 
         if (WxConsts.EVT_SUBSCRIBE.equals(wxMessage.getEvent())) {
             return WxMpXmlOutMessage.TEXT().content(Constant.EVENT_DEF_SUBSCRIBE_TEXT).fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
         }
-        if (WxConsts.EVT_CLICK.equals(wxMessage.getEvent())) {
+        if (WxConsts.BUTTON_CLICK.equals(wxMessage.getEvent())) {
             // 活动资讯
             if (Constant.EVENT_ACTIVITY_LIST.equals(wxMessage.getEventKey())) {
                 System.out.println("***************************************************************************************************************");
