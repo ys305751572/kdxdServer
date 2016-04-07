@@ -91,7 +91,7 @@
     </aside>
     <div class="engding">
         <%--<input type="hidden" id="id" name="id" value="${product.id}">--%>
-        <input type="hidden" id="id" name="id" value="12">
+        <input type="hidden" id="id" name="id" value="${product.id}">
         <c:if test="${counts > 0}">
             <c:if test="${buyCount < product.counts}">
                 <button class="button3" onclick="rushToBuy.fn.goBuy(true)" style="background-color: #00a642">

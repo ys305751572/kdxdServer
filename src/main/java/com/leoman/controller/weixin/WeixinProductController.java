@@ -109,8 +109,6 @@ public class WeixinProductController extends CommonController {
      */
     @RequestMapping("detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
-        // TODO 此处测试用
-        id = 12L;
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Product product = service.getById(id);
         List<Coupon> counts = cService.findListByUserId(weixinUser.getId());

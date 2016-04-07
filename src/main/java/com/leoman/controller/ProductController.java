@@ -105,6 +105,7 @@ public class ProductController extends CommonController {
             pro.setServiceStartDate(DateUtils.stringToLong(serviceStartDate, "yyyy-MM-dd HH:mm"));
             pro.setCounts(counts);
             pro.setCouponsCounts(couponsCounts);
+            pro.setStatus(0);
 
             Set<LinkedTreeMap> mapList = JsonUtil.json2Obj(productService, Set.class);
             Set<com.leoman.entity.ProductService> list = new HashSet<com.leoman.entity.ProductService>();
