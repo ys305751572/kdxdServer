@@ -78,7 +78,11 @@ public class ProductController extends CommonController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add() {
+    public String add(Long id,Model model) {
+        if(id != null) {
+            Product product = service.getById(id);
+            model.addAttribute("product",product);
+        }
         return "pro/add";
     }
 

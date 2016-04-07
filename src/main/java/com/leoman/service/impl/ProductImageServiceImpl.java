@@ -1,5 +1,6 @@
 package com.leoman.service.impl;
 
+import com.leoman.dao.ImageDao;
 import com.leoman.dao.ProductImageDao;
 import com.leoman.entity.ProductImage;
 import com.leoman.service.ProductImageService;
@@ -17,6 +18,9 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Autowired
     private ProductImageDao dao;
+
+    @Autowired
+    private ImageDao imageDao;
 
     @Override
     public List<ProductImage> findAll() {
@@ -56,5 +60,15 @@ public class ProductImageServiceImpl implements ProductImageService {
     @Override
     public void deleteAll(Long[] ids) {
 
+    }
+
+    @Override
+    public List<ProductImage> findListByProductId(Long productId) {
+        List<ProductImage> list = dao.findListByProductId(productId);
+        for (ProductImage productImage : list) {
+            productImage.setPath(imageDao.findOneInfo(productImage.getImageId()).getPath());
+        }
+
+        return list;
     }
 }

@@ -15,6 +15,8 @@
     <p><c:if test="${pbr.resultStatus == 0}">恭喜您！抢购到如下商品</c:if><c:if test="${pbr.resultStatus == 1}">手气不太好，没抢到，再来一次</c:if></p>
 </header>
 <section class="section">
+    <input type="hidden" id="pbrId" value="${pbr.id}"/>
+    <input type="hidden" id="userId" value="${pbr.user.id}"/>
     <div class="list">
         <img src="${contextPath}/static/weixin/images/抢购成功.png">
         <form>
@@ -46,7 +48,7 @@
     <span>必须支付抢购费用以后，您的订单才会生效</span>
 </section>
 <footer class="button">
-    <div class="button_box" onclick="toPay(${pbr.id},${pbr.user.id})">
+    <div class="button_box">
         <span class="box"><a href="javascript:void(0)" id="submitBtn">请付款</a></span>
     </div>
 </footer>
@@ -56,27 +58,29 @@
         if ($address == null || $address == "") {
             $.post("${contextPath}/weixin/user/findDefaultAddress",
                     function (result) {
-                        if (result == null) {
+                        if (result == null || result == '') {
+                            $("#add1").css('color', 'red');
                             $("#add1").val("配送地址空缺，此单无法配送");
-                        }
-                        else {
-                            $("#add1").val(result.address);
+                        } else {
+                            $("#add1").val(result);
                         }
                     }
             );
         }
 
-        $("#submit").click(function () {
-            if ($address == null || $address == "") {
+        $("#submitBtn").click(function () {
+            if ($address == null || $address == "" || $address == '配送地址空缺，此单无法配送') {
                 $("#add1").val("配送地址空缺，此单无法配送");
                 return;
+            } else {
+                toPay($('#pbrId').val(), $('#userId').val());
             }
         });
     });
 
     // 跳转到用户的收货地址界面
     function addressList(pbrId, userId) {
-        window.location.href = "${contextPath}/weixin/address/addressList?pbrId=" + pbrId + "&userId=" + userId;
+        window.location.href = "${contextPath}/weixin/address/list?pbrId=" + pbrId + "&userId=" + userId;
     }
 
     // 跳转到付款详情界面

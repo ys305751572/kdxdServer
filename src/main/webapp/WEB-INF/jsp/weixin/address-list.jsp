@@ -66,13 +66,13 @@
 
     function controlDIV() {
         if (flag == 0) {
-            $("write").style.display = "block";
-            $("write1").style.display = "block";
+            $(".write").css('display','block');
+            $(".write1").css('display','block');
             flag = 1;
         }
         else {
-            $("write").style.display = "none";
-            $("write1").style.display = "none";
+            $(".write").css('display','none');
+            $(".write1").css('display','none');
             flag = 0;
         }
     }

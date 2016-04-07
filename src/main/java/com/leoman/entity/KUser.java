@@ -10,11 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tb_user")
-public class KUser implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+public class KUser extends BaseEntity{
 
     @Column(name = "mobile")
     private String mobile;
@@ -46,13 +42,6 @@ public class KUser implements Serializable {
         this.list = list;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getMobile() {
         return mobile;

@@ -8,6 +8,7 @@ import com.leoman.core.bean.Result;
 import com.leoman.entity.*;
 import com.leoman.service.*;
 import com.leoman.service.ProductService;
+import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/3/16.
@@ -55,6 +57,9 @@ public class WeixinProductController extends CommonController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ProductImageService productImageService;
 
     /**
      * 商品列表 测试
@@ -111,11 +116,19 @@ public class WeixinProductController extends CommonController {
     public String detail(HttpServletRequest request, Long id, Model model) {
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Product product = service.getById(id);
+
+
+        Set<Image> list = product.getList();
+        for (Image a : list) {
+            a.setPath(ConfigUtil.getString("upload.url") + a.getPath());
+        }
         List<Coupon> counts = cService.findListByUserId(weixinUser.getId());
         Integer buyCount = pbservice.findCountByProductId(id);
+//        List<ProductImage> imageList = productImageService.findListByProductId(id);
         model.addAttribute("product", product);
         model.addAttribute("counts", counts.size());
         model.addAttribute("buyCount", buyCount);
+//        model.addAttribute("imageList", imageList);
         return "weixin/product-detail";
     }
 

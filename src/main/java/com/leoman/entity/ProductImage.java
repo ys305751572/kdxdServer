@@ -3,6 +3,7 @@ package com.leoman.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created by Administrator on 2016/3/11.
@@ -16,6 +17,8 @@ public class ProductImage extends BaseEntity{
 
     @Column(name = "image_id")
     private Integer imageId;
+
+    private String path;
 
     public Long getProductId() {
         return productId;
@@ -31,5 +34,14 @@ public class ProductImage extends BaseEntity{
 
     public void setImageId(Integer imageId) {
         this.imageId = imageId;
+    }
+
+    @Transient
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

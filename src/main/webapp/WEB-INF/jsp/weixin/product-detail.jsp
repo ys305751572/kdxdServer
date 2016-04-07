@@ -30,32 +30,19 @@
     <!-- 代码 开始 -->
     <div id="fsD1" class="focus">
         <div id="D1pic1" class="fPic">
-            <div class="fcon" style="display: none;">
-                <a target="_blank" href="#"><img src="${contextPath}/static/weixin/images/Bitmap.png" style="opacity: 1; "></a>
-                <span class="shadow"><a target="_blank" href="#"></a></span>
-            </div>
+            <c:forEach var="n" items="${product.list}">
+                <div class="fcon" style="display: none;">
+                    <a target="_blank" href="javascript:void(0)"><img src="${n.path}" style="opacity: 1; "></a>
+                    <span class="shadow"><a target="_blank" href="javascript:void(0)"></a></span>
+                </div>
+            </c:forEach>
 
-            <div class="fcon" style="display: none;">
-                <a target="_blank" href="#"><img src="${contextPath}/static/weixin/images/Bitmap.png" style="opacity: 1; "></a>
-                <span class="shadow"><a target="_blank" href="#"></a></span>
-            </div>
-
-            <div class="fcon" style="display: none;">
-                <a target="_blank" href="#"><img src="${contextPath}/static/weixin/images/Bitmap.png" style="opacity: 1; "></a>
-                <span class="shadow"><a target="_blank" href="#"></a></span>
-            </div>
-
-            <div class="fcon" style="display: none;">
-                <a target="_blank" href="#"><img src="${contextPath}/static/weixin/images/Bitmap.png" style="opacity: 1; "></a>
-                <span class="shadow"></span>
-            </div>
         </div>
         <div class="fbg">
             <div class="D1fBt" id="D1fBt">
-                <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>1</i></a>
-                <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>2</i></a>
-                <a href="javascript:void(0)" hidefocus="true" target="_self" class="current"><i>3</i></a>
-                <a href="javascript:void(0)" hidefocus="true" target="_self" class=""><i>4</i></a>
+                <c:forEach var="n" items="${product.list}" varStatus="index">
+                    <a href="javascript:void(0)" hidefocus="true" target="_self"><i>${index}</i></a>
+                </c:forEach>
             </div>
         </div>
     </div>

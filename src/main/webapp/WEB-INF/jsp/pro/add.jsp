@@ -41,45 +41,45 @@
                                 <label  class="col-sm-2 control-label">商品标题:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="20"
-                                           data-rule="required" value="" placeholder="请输入商品标题">
+                                           data-rule="required" value="${product.title}" placeholder="请输入商品标题">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">抢购时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="startDate" name="startDate" maxlength="20"
-                                           data-rule="required" value="" placeholder="请选择抢购时间">
+                                           data-rule="required" value="${product.startDate}" placeholder="请选择抢购时间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">开始时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="serviceStartDate" name="serviceStartDate" maxlength="20"
-                                           data-rule="required" value="" placeholder="请选择开始时间">
+                                           data-rule="required" value="${product.serviceStartDate}" placeholder="请选择开始时间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">商品数量:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="counts" name="counts" maxlength="20"
-                                           data-rule="required" value="" placeholder="商品数量">
+                                           data-rule="required" value="${product.counts}" placeholder="商品数量">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">优惠券数量:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="couponsCounts" name="couponsCounts" maxlength="20"
-                                           data-rule="required" value="" placeholder="优惠券数量">
+                                           data-rule="required" value="${product.couponsCounts}" placeholder="优惠券数量">
                                 </div>
                             </div>
                             <div class="form-group img_tooltip">
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
                                 <div class="col-sm-3">
-                                    <input type="hidden" id="imageId" name="imageId" value="">
-                                    <div class="image_show"  <c:if test=""> style="display: none"  </c:if>>
+                                    <input type="hidden" id="imageId" name="imageId" value="${product.coverImage.path}">
+                                    <div class="image_show"  <c:if test="${product.coverImage.path eq null}"> style="display: none"  </c:if>>
                                         <img src="" class='img-responsive' >
                                     </div>
-                                    <div class="image_handle"  <c:if test="">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
+                                    <div class="image_handle"  <c:if test="${product.coverImage.path ne null}">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
                                         <div class="dropped"></div>
                                     </div>
                                 </div>
@@ -95,25 +95,50 @@
                                 </div>
                             </div>
 
-                            <div class="form-group form-service">
-                                <label  class="col-sm-2 control-label" >金额:</label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="days" name="days" maxlength="20"
-                                            value="" placeholder="请输入服务天数">
+                            <c:if test="${product.id eq null}">
+                                <div class="form-group form-service">
+                                    <label  class="col-sm-2 control-label" >金额:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="days" name="days" maxlength="20"
+                                                value="" placeholder="请输入服务天数">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="days2" name="money" maxlength="20"
+                                               value="" placeholder="请输入服务金额">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type='button'  title='' class='btn btn-circle form-service-add'>
+                                            <i class='fa fa-plus-circle'></i>
+                                        </button>
+                                        <button type='button'  title='' class='btn btn-circle form-service-minus hidden'>
+                                            <i class='fa fa-minus-circle'></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="days2" name="money" maxlength="20"
-                                           value="" placeholder="请输入服务金额">
+                            </c:if>
+                            <c:if test="${product.id ne null}">
+                                <div class="form-group form-service">
+                                    <label  class="col-sm-2 control-label" >金额:</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="days" name="days" maxlength="20"
+                                               value="" placeholder="请输入服务天数">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="days2" name="money" maxlength="20"
+                                               value="" placeholder="请输入服务金额">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type='button'  title='' class='btn btn-circle form-service-add'>
+                                            <i class='fa fa-plus-circle'></i>
+                                        </button>
+                                        <button type='button'  title='' class='btn btn-circle form-service-minus hidden'>
+                                            <i class='fa fa-minus-circle'></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <button type='button'  title='' class='btn btn-circle form-service-add'>
-                                        <i class='fa fa-plus-circle'></i>
-                                    </button>
-                                    <button type='button'  title='' class='btn btn-circle form-service-minus hidden'>
-                                        <i class='fa fa-minus-circle'></i>
-                                    </button>
-                                </div>
-                            </div>
+                            </c:if>
+
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
@@ -281,7 +306,7 @@
             },
             initialPreview:function(){
                 var imgPreViews = [];
-                <c:forEach var="_image" items="${product.images}" >
+                <c:forEach var="_image" items="${product.list}" >
                 var img =  "<img src='${_image.path}' style ='height:160px'>"
                 imgPreViews.push(img);
                 </c:forEach>
@@ -289,7 +314,7 @@
             },
             initialPreviewConfig:function(){
                 var imgPreViewsConf = [];
-                <c:forEach var="_image" items="${product.images}" >
+                <c:forEach var="_image" items="${product.list}" >
                 var conf = {
                     caption: "",
                     width: "120px",

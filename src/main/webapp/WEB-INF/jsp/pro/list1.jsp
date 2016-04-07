@@ -34,7 +34,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a href="admin/pro/add" class="btn btn-outline btn-primary btn-lg" role="button">添加资讯</a>
+                        <a href="admin/pro/add" class="btn btn-outline btn-primary btn-lg" role="button">添加抢购</a>
                     </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
@@ -234,7 +234,7 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".edit").attr("href", 'admin/pro/edit?id=' + data.id);
+                        $('td', row).last().find(".edit").attr("href", 'admin/pro/add?id=' + data.id);
                         $('td', row).last().find(".kuserindex").attr("href", 'admin/pro/kuserindex?id=' + data.id);
 
                         $('td', row).last().find(".delete").click(function() {

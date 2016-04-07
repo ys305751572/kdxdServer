@@ -111,6 +111,7 @@ public class WeixinFilter implements Filter {
             }
 
             WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
+
             String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
             System.out.println("fullUrl:" + fullUrl);
 
