@@ -62,4 +62,9 @@ public class PsServiceImpl implements PsService {
     public List<ProductService> findListByProductId(Long productId) {
         return dao.findListbyProductId(productId);
     }
+
+    @Override
+    public void deleteByProductId(Long productId) {
+        dao.deleteByProductId(productId);
+    }
 }

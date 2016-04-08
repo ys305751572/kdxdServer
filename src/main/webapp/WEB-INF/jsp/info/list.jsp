@@ -36,6 +36,7 @@
                     <div class="panel-heading">
                         <a href="admin/info/add" class="btn btn-outline btn-primary btn-lg" role="button">添加资讯</a>
                         <button href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</button>
+                        <button href="#" id="batchDel" class="btn btn-outline btn-primary btn-lg" role="button">一键删除</button>
                     </div>
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
@@ -152,27 +153,33 @@
                     var ids = checkBox.getInputId();
                     kuserList.fn.publish(ids);
                 })
+
+                $("#batchDel").click(function() {
+                    var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
+                    var ids = checkBox.getInputId();
+                    kuserList.fn.batchDel(ids);
+                })
             },
             dataTableInit: function () {
                 kuserList.v.dTable = $bluemobi.dataTable($('#dataTables'), {
                     "processing": true,
                     "serverSide": true,
                     "searching": false,
-                    "ordering": false,
+                    "ordering": true,
                     "ajax": {
                         "url": "admin/info/list",
                         "type": "POST"
                     },
                     "columns": [
-                        {"data": "id"},
-                        {"data": "title"},
+                        {"data": "id",orderable : false},
+                        {"data": "title",orderable : false},
                         {
-                            "data": "createDate", render: function (data) {
+                            "data": "createDate",orderable : true , render: function (data) {
                             return new Date(data).format("yyyy-MM-dd hh:mm:ss")
                         }
                         },
                         {
-                            "data": "isList", render: function (data) {
+                            "data": "isList", orderable : false,render: function (data) {
                                 if (data == 0) {
                                     return "未发布";
                                 }
@@ -181,7 +188,7 @@
                                 }
                             }
                         },
-                        {"data": ""}
+                        {"data": "",orderable : false}
                     ],
                     "columnDefs": [
                         {
@@ -194,7 +201,7 @@
                             "&nbsp;&nbsp;"
                             +
                             "<a title='删除' class='btn btn-primary btn-circle delete'>" +
-                            "<i class='fa fa-recycle'></i>" +
+                            "<i class='fa fa-times'></i>" +
                             "</a>",
                             "targets": -1
                         }
@@ -214,7 +221,7 @@
                     },
                     rowCallback: function (row, data) {
                         var items = kuserList.v.list;
-                        $('td', row).last().find(".add").attr("href", 'admin/info/detail?id=' + data.id);
+                        $('td', row).last().find(".add").attr("href", 'admin/info/add?id=' + data.id);
                         $('td', row).last().find(".delete").attr("href", 'admin/info/delete?id=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
@@ -243,6 +250,16 @@
                             kuserList.fn.responseComplete(result);
                         })
                     },"你确定要发布吗？","确定");
+                }
+            },
+
+            batchDel : function(ids) {
+                if (ids.length > 0) {
+                    $bluemobi.optNotify(function () {
+                        $.post("admin/info/batchDel",{ids:JSON.stringify(ids)},function(result) {
+                            kuserList.fn.responseComplete(result);
+                        })
+                    },"你确定要删除吗？","确定");
                 }
             },
             responseComplete: function (result, action) {

@@ -37,6 +37,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/pro/save" class="form-horizontal" role="form">
+                            <input type="hidden" id="id" name="id" value="${product.id}">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">商品标题:</label>
                                 <div class="col-sm-3">
@@ -48,14 +49,14 @@
                                 <label  class="col-sm-2 control-label">抢购时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="startDate" name="startDate" maxlength="20"
-                                           data-rule="required" value="${product.startDate}" placeholder="请选择抢购时间">
+                                           data-rule="required" value="<date:date value="${product.startDate}" format="yyyy-MM-dd HH:mm"></date:date>" placeholder="请选择抢购时间">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">开始时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="serviceStartDate" name="serviceStartDate" maxlength="20"
-                                           data-rule="required" value="${product.serviceStartDate}" placeholder="请选择开始时间">
+                                           data-rule="required" value="<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm"></date:date>" placeholder="请选择开始时间">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -75,9 +76,9 @@
                             <div class="form-group img_tooltip">
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
                                 <div class="col-sm-3">
-                                    <input type="hidden" id="imageId" name="imageId" value="${product.coverImage.path}">
+                                    <input type="hidden" id="imageId" name="imageId" value="${product.coverImage.id}">
                                     <div class="image_show"  <c:if test="${product.coverImage.path eq null}"> style="display: none"  </c:if>>
-                                        <img src="" class='img-responsive' >
+                                        <img src="${product.coverImage.path}" class='img-responsive' >
                                     </div>
                                     <div class="image_handle"  <c:if test="${product.coverImage.path ne null}">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
                                         <div class="dropped"></div>
@@ -117,32 +118,33 @@
                                 </div>
                             </c:if>
                             <c:if test="${product.id ne null}">
-                                <div class="form-group form-service">
-                                    <label  class="col-sm-2 control-label" >金额:</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="days" name="days" maxlength="20"
-                                               value="" placeholder="请输入服务天数">
+                                <c:forEach items="${product.serviceList}" var="serviceObj">
+                                    <div class="form-group form-service">
+                                        <label  class="col-sm-2 control-label" >金额:</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="days" name="days" maxlength="20"
+                                                   value="${serviceObj.days}" placeholder="请输入服务天数">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="days2" name="money" maxlength="20"
+                                                   value="${serviceObj.money}" placeholder="请输入服务金额">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type='button'  title='' class='btn btn-circle form-service-add'>
+                                                <i class='fa fa-plus-circle'></i>
+                                            </button>
+                                            <button type='button'  title='' class='btn btn-circle form-service-minus'>
+                                                <i class='fa fa-minus-circle'></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="days2" name="money" maxlength="20"
-                                               value="" placeholder="请输入服务金额">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type='button'  title='' class='btn btn-circle form-service-add'>
-                                            <i class='fa fa-plus-circle'></i>
-                                        </button>
-                                        <button type='button'  title='' class='btn btn-circle form-service-minus hidden'>
-                                            <i class='fa fa-minus-circle'></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                </c:forEach>
                             </c:if>
-
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain"></script>
+                                    <script id="container" name="content" type="text/plain">${product.content}</script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -318,7 +320,7 @@
                 var conf = {
                     caption: "",
                     width: "120px",
-                    url: "product/delPic?productId=${product.id}&imageId=${_image.id}",
+                    url: "${contextPath}/admin/pro/delPic?productId=${product.id}&imageId=${_image.id}",
                     key: ${_image.id}
                 }
                 imgPreViewsConf.push(conf);
@@ -370,6 +372,7 @@
                         if(imageIds.length>0){
                             imageIds =  imageIds.substr(0,imageIds.length-1);
                         }
+                        console.log("imageIds:" + imageIds);
                         $("#imageIds").val(imageIds);
 
                         $("#productForm").ajaxSubmit({
@@ -391,10 +394,7 @@
                    var serviceObj = {"days" : $(days[i]).val(),"money" : $(money[i]).val()}
                     serviceArray.push(serviceObj);
                 }
-
                 var productService = JSON.stringify(serviceArray);
-                console.log("productService:" + productService);
-
                 if(!$('#productForm').isValid()) {
                     return false;
                 };

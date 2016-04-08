@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
  */
 public interface InfomationService extends ICommonService<Information> {
 
-    public Page<Information> findPage(Information info, int pagenum, int pagesize);
+    public Page<Information> findPage(Information info, int pagenum, int pagesize,String sort,String column);
 
     public void publish(Long[] ids);
 

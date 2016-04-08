@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductImageService extends ICommonService<ProductImage>{
 
     public List<ProductImage> findListByProductId(Long productId);
+
+    public void deleteProductImageByProductIdAndImageId(Long productId,Integer imageId);
 }

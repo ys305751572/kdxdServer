@@ -7,10 +7,7 @@ import com.leoman.entity.Coupon;
 import com.leoman.entity.KUser;
 import com.leoman.entity.Product;
 import com.leoman.entity.ProductBuyRecord;
-import com.leoman.service.CouponService;
-import com.leoman.service.ProductBuyRecordService;
-import com.leoman.service.ProductService;
-import com.leoman.service.PsService;
+import com.leoman.service.*;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.KdxgUtils;
 import com.leoman.utils.WebUtil;
@@ -57,6 +54,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductBuyRecordService pbservice;
 
+    @Autowired
+    private ProductImageService productImageService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public Page<Product> findPage(final Product pro, final Integer type, int pagenum, int pagesize) {
@@ -123,6 +125,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findList(int pageNum, int pageSize) {
         return dao.findPage(new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id"));
+    }
+
+    @Transactional
+    @Override
+    public void deleteImages(Long productId, Integer imageId) {
+        productImageService.deleteProductImageByProductIdAndImageId(productId,imageId);
+        imageService.deleteById(imageId);
     }
 
 

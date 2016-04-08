@@ -39,7 +39,7 @@ public class WeixinInformationController extends CommonController {
         try {
             int pageNum = getPageNum(start, length);
             Information info = new Information();
-            Page<Information> page = service.findPage(info, pageNum, length);
+            Page<Information> page = service.findPage(info, pageNum, length,null,null);
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {

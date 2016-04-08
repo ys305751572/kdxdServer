@@ -3,6 +3,7 @@ package com.leoman.service.impl;
 import com.leoman.dao.InfomationDao;
 import com.leoman.entity.Information;
 import com.leoman.service.InfomationService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +28,7 @@ public class InformationServiceImpl implements InfomationService {
     private InfomationDao dao;
 
     @Override
-    public Page<Information> findPage(final Information info, int pagenum, int pagesize) {
+    public Page<Information> findPage(final Information info, int pagenum, int pagesize,String sort,String column) {
         Specification<Information> spec = new Specification<Information>() {
             @Override
             public Predicate toPredicate(Root<Information> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -38,9 +39,18 @@ public class InformationServiceImpl implements InfomationService {
                 if (info.getIsList() != null) {
                     criteriaBuilder.equal(root.get("isList").as(Integer.class), info.getIsList());
                 }
+
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };
+        if(StringUtils.isNotBlank(sort)) {
+            if("asc".equals(sort)) {
+                return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.ASC, column));
+            }
+            else {
+                return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, column));
+            }
+        }
         return dao.findAll(spec, new PageRequest(pagenum - 1, pagesize, Sort.Direction.DESC, "id"));
     }
 

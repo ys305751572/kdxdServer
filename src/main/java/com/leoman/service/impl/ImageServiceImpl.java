@@ -23,13 +23,13 @@ public class ImageServiceImpl implements ImageService {
     private ImageDao imageDao;
 
     @Override
-    public Image getById(int id) {
+    public Image getById(Integer id) {
         return imageDao.findOne(id);
     }
 
     @Override
     @Transactional
-    public Image deleteById(int id) {
+    public Image deleteById(Integer id) {
         Image image = getById(id);
         imageDao.delete(image);
         return image;

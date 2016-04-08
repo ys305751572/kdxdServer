@@ -8,6 +8,7 @@ import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.service.InfomationService;
 import com.leoman.service.UploadImageService;
+import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.JsonUtil;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
@@ -49,10 +51,19 @@ public class InformationController extends CommonController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Information info) {
+    public void list(HttpServletRequest request,HttpServletResponse response, Integer draw, Integer start, Integer length, Information info, String order, String columns ) {
         try {
+            String sort = request.getParameter("order[0][dir]");
+            String column = request.getParameter("columns[2][data]");
+            String columnIndex = request.getParameter("order[0][column]");
             int pageNum = getPageNum(start, length);
-            Page<Information> page = service.findPage(info, pageNum, length);
+            Page<Information> page = null;
+            if(Integer.parseInt(columnIndex) == 2) {
+                page = service.findPage(info, pageNum, length,sort,column);
+            }
+            else {
+                page = service.findPage(info, pageNum, length,null,null);
+            }
             Map<String, Object> result = DataTableFactory.fitting(draw, page);
             WebUtil.print(response, result);
         } catch (Exception e) {
@@ -62,7 +73,17 @@ public class InformationController extends CommonController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add() {
+    public String add(Long id,Model model) {
+        if(id != null) {
+            Information information = service.getById(id);
+            if(information.getContent() != null) {
+                information.setContent(information.getContent().replaceAll("&lt","<").replaceAll("&gt",">"));
+            }
+            if(information.getImage() != null) {
+                information.getImage().setPath(ConfigUtil.getString("upload.url") + information.getImage().getPath());
+            }
+            model.addAttribute("info",information);
+        }
         return "info/add";
     }
 
@@ -75,11 +96,29 @@ public class InformationController extends CommonController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public void save(HttpServletResponse response, Information info,Integer imageId) {
         try {
-            Image image= new Image();
-            image.setId(imageId);
-            info.setImage(image);
-            info.setIsList(0);
-            service.create(info);
+            Information newInfo =  null;
+            if(info.getId() != null) {
+                newInfo = service.getById(info.getId());
+                newInfo.setTitle(info.getTitle());
+                newInfo.setContent(info.getContent());
+
+                if(newInfo.getImage() != null) {
+                    newInfo.getImage().setId(imageId);
+                }
+                else {
+                    Image image= new Image();
+                    image.setId(imageId);
+                    newInfo.setImage(image);
+                }
+            }
+            else {
+                newInfo = new Information();
+                Image image= new Image();
+                image.setId(imageId);
+                newInfo.setImage(image);
+                newInfo.setIsList(0);
+            }
+            service.create(newInfo);
             WebUtil.print(response, new Result(true).msg("操作成功!"));
 //            return "info/list";
         } catch (Exception e) {
@@ -133,6 +172,19 @@ public class InformationController extends CommonController {
     public void publish(HttpServletResponse response,String ids) {
         Long[] arrayId = JsonUtil.json2Obj(ids, Long[].class);
         service.publish(arrayId);
+        WebUtil.print(response, new Result(true).msg("操作成功!"));
+    }
+
+    /**
+     *
+     * @param response
+     * @param ids
+     */
+    @RequestMapping(value = "/batchDel", method =  RequestMethod.POST)
+    @ResponseBody
+    public void batchDel(HttpServletResponse response,String ids) {
+        Long[] arrayId = JsonUtil.json2Obj(ids, Long[].class);
+        service.deleteAll(arrayId);
         WebUtil.print(response, new Result(true).msg("操作成功!"));
     }
 }

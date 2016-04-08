@@ -44,23 +44,24 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
+                            <input type="hidden" id="id" name="id" value = ${info.id}>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">资讯名称:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="20"
-                                           data-rule="required" value="" placeholder="请输入资讯名称">
+                                           data-rule="required" value="${info.title}" placeholder="请输入资讯名称">
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
 
                                 <div class="col-sm-3">
-                                    <input type="hidden" id="imageId" name="imageId" value="">
+                                    <input type="hidden" id="imageId" name="imageId" value="${info.image.id}">
 
-                                    <div class="image_show"  <c:if test=""> style="display: none"  </c:if>>
-                                        <img src="" class='img-responsive' >
+                                    <div class="image_show"  <c:if test="${info.image.path eq null}"> style="display: none"  </c:if>>
+                                        <img src="${info.image.path}" class='img-responsive' >
                                     </div>
-                                    <div class="image_handle"  <c:if test="">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
+                                    <div class="image_handle"  <c:if test="${info.image.path ne null}">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
                                         <div class="dropped"></div>
                                     </div>
                                 </div>
@@ -71,7 +72,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain"></script>
+                                    <script id="container" name="content" type="text/plain">${info.content}</script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -126,7 +127,7 @@
             init: function () {
 
                 if($("#id").val()!=""){
-                    $(".page-header").text("编辑商品")
+                    $(".page-header").text("编辑资讯")
                 }
                 $("#submitProduct").click(function(){
                     product.fn.save();
@@ -199,7 +200,7 @@
             imageInit:function(){
                 var $input = $("#the_file");
                 $input.fileinput({
-                    uploadUrl: "gen/save/images", // server upload action
+                    uploadUrl: "common/file/save/images", // server upload action
                     uploadAsync: false,
                     showUpload: true, // hide upload button
                     showRemove: false, // hide remove button

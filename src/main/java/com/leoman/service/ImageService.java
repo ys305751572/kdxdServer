@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface ImageService {
 
-    public Image getById(int id);
+    public Image getById(Integer id);
 
-    public Image deleteById(int id);
+    public Image deleteById(Integer id);
 
     public Image create(Image image);
 }

@@ -71,4 +71,9 @@ public class ProductImageServiceImpl implements ProductImageService {
 
         return list;
     }
+
+    @Override
+    public void deleteProductImageByProductIdAndImageId(Long productId, Integer imageId) {
+        dao.deleteProductImageByProductIdAndImageId(productId,imageId);
+    }
 }

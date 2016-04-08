@@ -25,4 +25,6 @@ public interface ProductService extends ICommonService<Product> {
     public void createOrder(Long productId, Long pbrId, Long serviceId, HttpServletRequest request, HttpServletResponse response);
 
     public Page<Product> findList(int pageNum, int pageSize);
+
+    public void deleteImages(Long product,Integer imageId);
 }

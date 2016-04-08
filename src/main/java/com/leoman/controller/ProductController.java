@@ -9,9 +9,12 @@ import com.leoman.entity.*;
 import com.leoman.service.InfomationService;
 import com.leoman.service.ProductBuyRecordService;
 import com.leoman.service.ProductService;
+import com.leoman.service.PsService;
+import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.JsonUtil;
 import com.leoman.utils.WebUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,9 @@ public class ProductController extends CommonController {
 
     @Autowired
     private ProductBuyRecordService pbService;
+
+    @Autowired
+    private PsService psService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
@@ -81,6 +87,19 @@ public class ProductController extends CommonController {
     public String add(Long id,Model model) {
         if(id != null) {
             Product product = service.getById(id);
+            if(product.getCoverImage() != null) {
+                product.getCoverImage().setPath(ConfigUtil.getString("upload.url") + product.getCoverImage().getPath());
+            }
+            Set<Image> list = product.getList();
+            if(list != null && !list.isEmpty()) {
+                for (Image image : list) {
+                    image.setPath(ConfigUtil.getString("upload.url") + image.getPath());
+                }
+            }
+
+            if(product.getContent() != null) {
+                product.setContent(product.getContent().replaceAll("&lt","<").replaceAll("&gt",">"));
+            }
             model.addAttribute("product",product);
         }
         return "pro/add";
@@ -97,19 +116,28 @@ public class ProductController extends CommonController {
      * @param imageId
      * @param productService
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save")
     @ResponseBody
-    public void save(HttpServletResponse response,
+    public void save(HttpServletResponse response,Long id,
                      String title, String startDate, String serviceStartDate, Integer counts,
-                     Integer couponsCounts, String imageIds, Integer imageId, String productService) {
+                     Integer couponsCounts, String imageIds, Integer imageId, String productService,String content) {
         try {
-            Product pro = new Product();
+            Product pro = null;
+            if(id == null) {
+                pro = new Product();
+            }
+            else {
+                pro = service.getById(id);
+                psService.deleteByProductId(id);
+            }
+
             pro.setTitle(title);
             pro.setStartDate(DateUtils.stringToLong(startDate, "yyyy-MM-dd HH:mm"));
             pro.setServiceStartDate(DateUtils.stringToLong(serviceStartDate, "yyyy-MM-dd HH:mm"));
             pro.setCounts(counts);
             pro.setCouponsCounts(couponsCounts);
             pro.setStatus(0);
+            pro.setContent(content);
 
             Set<LinkedTreeMap> mapList = JsonUtil.json2Obj(productService, Set.class);
             Set<com.leoman.entity.ProductService> list = new HashSet<com.leoman.entity.ProductService>();
@@ -120,18 +148,20 @@ public class ProductController extends CommonController {
                 ps.setMoney(Double.parseDouble(map.get("money").toString()));
                 list.add(ps);
             }
-
             pro.setServiceList(list);
-
-            String[] _imageIds = imageIds.split(",");
-            Image image = null;
-            Set<Image> imageSet = new HashSet<Image>();
-            for (String id : _imageIds) {
-                image = new Image();
-                image.setId(Integer.parseInt(id));
-                imageSet.add(image);
+            Set<Image> imageList = pro.getList();
+            if(StringUtils.isNotBlank(imageIds)) {
+                String[] _imageIds = imageIds.split(",");
+                Image image = null;
+                Set<Image> imageSet = new HashSet<Image>();
+                for (String iamgeId : _imageIds) {
+                    image = new Image();
+                    image.setId(Integer.parseInt(iamgeId));
+                    imageSet.add(image);
+                }
+                imageSet.addAll(imageList);
+                pro.setList(imageSet);
             }
-            pro.setList(imageSet);
 
             Image coverImage = new Image();
             coverImage.setId(imageId);
@@ -232,6 +262,17 @@ public class ProductController extends CommonController {
         } catch (Exception e) {
             GeneralExceptionHandler.log(e);
             WebUtil.print(response, emptyData);
+        }
+    }
+
+    @RequestMapping(value = "/delPic")
+    public void delPic(HttpServletResponse response, Long productId,Integer imageId) {
+        try {
+            service.deleteImages(productId,imageId);
+            WebUtil.print(response, new Result(true).msg("操作成功"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            WebUtil.print(response, new Result(false).msg("操作失败"));
         }
     }
 }

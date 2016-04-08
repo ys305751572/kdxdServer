@@ -11,4 +11,6 @@ public interface PsService extends ICommonService<com.leoman.entity.ProductServi
 
     // 根据商品id查询对应的服务周期
     public List<com.leoman.entity.ProductService> findListByProductId(Long productId);
+
+    public void deleteByProductId(Long productId);
 }
