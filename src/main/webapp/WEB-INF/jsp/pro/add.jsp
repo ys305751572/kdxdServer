@@ -63,14 +63,14 @@
                                 <label  class="col-sm-2 control-label">商品数量:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="counts" name="counts" maxlength="20"
-                                           data-rule="required" value="${product.counts}" placeholder="商品数量">
+                                           data-rule="required;integer" value="${product.counts}" placeholder="商品数量">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">优惠券数量:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="couponsCounts" name="couponsCounts" maxlength="20"
-                                           data-rule="required" value="${product.couponsCounts}" placeholder="优惠券数量">
+                                           data-rule="required;integer" value="${product.couponsCounts}" placeholder="优惠券数量">
                                 </div>
                             </div>
                             <div class="form-group img_tooltip">
