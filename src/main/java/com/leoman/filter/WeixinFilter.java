@@ -88,8 +88,13 @@ public class WeixinFilter implements Filter {
             final String toLoginUrl = httpRequest.getContextPath() + "/weixin/login/toLogin";
             httpResponse.sendRedirect(toLoginUrl);
         } else {
-            /*chain.doFilter(request, response);
-            return;*/
+            WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
+
+            String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
+            System.out.println("fullUrl:" + fullUrl);
+
+            String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_BASE, Constant.WEIXIN_STATE);
+
             System.out.println("domain:" + httpRequest.getSession().getAttributeNames());
             Enumeration<String> enumeration = httpRequest.getSession().getAttributeNames();
 
@@ -110,12 +115,6 @@ public class WeixinFilter implements Filter {
                 return;
             }
 
-            WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
-
-            String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
-            System.out.println("fullUrl:" + fullUrl);
-
-            String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_BASE, Constant.WEIXIN_STATE);
             httpResponse.sendRedirect(OAUTH_URL);
             System.out.println("OAUTH_URL:" + OAUTH_URL);
             chain.doFilter(request, response);

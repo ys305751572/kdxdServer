@@ -13,6 +13,8 @@ public interface Constant {
 
     String SESSION_WEIXIN_USER = "session_weixin_user";
 
+    String SESSION_WEIXIN_WXUSER = "session_weixin_wxUser";
+
     String WEIXIN_STATE = "weixin_state#wechat_redirect";
 
     String EVENT_DEF_SUBSCRIBE_TEXT = "感谢关注!";

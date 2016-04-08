@@ -30,7 +30,7 @@ public class CustomWeixinInterceptor extends HandlerInterceptorAdapter {
         if (Constant.WEIXIN_STATE.equals(request.getParameter("state")) && StringUtils.isNotBlank(code)) {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
             WxUser wxUser = wxUserService.getWxUserByToken(wxMpOAuth2AccessToken);
-            request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, wxUser);
+            request.getSession().setAttribute(Constant.SESSION_WEIXIN_WXUSER, wxUser);
         }
         return true;
     }

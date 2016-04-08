@@ -4,12 +4,12 @@ import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
 import com.leoman.entity.Address;
 import com.leoman.entity.KUser;
+import com.leoman.entity.WxUser;
 import com.leoman.service.KUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,9 @@ public class WeixinUserController extends CommonController {
     @RequestMapping("index")
     public String index(HttpServletRequest request, Model model) {
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         model.addAttribute("user", user);
+        model.addAttribute("wxUser", wxUser);
         return "weixin/user-detail";
     }
 
@@ -56,8 +58,9 @@ public class WeixinUserController extends CommonController {
     }
 
     @RequestMapping("logout")
-    public String logout(HttpServletRequest request, Model model) {
+    public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(Constant.SESSION_WEIXIN_USER);
+        request.getSession().removeAttribute(Constant.SESSION_WEIXIN_WXUSER);
         return "weixin/login";
     }
 }
