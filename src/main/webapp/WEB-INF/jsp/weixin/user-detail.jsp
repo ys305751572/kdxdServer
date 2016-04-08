@@ -10,7 +10,9 @@
 </head>
 <body>
 <section class="banner">
+    <%--<div class="pic_box" style="background-image: url("${wxUser.headUrl}")">--%>
     <div class="pic_box">
+        <%--<span id="name">${wxUser.nickname}</span>--%>
         <span id="name">${user.nickname}</span>
     </div>
 </section>
