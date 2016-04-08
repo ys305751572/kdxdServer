@@ -31,7 +31,7 @@
             <input class="loading_box1" id="registerBtn" type="button" value="注&nbsp;册"/>
         </div>
         <div class="loading">
-            <input class="loading_box1"  type="button" value="找回密码"/>
+            <input class="loading_box1" onclick="weixin.fn.findPwd()" type="button" value="找回密码"/>
         </div>
     </form>
 </section>

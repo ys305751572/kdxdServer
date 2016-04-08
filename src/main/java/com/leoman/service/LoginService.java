@@ -2,6 +2,7 @@ package com.leoman.service;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.leoman.entity.Member;
 
@@ -10,16 +11,16 @@ import com.leoman.entity.Member;
  */
 public interface LoginService {
 
-    public Member getMember(HttpServletRequest request,String type);
+    public Member getMember(HttpServletRequest request, String type);
 
     public Boolean login(HttpServletRequest request, String username, String password, String remark);
 
-    public Boolean login(HttpServletRequest request, Member member, String remark,String type);
+    public Boolean login(HttpServletRequest request, Member member, String remark, String type);
 
     public Boolean login(HttpServletRequest request, String username, String password, String type, String remark);
 
-    public void logOut(HttpServletRequest request,String type);
+    public void logOut(HttpServletRequest request, String type);
 
-    public Boolean loginWeixin(HttpServletRequest request, String username, String password);
+    public Boolean loginWeixin(HttpServletRequest request, HttpServletResponse response, String username, String password);
 
 }

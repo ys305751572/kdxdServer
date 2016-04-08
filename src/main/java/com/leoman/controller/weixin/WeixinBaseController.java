@@ -8,15 +8,14 @@ import com.leoman.pay.util.XMLUtil;
 import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;
 import com.leoman.utils.CommonUtils;
+import com.leoman.utils.CookiesUtils;
 import com.leoman.utils.SmsSendUtils;
 import com.leoman.utils.WebUtil;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +43,25 @@ public class WeixinBaseController {
     private CacheService<String> cacheService;
 
     @RequestMapping("/toLogin")
-    public String toLogin() {
+    public String toLogin(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> params = CookiesUtils.ReadCookieMap(request);
+        if (params != null && params.size() != 0) {
+            String mobile = (String) params.get("mobile");
+            String password = (String) params.get("password");
+            if (StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)) {
+                Boolean result = service.loginWeixin(request, response, mobile, password);
+                if (result) {
+                    return "redirect:/weixin/user/index";
+                }
+            }
+        }
+
         return "weixin/login";
+    }
+
+    @RequestMapping("/lostPwd")
+    public String lostPwd() {
+        return "weixin/find-password";
     }
 
     @RequestMapping("/toRegister")
@@ -91,8 +107,9 @@ public class WeixinBaseController {
 
     @RequestMapping("/loginCheck")
     public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model) {
-        Boolean success = service.loginWeixin(request, mobile, password);
+        Boolean success = service.loginWeixin(request, response, mobile, password);
         Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
+        System.out.println("goUrlObj：" + goUrlObj);
         if (success) {
             if (goUrlObj != null) {
                 String goUrl = (String) goUrlObj;
@@ -103,7 +120,6 @@ public class WeixinBaseController {
                     e.printStackTrace();
                 }
             }
-            // return "redirect:/weixin/product/index";
             return "redirect:/weixin/user/index";
         }
         model.addAttribute("error", "用户名密码错误");
@@ -179,5 +195,30 @@ public class WeixinBaseController {
             e.printStackTrace();
         }
         return resultMap;
+    }
+
+    @RequestMapping("/findPwd")
+    public void findPwd(HttpServletResponse response, String mobile, String code) {
+        // 参数验证
+        if (StringUtils.isBlank(mobile) && StringUtils.isBlank(code)) {
+            WebUtil.print(response, new Result(false).msg("参数错误"));
+            return;
+        }
+
+        // 判断验证码
+        String hasCode = cacheService.get(mobile);
+        if (!code.equals(hasCode)) {
+            WebUtil.print(response, new Result(false).msg("验证码错误"));
+            return;
+        }
+
+        KUser kUser = userService.findByMobile(mobile);
+
+        if (null == kUser) {
+            WebUtil.print(response, new Result(false).msg("手机号不存在"));
+            return;
+        }
+
+        WebUtil.print(response, new Result(true).msg(kUser.getPassword()));
     }
 }
