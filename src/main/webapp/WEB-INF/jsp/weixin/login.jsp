@@ -16,9 +16,6 @@
         <img src="${contextPath}/static/weixin/images/login_ logo.png">
     </figure>
 </header>
-<aside>
-    <span class="sidebar"><a href="javascript:void(0)" onclick="weixin.fn.findPwd()">找回密码</a></span>
-</aside>
 <section class="ff">
     <form action="${contextPath}/weixin/login/loginCheck" method="post">
         <div class="flex_box">
@@ -32,6 +29,9 @@
         </div>
         <div class="loading">
             <input class="loading_box1" id="registerBtn" type="button" value="注&nbsp;册"/>
+        </div>
+        <div class="loading">
+            <input class="loading_box1"  type="button" value="找回密码"/>
         </div>
     </form>
 </section>

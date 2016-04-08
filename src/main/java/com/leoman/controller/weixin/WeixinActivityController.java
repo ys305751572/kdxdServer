@@ -21,8 +21,8 @@ public class WeixinActivityController {
     private ActivityService service;
 
     @RequestMapping("/info")
-    public String info(Model model, Long id) {
-        Activity activity = service.getById(id);
+    public String info(Model model) {
+        Activity activity = service.getById(1L);
         model.addAttribute("activity", activity);
         return "weixin/activity-detail";
     }

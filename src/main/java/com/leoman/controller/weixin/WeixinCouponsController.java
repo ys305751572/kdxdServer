@@ -1,16 +1,11 @@
 package com.leoman.controller.weixin;
 
-import com.leoman.common.exception.GeneralExceptionHandler;
-import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
 import com.leoman.entity.Coupon;
-import com.leoman.entity.Information;
 import com.leoman.entity.KUser;
 import com.leoman.service.CouponService;
-import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -18,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2016/3/18.
@@ -32,7 +25,7 @@ public class WeixinCouponsController extends CommonController {
     @Autowired
     private CouponService service;
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping("/list")
     public String list(HttpServletRequest request, ModelMap model) {
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         List<Coupon> list = service.findListByUserId(kUser.getId());
@@ -40,7 +33,7 @@ public class WeixinCouponsController extends CommonController {
         return "weixin/coupon-list";
     }
 
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @RequestMapping("/detail")
     public String detail(Long id, Model model) {
         Coupon coupon = service.getById(id);
         model.addAttribute("coupon", coupon);

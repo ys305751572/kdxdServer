@@ -274,8 +274,11 @@ body{
 	background: #fff;
 	padding-top:46px; 
 	padding-bottom: 30px;
-	padding-left: 34px;
 	z-index: 0;
+}
+.shdz22{
+	width: 94%;
+	margin: 0 auto;
 }
 .shdz11{
 	background: #fff;
@@ -284,6 +287,7 @@ body{
 	z-index: 0;
 }
 .address{
+	padding-left: 10px;
 	padding-bottom: 26px;
 	border-bottom: 2px solid #e3e3e3;
 }
@@ -298,6 +302,12 @@ body{
 .mr{
 	padding-top: 30px;
 	color: #888;
+}
+.mr3{
+	display: flex;
+	justify-content: space-between;
+	width: 96%;
+	margin: 0 auto;
 }
 .mr img{
 	vertical-align: middle;
@@ -332,7 +342,11 @@ body{
 	margin-right: auto;
 }
 .radio {
-  padding-left: 10px;
+
+}
+.radio1{
+	position: relative;
+	left: -10px;
 }
 .radio label {
   display: inline-block;

@@ -14,6 +14,7 @@
 <section class="ff1">
     <form>
         <input type="hidden" id="id" name="id" value="${address.id}"/>
+        <input type="hidden" id="pbrId" name="pbrId" value="${pbrId}"/>
         <div class="flex_box3">
             <input class="flex4" type="text" placeholder="收货人姓名" value="${address.name}" id="name" maxlength="50" name="user"/>
         </div>
@@ -37,6 +38,7 @@
         var name = $('#name').val();
         var mobile = $('#mobile').val();
         var address = $('#address').val();
+        var pbrId = $('#pbrId').val();
 
         if (null == name || name == '') {
             alert('收货人姓名不能为空');
@@ -61,11 +63,16 @@
                 addressId: $('#id').val(),
                 name: name,
                 mobile: mobile,
-                address: address
+                address: address,
+                pbrId: pbrId
             }, function (result) {
-                if (result == 1) {
+                if (result > 0) {
                     alert('操作成功');
-                    window.location.href = "weixin/address/list";
+                    if (null == pbrId || pbrId == '') {
+                        window.location.href = "weixin/address/list?pbrId=" + pbrId;
+                    } else {
+                        window.location.href = "weixin/product/toSnapUpResult?pbrId=" + pbrId + "&addressId=" + result;
+                    }
                 } else {
                     alert('操作失败');
                 }

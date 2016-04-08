@@ -41,7 +41,8 @@ public class WeixinAddressController extends CommonController {
     }
 
     @RequestMapping("/update")
-    public String update(ModelMap model, Long id) {
+    public String update(ModelMap model, Long id, Long pbrId) {
+        model.addAttribute("pbrId", pbrId);
         if (null != id) {
             Address address = service.getById(id);
             model.addAttribute("address", address);
@@ -50,9 +51,17 @@ public class WeixinAddressController extends CommonController {
     }
 
     @RequestMapping("/list")
-    public String list(HttpServletRequest request, ModelMap model) {
+    public String list(HttpServletRequest request, ModelMap model, Long pbrId) {
         try {
+            model.addAttribute("pbrId", pbrId);
             KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+
+            // 首先，根据用户id查询对应的收货地址，如果没有默认收货地址，则跳转到新增收货地址界面
+            Address address = service.findDefaultByUserId(kUser.getId());
+            if (null == address) {
+                return "weixin/address-detail";
+            }
+
             List<Address> list = service.findByUserId(kUser.getId());
 
             model.addAttribute("addressList", list);
@@ -98,7 +107,7 @@ public class WeixinAddressController extends CommonController {
 
     @RequestMapping("save")
     @ResponseBody
-    public Integer save(HttpServletRequest request, Long addressId, String name, String mobile, String address) {
+    public Long save(HttpServletRequest request, Long addressId, String name, String mobile, String address) {
         try {
             KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
 
@@ -125,11 +134,11 @@ public class WeixinAddressController extends CommonController {
 
             service.update(addressInfo);
 
-            return 1;
+            return addressInfo.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return 0;
+        return 0L;
     }
 }

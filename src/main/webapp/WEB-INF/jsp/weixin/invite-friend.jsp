@@ -23,7 +23,7 @@
     <div class="lxkf">
         <a href="#"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span></a>
     </div>
-    <div class="lxkf">
+    <div class="lxkf" onclick="goActivityInfo()">
         <a href="javascript:void(0)">活动详情</a>
     </div>
     <div class="lxkf">
@@ -37,3 +37,8 @@
 </footer>
 </body>
 </html>
+<script type="text/javascript">
+    function goActivityInfo() {
+        window.location.href = "${contextPath}/weixin/activity/info?id=1";
+    }
+</script>
