@@ -13,7 +13,7 @@
     <%--<div class="pic_box" style="background-image: url("${wxUser.headUrl}")">--%>
     <div class="pic_box">
         <%--<span id="name">${wxUser.nickname}</span>--%>
-        <span id="name">${user.nickname}</span>
+        <span id="name">${user.mobile}</span>
     </div>
 </section>
 <aside>
@@ -24,7 +24,7 @@
         <img src="${contextPath}/static/weixin/images/personal center_dotted line _view.png">
     </div>
     <div class="cz">
-        <a href="weixin/coinlog/index"><span class="span">我要充值</span></a>
+        <a href="weixin/pay/index"><span class="span">我要充值</span></a>
     </div>
     <div class="dd">
         <a href="weixin/order/index"><span class="span">我的订单</span></a>

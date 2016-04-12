@@ -2,16 +2,20 @@ package com.leoman.controller.weixin;
 
 import com.leoman.core.Configue;
 import com.leoman.entity.Order;
+import com.leoman.entity.WxUser;
 import com.leoman.service.OrderService;
+import com.leoman.service.WxUserService;
 import com.leoman.utils.WebUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -27,6 +31,25 @@ public class WeixinPayController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private WxUserService wxUserService;
+
+    @RequestMapping(value = "index")
+    public String index(HttpServletRequest request,
+                        HttpServletResponse response){
+        return "weixin/支付测试";
+    }
+
+    @RequestMapping(value = "go")
+    public void go(HttpServletRequest request,
+                   HttpServletResponse response,
+                   String orderId){
+        WxUser wxUser = wxUserService.getWXUserByRequest(request);
+        Map<String,String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderId, 0.01, "xxx", "JSAPI",
+                request.getRemoteAddr(), Configue.getBaseUrl()+"weixin/pay/callback");
+        WebUtil.printJson(response, result);
+    }
+
     @RequestMapping(value = "goPay")
     public void goPay(HttpServletRequest request,
                       HttpServletResponse response,
@@ -35,12 +58,28 @@ public class WeixinPayController {
 
         String orderNo = order.getSn();
         Double totalPrice = order.getMoney();
-        // WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        // String openId = wxUser.getOpenId();
-        String openId = "oHH7iwA9a8lG0q-jyHsFMuV-87Wg";
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(openId, orderNo, totalPrice, order.getProduct().getTitle(), "JSAPI",
+        WxUser wxUser = wxUserService.getWXUserByRequest(request);
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProduct().getTitle(), "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
         WebUtil.printJson(response, result);
+    }
+
+    @RequestMapping(value = "index2")
+    public String index2(HttpServletRequest request,
+                         HttpServletResponse response,
+                         ModelMap model) {
+        WxUser wxUser = wxUserService.getWXUserByRequest(request);
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), new Date().getTime() + "", 0.01, "xxxtest", "JSAPI",
+                request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
+
+        model.put("appId", result.get("appId"));
+        model.put("timeStamp", result.get("timeStamp"));
+        model.put("nonceStr", result.get("nonceStr"));
+        model.put("packageVal", result.get("package"));
+        model.put("signType", result.get("signType"));
+        model.put("paySign", result.get("paySign"));
+
+        return "weixin/支付测试2";
     }
 
     @RequestMapping(value = "callback")
@@ -72,6 +111,7 @@ public class WeixinPayController {
                 //只有当订单状态为未付款时，将状态改为已付款待发货
                 if ("0".equals(order.getStatus())) {
                     order.setStatus(1);
+                    order.setUpdateDate(System.currentTimeMillis());
                     orderService.update(order);
                 }
             }

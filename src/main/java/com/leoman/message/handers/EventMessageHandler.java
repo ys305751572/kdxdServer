@@ -46,7 +46,6 @@ public class EventMessageHandler implements WxMpMessageHandler {
                     item.setPicUrl(Configue.getUploadUrl() + info.getImage().getPath());
                     item.setDescription(info.getContent());
                     item.setTitle(info.getTitle());
-                    System.out.println("图片地址：" + item.getPicUrl());
                     news.addArticle(item);
                 }
 
@@ -66,7 +65,6 @@ public class EventMessageHandler implements WxMpMessageHandler {
                     item.setPicUrl(Configue.getUploadUrl() + product.getCoverImage().getPath());
                     item.setDescription(product.getContent());
                     item.setTitle(product.getTitle());
-                    System.out.println("图片地址：" + item.getPicUrl());
                     news.addArticle(item);
                 }
                 return news.fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();

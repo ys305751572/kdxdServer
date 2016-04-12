@@ -31,9 +31,9 @@ public class WeixinInitController {
 
     @Autowired
     private WxMpService wxMpService;
+
     @Autowired
     private WxMpMessageRouter wxMpMessageRouter;
-
 
     @PostConstruct
     protected void menuInit() {

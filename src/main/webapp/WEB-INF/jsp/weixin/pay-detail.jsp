@@ -75,12 +75,28 @@
         $.post("${contextPath}/weixin/product/createOrder", {
             productServiceId: productServiceId,
             pbrId: pbrId
-        }, function (result) {
-            if (result != null) {
+        }, function (data) {
+            if (data != null) {
                 // 调用微信浏览器内置功能实现微信支付
-                // weixinPay(result);
-                alert("支付成功");
-                window.location.href = "${contextPath}/weixin/order/index?pageNum=1&pageSize=10";
+                $.ajax({
+                    method: "POST",
+                    url: "weixin/pay/goPay",
+                    dataType:"html",
+                    data: {orderId:data},
+                    success:function(result){
+                        var obj = eval('(' + result + ')');
+                        WeixinJSBridge.invoke('getBrandWCPayRequest',{
+                            "appId" : obj.appId,                  //公众号名称，由商户传入
+                            "timeStamp":obj.timeStamp,          //时间戳，自 1970 年以来的秒数
+                            "nonceStr" : obj.nonceStr,         //随机串
+                            "package" : obj.package,      //<span style="font-family:微软雅黑;">商品包信息</span>
+                            "signType" : obj.signType,        //微信签名方式:
+                            "paySign" : obj.paySign           //微信签名
+                        },function(res){
+                            window.location.href = "${contextPath}/weixin/order/index?pageNum=1&pageSize=10";
+                        });
+                    }
+                })
             } else {
                 alert("操作失败");
             }

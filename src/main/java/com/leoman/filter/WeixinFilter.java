@@ -11,6 +11,7 @@ import com.leoman.utils.HttpUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ import java.util.regex.Pattern;
  * Created by wangbin on 2015/8/4.
  */
 public class WeixinFilter implements Filter {
+
+    @Autowired
+    private WxMpService wxMpService;
 
     private static String[] SKIP_URLS = new String[]{};
 
@@ -88,8 +92,6 @@ public class WeixinFilter implements Filter {
             final String toLoginUrl = httpRequest.getContextPath() + "/weixin/login/toLogin";
             httpResponse.sendRedirect(toLoginUrl);
         } else {
-            WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
-
             String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
             System.out.println("fullUrl:" + fullUrl);
 
