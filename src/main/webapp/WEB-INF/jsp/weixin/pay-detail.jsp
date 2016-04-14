@@ -89,7 +89,7 @@
                             "appId" : obj.appId,                  //公众号名称，由商户传入
                             "timeStamp":obj.timeStamp,          //时间戳，自 1970 年以来的秒数
                             "nonceStr" : obj.nonceStr,         //随机串
-                            "package" : obj.package,      //<span style="font-family:微软雅黑;">商品包信息</span>
+                            "package" : obj.package,           //商品包信息
                             "signType" : obj.signType,        //微信签名方式:
                             "paySign" : obj.paySign           //微信签名
                         },function(res){
@@ -101,27 +101,5 @@
                 alert("操作失败");
             }
         });
-    }
-
-    function weixinPay(orderId) {
-        $.ajax({
-            method: "POST",
-            url: "weixin/pay/goPay",
-            dataType: "html",
-            data: {orderId: orderId},
-            success: function (result) {
-                var obj = eval('(' + result + ')');
-                WeixinJSBridge.invoke('getBrandWCPayRequest', {
-                    "appId": obj.appId,                  //公众号名称，由商户传入
-                    "timeStamp": obj.timeStamp,          //时间戳，自 1970 年以来的秒数
-                    "nonceStr": obj.nonceStr,         //随机串
-                    "package": obj.package,          // 商品包信息
-                    "signType": obj.signType,        //微信签名方式:
-                    "paySign": obj.paySign           //微信签名
-                }, function (res) {
-                    // document.location = 'weixin/order/orderDetail?id=' + orderFormId;
-                });
-            }
-        })
     }
 </script>

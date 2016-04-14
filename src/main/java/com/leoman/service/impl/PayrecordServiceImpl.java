@@ -53,7 +53,7 @@ public class PayrecordServiceImpl implements PayrecordService{
 
     @Override
     public Payrecord create(Payrecord payrecord) {
-        return null;
+        return dao.save(payrecord);
     }
 
     @Override

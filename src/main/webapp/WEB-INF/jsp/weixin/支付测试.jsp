@@ -25,7 +25,6 @@
             data: {orderId: new Date().getTime()},
             success: function (result) {
                 var obj = eval('(' + result + ')');
-                alert("appId:" + obj.appId);
                 WeixinJSBridge.invoke('getBrandWCPayRequest', {
                     "appId": obj.appId,                  //公众号名称，由商户传入
                     "timeStamp": obj.timeStamp,          //时间戳，自 1970 年以来的秒数

@@ -1,9 +1,13 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.core.Configue;
+import com.leoman.entity.KUser;
 import com.leoman.entity.Order;
+import com.leoman.entity.Payrecord;
 import com.leoman.entity.WxUser;
+import com.leoman.service.KUserService;
 import com.leoman.service.OrderService;
+import com.leoman.service.PayrecordService;
 import com.leoman.service.WxUserService;
 import com.leoman.utils.WebUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -33,6 +37,12 @@ public class WeixinPayController {
 
     @Autowired
     private WxUserService wxUserService;
+
+    @Autowired
+    private KUserService kUserService;
+
+    @Autowired
+    private PayrecordService payrecordService;
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request,
@@ -64,22 +74,17 @@ public class WeixinPayController {
         WebUtil.printJson(response, result);
     }
 
-    @RequestMapping(value = "index2")
-    public String index2(HttpServletRequest request,
+    @RequestMapping(value = "recharge")
+    public void recharge(HttpServletRequest request,
                          HttpServletResponse response,
-                         ModelMap model) {
+                         Long orderId) {
+        Payrecord payrecord = payrecordService.getById(orderId);
+
+        Double totalPrice = payrecord.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), new Date().getTime() + "", 0.01, "xxxtest", "JSAPI",
-                request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
-
-        model.put("appId", result.get("appId"));
-        model.put("timeStamp", result.get("timeStamp"));
-        model.put("nonceStr", result.get("nonceStr"));
-        model.put("packageVal", result.get("package"));
-        model.put("signType", result.get("signType"));
-        model.put("paySign", result.get("paySign"));
-
-        return "weixin/支付测试2";
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderId.toString(), totalPrice, "在线充值", "JSAPI",
+                request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/coinCallback");
+        WebUtil.printJson(response, result);
     }
 
     @RequestMapping(value = "callback")
@@ -108,15 +113,63 @@ public class WeixinPayController {
             if ("SUCCESS".equals(wxMpPayCallback.getReturn_code())) {
                 String orderNo = wxMpPayCallback.getOut_trade_no();
 
-                System.out.println("回调订单号：" + orderNo);
-
-                /*Order order = orderService.findByOrderSn(orderNo);
+                Order order = orderService.findByOrderSn(orderNo);
                 //只有当订单状态为未付款时，将状态改为已付款待发货
                 if ("0".equals(order.getStatus())) {
                     order.setStatus(1);
                     order.setUpdateDate(System.currentTimeMillis());
                     orderService.update(order);
-                }*/
+                }
+            }
+            System.out.println("----------");
+            System.out.println(wxMpPayCallback);
+            String xmlResult = "<xml>" +
+                    "<return_code><![CDATA[SUCCESS]]></return_code>" +
+                    "<return_msg><![CDATA[OK]]></return_msg>" +
+                    "</xml>";
+            WebUtil.print(response, xmlResult);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @RequestMapping(value = "coinCallback")
+    public void coinCallback(HttpServletRequest request,
+                             HttpServletResponse response) {
+        try {
+            //把如下代码贴到的你的处理回调的servlet 或者.do 中即可明白回调操作
+            System.out.print("微信支付回调数据开始");
+            String inputLine;
+            String notityXml = "";
+            try {
+                while ((inputLine = request.getReader().readLine()) != null) {
+                    notityXml += inputLine;
+                }
+                request.getReader().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("接收到的报文：" + notityXml);
+
+            WxMpPayCallback wxMpPayCallback = wxMpService.getJSSDKCallbackData(notityXml);
+
+            //判断支付成功，更改订单状态
+            if ("SUCCESS".equals(wxMpPayCallback.getReturn_code())) {
+                String orderNo = wxMpPayCallback.getOut_trade_no();
+
+                Payrecord payrecord = payrecordService.getById(Long.parseLong(orderNo));
+                if (null == payrecord.getUpdateDate()) {
+                    payrecord.setUpdateDate(System.currentTimeMillis());
+                    payrecordService.update(payrecord);
+
+                    KUser kUser = payrecord.getUser();
+                    kUser.setMoney(kUser.getMoney() + payrecord.getMoney());
+                    kUserService.update(kUser);
+                }
             }
             System.out.println("----------");
             System.out.println(wxMpPayCallback);
