@@ -71,6 +71,10 @@ public class WeixinFilter implements Filter {
             KUser kUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
             WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
+            if (null != wxUser) {
+                System.out.println("wxUser的OpenId:" + wxUser.getOpenId());
+            }
+
             WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
 
             String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());

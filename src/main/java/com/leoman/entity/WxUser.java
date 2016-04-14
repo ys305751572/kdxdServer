@@ -17,7 +17,7 @@ public class WxUser implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String openid;
+    private String openId;
 
     private String nickname;
 
@@ -38,12 +38,12 @@ public class WxUser implements Serializable {
         this.id = id;
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getNickname() {

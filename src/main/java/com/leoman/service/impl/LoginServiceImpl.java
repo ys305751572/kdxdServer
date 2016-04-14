@@ -115,7 +115,7 @@ public class LoginServiceImpl implements LoginService {
                 WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
                 if (null != wxUser) {
-                    WxUser wxUser1 = wxUserService.findByOpenId(wxUser.getOpenid());
+                    WxUser wxUser1 = wxUserService.findByOpenId(wxUser.getOpenId());
                     if (null == wxUser1) {
                         wxUserService.create(wxUser);
                     }

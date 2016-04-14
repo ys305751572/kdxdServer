@@ -45,7 +45,7 @@ public class WeixinPayController {
                    HttpServletResponse response,
                    String orderId) {
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenid(), orderId, 0.01, "xxx", "JSAPI",
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderId, 0.01, "xxx", "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
         WebUtil.printJson(response, result);
     }
@@ -59,7 +59,7 @@ public class WeixinPayController {
         String orderNo = order.getSn();
         Double totalPrice = order.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenid(), orderNo, totalPrice, order.getProduct().getTitle(), "JSAPI",
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProduct().getTitle(), "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
         WebUtil.printJson(response, result);
     }
@@ -69,7 +69,7 @@ public class WeixinPayController {
                          HttpServletResponse response,
                          ModelMap model) {
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenid(), new Date().getTime() + "", 0.01, "xxxtest", "JSAPI",
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), new Date().getTime() + "", 0.01, "xxxtest", "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
 
         model.put("appId", result.get("appId"));
