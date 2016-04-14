@@ -127,7 +127,7 @@ public class WxUserServiceImpl implements WxUserService {
 
     @Override
     public WxUser getWXUserByRequest(HttpServletRequest request) {
-        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         return wxUser;
     }
 }

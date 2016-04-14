@@ -80,29 +80,47 @@ public class WeixinBaseController {
 
     @RequestMapping("/register")
     public void register(HttpServletResponse response, String username, String password, String code) {
-        // 参数验证
-        if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
-            WebUtil.print(response, new Result(false).msg("参数错误"));
-            return;
-        }
+        try {
+            System.out.println("=========================================================================================================================");
+            System.out.println("username:" + username);
+            System.out.println("password:" + password);
+            System.out.println("code:" + code);
+            System.out.println("=========================================================================================================================");
 
-        // TODO 判断验证码
-        String hasCode = cacheService.get(username);
-        if (!code.equals(hasCode)) {
-            WebUtil.print(response, new Result(false).msg("验证码错误"));
-            return;
+            // 参数验证
+            if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
+                WebUtil.print(response, new Result(false).msg("参数错误"));
+                return;
+            }
+
+            System.out.println("===================================first================================");
+
+            // 判断验证码
+            String hasCode = cacheService.get(username);
+            if (!code.equals(hasCode)) {
+                WebUtil.print(response, new Result(false).msg("验证码错误"));
+                return;
+            }
+
+            System.out.println("===================================second================================");
+
+            // 验证用户是否已注册
+            KUser _user = userService.findByMobile(username);
+            if (_user != null) {
+                WebUtil.print(response, new Result(false).msg("该手机号码已注册"));
+                return;
+            }
+
+            System.out.println("===================================three================================");
+
+            KUser user = new KUser();
+            user.setMobile(username);
+            user.setPassword(password);
+            userService.register(user);
+            WebUtil.print(response, new Result(true));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // TODO 验证用户是否已注册
-        KUser _user = userService.findByMobile(username);
-        if (_user != null) {
-            WebUtil.print(response, new Result(false).msg("该手机号码已注册"));
-            return;
-        }
-        KUser user = new KUser();
-        user.setMobile(username);
-        user.setPassword(password);
-        userService.register(user);
-        WebUtil.print(response, new Result(true));
     }
 
     @RequestMapping("/loginCheck")

@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>支付测试</title>
-    <script type="text/javascript" src="${contextPath}/static/js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="${contextPath}/kdxgServer/static/js/jquery-1.11.0.js"></script>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
     $("#toCommit").click(function () {
         $.ajax({
             method: "POST",
-            url: "weixin/pay/go",
+            url: "${contextPath}/kdxgServer/weixin/pay/go",
             dataType: "html",
             data: {orderId: new Date().getTime()},
             success: function (result) {

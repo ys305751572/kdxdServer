@@ -17,14 +17,14 @@ public class WxUser implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private String openId;
+    private String openid;
 
     private String nickname;
 
     private String sex;
 
-    @Column(name = "head_url")
-    private String headUrl;
+    @Column(name = "headimgurl")
+    private String headImgUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date")
@@ -38,12 +38,12 @@ public class WxUser implements Serializable {
         this.id = id;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getOpenid() {
+        return openid;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setOpenid(String openid) {
+        this.openid = openid;
     }
 
     public String getNickname() {
@@ -62,12 +62,12 @@ public class WxUser implements Serializable {
         this.sex = sex;
     }
 
-    public String getHeadUrl() {
-        return headUrl;
+    public String getHeadImgUrl() {
+        return headImgUrl;
     }
 
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
     }
 
     public Date getCreateDate() {

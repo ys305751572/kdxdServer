@@ -12,6 +12,10 @@ import java.util.List;
 @Table(name = "tb_user")
 public class KUser extends BaseEntity{
 
+    @ManyToOne
+    @JoinColumn(name = "wxuser_id")
+    private WxUser wxUser;
+
     @Column(name = "mobile")
     private String mobile;
 
@@ -42,6 +46,13 @@ public class KUser extends BaseEntity{
         this.list = list;
     }
 
+    public WxUser getWxUser() {
+        return wxUser;
+    }
+
+    public void setWxUser(WxUser wxUser) {
+        this.wxUser = wxUser;
+    }
 
     public String getMobile() {
         return mobile;

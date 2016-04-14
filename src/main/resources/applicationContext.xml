@@ -82,6 +82,8 @@
 		<property name="secret" value="${weixin.secret}" />
 		<property name="token" value="${weixin.token}" />
 		<property name="aesKey" value="${weixin.aesKey}" />
+		<property name="partnerId" value="${weixin.partnerId}" />
+		<property name="partnerKey" value="${weixin.partnerKey}" />
 	</bean>
 
 	<bean name="wxMpService" class="me.chanjar.weixin.mp.api.WxMpServiceImpl">

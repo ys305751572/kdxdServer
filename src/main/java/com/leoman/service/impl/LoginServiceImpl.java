@@ -8,8 +8,7 @@ import com.leoman.entity.WxUser;
 import com.leoman.service.AdminService;
 import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;
-import com.leoman.service.MemberService;
-
+import com.leoman.service.WxUserService;
 import com.leoman.utils.CookiesUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private KUserService userService;
+
+    @Autowired
+    private WxUserService wxUserService;
 
     @Override
     public Member getMember(HttpServletRequest request, String type) {
@@ -107,21 +109,37 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean loginWeixin(HttpServletRequest request, HttpServletResponse response, String username, String password) {
-        KUser user = userService.findByMobile(username);
-        if (user != null && password.equals(user.getPassword())) {
-            request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, user);
+        try {
+            KUser user = userService.findByMobile(username);
+            if (user != null && password.equals(user.getPassword())) {
+                WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
-            // 登录成功后，写入cookies
-            try {
-                int loginMaxAge = 7 * 24 * 60 * 60; // 定义cookies的生命周期，这里是一个月。单位为秒
-                CookiesUtils.addCookie(response, "mobile", URLEncoder.encode(user.getMobile(), "UTF-8"), loginMaxAge);
-                CookiesUtils.addCookie(response, "password", URLEncoder.encode(user.getPassword(), "UTF-8"), loginMaxAge);
-            } catch (Exception e) {
-                e.printStackTrace();
+                if (null != wxUser) {
+                    WxUser wxUser1 = wxUserService.findByOpenId(wxUser.getOpenid());
+                    if (null == wxUser1) {
+                        wxUserService.create(wxUser);
+                    }
+                    user.setWxUser(wxUser);
+                    userService.update(user);
+                }
+
+                request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, user);
+
+                // 登录成功后，写入cookies
+                try {
+                    int loginMaxAge = 7 * 24 * 60 * 60; // 定义cookies的生命周期，这里是一个月。单位为秒
+                    CookiesUtils.addCookie(response, "mobile", URLEncoder.encode(user.getMobile(), "UTF-8"), loginMaxAge);
+                    CookiesUtils.addCookie(response, "password", URLEncoder.encode(user.getPassword(), "UTF-8"), loginMaxAge);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return true;
+            } else {
+                return false;
             }
-
-            return true;
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -21,4 +21,7 @@ public interface KUserDao extends JpaRepository<KUser,Long>,JpaSpecificationExec
 
     @Query("select a from Address a where a.userId = ?1")
     public List<Address> findAllAddressByUserId(Long id);
+
+    @Query("select a from KUser a where a.wxUser.id = ?1")
+    public KUser findUserByWxUser(Integer wxUserId);
 }
