@@ -30,7 +30,7 @@
 <script>
     // 充值操作
     function rechargeMoney() {
-        $.post("${contextPath}/weixin/coinlog/getRechargeOrderNo", {
+        $.post("${contextPath}/kdxgServer/weixin/coinlog/getRechargeOrderNo", {
                     "money": $("#money").val()
                 },
                 function (result) {
