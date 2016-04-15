@@ -25,6 +25,9 @@ public class DateTag extends TagSupport {
 	@Override
 	public int doStartTag() throws JspException {
 		String vv = ""+ value ;
+		if(!StringUtils.isNotBlank(vv)) {
+			return super.doStartTag();
+		}
 		long time = Long.valueOf(vv);
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(time);

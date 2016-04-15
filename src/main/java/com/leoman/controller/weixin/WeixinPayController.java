@@ -73,7 +73,11 @@ public class WeixinPayController {
     public void recharge(HttpServletRequest request,
                          HttpServletResponse response,
                          String sn) {
+        System.out.println("sn:" + sn);
+
         Payrecord payrecord = payrecordService.findOneBySn(sn);
+
+        System.out.println("payrecord:" + payrecord);
 
         Double totalPrice = payrecord.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);

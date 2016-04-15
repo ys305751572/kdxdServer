@@ -53,10 +53,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">开始时间:</label>
+                                <label  class="col-sm-2 control-label">服务时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="serviceStartDate" name="serviceStartDate" maxlength="20"
-                                           data-rule="required" value="<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm"></date:date>" placeholder="请选择开始时间">
+                                           data-rule="required" value="<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm"></date:date>" placeholder="请选择服务时间">
                                 </div>
                             </div>
                             <div class="form-group">

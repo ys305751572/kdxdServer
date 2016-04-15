@@ -46,7 +46,7 @@
                             method: "POST",
                             url: "${contextPath}/weixin/pay/recharge",
                             dataType: "html",
-                            data: {orderId: result.data},
+                            data: {sn: result.data},
                             success: function (result1) {
                                 var obj = eval('(' + result1 + ')');
                                 WeixinJSBridge.invoke('getBrandWCPayRequest', {

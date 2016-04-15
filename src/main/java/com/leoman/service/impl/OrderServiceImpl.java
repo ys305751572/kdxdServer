@@ -57,10 +57,10 @@ public class OrderServiceImpl implements OrderService {
                     list.add(criteriaBuilder.like(root.get("sn").as(String.class), '%' + order.getSn() + '%'));
                 }
                 if (order.getProduct() != null && StringUtils.isNotBlank(order.getProduct().getTitle())) {
-                    list.add(criteriaBuilder.equal(root.get("product").get("title").as(String.class), '%' + order.getProduct().getTitle() + '%'));
+                    list.add(criteriaBuilder.like(root.get("product").get("title").as(String.class), '%' + order.getProduct().getTitle() + '%'));
                 }
                 if (StringUtils.isNotBlank(order.getUser().getNickname())) {
-                    list.add(criteriaBuilder.equal(root.get("user").get("nickname").as(String.class), order.getUser().getNickname()));
+                    list.add(criteriaBuilder.like(root.get("user").get("nickname").as(String.class), order.getUser().getNickname()));
                 }
                 if (order.getCreateDate() != null) {
                     list.add(criteriaBuilder.equal(root.get("createDate").as(Long.class), order.getCreateDate()));

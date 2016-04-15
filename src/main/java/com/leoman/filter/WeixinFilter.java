@@ -69,26 +69,26 @@ public class WeixinFilter implements Filter {
             }
 
             KUser kUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-            /*WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+            WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
             if (null != wxUser) {
                 System.out.println("wxUser的OpenId:" + wxUser.getOpenId());
             }
 
-            WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
-
-            String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
-            System.out.println("fullUrl:" + fullUrl);
-
-            String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_BASE, Constant.WEIXIN_STATE);
-            System.out.println("domain:" + httpRequest.getSession().getAttributeNames());
-
             if (null == wxUser) {
+                WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
+
+                String fullUrl = HttpUtil.getFullUrl(httpRequest, Configue.getBaseDomain());
+                System.out.println("fullUrl:" + fullUrl);
+
+                String OAUTH_URL = wxMpService.oauth2buildAuthorizationUrl(fullUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, Constant.WEIXIN_STATE);
+                System.out.println("domain:" + httpRequest.getSession().getAttributeNames());
+
                 httpResponse.sendRedirect(OAUTH_URL);
                 System.out.println("OAUTH_URL:" + OAUTH_URL);
                 chain.doFilter(request, response);
                 return;
-            }*/
+            }
 
             if (null == kUser) {
                 Logger.info("url:" + httpRequest.getContextPath());

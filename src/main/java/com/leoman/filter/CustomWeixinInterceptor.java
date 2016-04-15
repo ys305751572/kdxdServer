@@ -28,11 +28,27 @@ public class CustomWeixinInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
             String code = request.getParameter("code");
+
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+            System.out.println("code:" + code);
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+
             // if (Constant.WEIXIN_STATE.equals(request.getParameter("state")) && StringUtils.isNotBlank(code)) {
             if (StringUtils.isNotBlank(code)) {
                 WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+                System.out.println("wxMpOAuth2AccessToken:" + wxMpOAuth2AccessToken);
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+
                 WxUser wxUser = wxUserService.getWxUserByToken(wxMpOAuth2AccessToken);
+
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+                System.out.println("wxUser:" + wxUser);
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+
                 request.getSession().setAttribute(Constant.SESSION_WEIXIN_WXUSER, wxUser);
+                return false;
             }
         } catch (WxErrorException e) {
             e.printStackTrace();

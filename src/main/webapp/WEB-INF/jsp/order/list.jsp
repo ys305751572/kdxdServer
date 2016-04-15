@@ -205,8 +205,8 @@
                             +
                             "&nbsp;&nbsp;"
                             +
-                            "<button type='button'  title='确认签收' class='btn btn-circle settingAdded'>" +
-                            "<i class='fa fa-recycle'></i>" +
+                            "<button type='button'  title='确认签收' class='btn btn-circle '>" +
+                            "<i class='settingAdded fa fa-recycle'></i>" +
                             "</button>",
                             "targets": -1
                         }
@@ -216,14 +216,14 @@
                         $('td', row).eq(0).html("<input type='checkbox' value=" + data.id + ">");
                         if(data.status == 0){
                             $(row).addClass("success")
-                            $('td', row).last().find(".settingAdded").addClass("btn-hair");
+                            $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-truck");
                             $('td', row).last().find(".settingAdded").attr("title", "确认发货")
                         } if(data.status == 1){
-                            $('td', row).last().find(".settingAdded").addClass("btn-collect");
+                            $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-check");
                             $('td', row).last().find(".settingAdded").attr("title", "确认签收");
                         }else if(data.status == 2){
-                            $('td', row).last().find(".settingAdded").addClass("btn-collect");
-                            $('td', row).last().find(".settingAdded").attr("title");
+                            $('td', row).last().find("button").css("display","none")
+//                            $('td', row).last().find(".settingAdded").attr("title");
                         }
                     },
                     rowCallback: function (row, data) {
@@ -249,7 +249,7 @@
                     $bluemobi.ajax("admin/order/modifyStatus", {id:JSON.stringify(data.id),status:JSON.stringify(data.status)}, function (result) {
                         kuserList.fn.responseComplete(result);
                     })
-                },"你确定要签收吗？","确定");
+                }, data.status == 1 ? "你确定要发货吗？":"你确定要签收吗？","确定");
             },
             responseComplete: function (result,action) {
                 if (result.status == "0") {

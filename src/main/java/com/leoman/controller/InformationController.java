@@ -108,17 +108,18 @@ public class InformationController extends CommonController {
                 else {
                     Image image= new Image();
                     image.setId(imageId);
+                    newInfo.setIsList(1);
                     newInfo.setImage(image);
                 }
+                service.create(newInfo);
             }
             else {
-                newInfo = new Information();
                 Image image= new Image();
                 image.setId(imageId);
-                newInfo.setImage(image);
-                newInfo.setIsList(0);
+                info.setImage(image);
+                service.create(info);
             }
-            service.create(newInfo);
+
             WebUtil.print(response, new Result(true).msg("操作成功!"));
 //            return "info/list";
         } catch (Exception e) {

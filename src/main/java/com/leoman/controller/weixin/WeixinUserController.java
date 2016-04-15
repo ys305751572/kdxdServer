@@ -1,13 +1,20 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.controller.common.CommonController;
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.entity.Address;
 import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
 import com.leoman.service.KUserService;
+import com.leoman.service.WxUserService;
+import com.leoman.utils.BeanUtil;
 import com.leoman.utils.CookiesUtils;
+import com.leoman.utils.HttpUtil;
 import com.leoman.utils.PathUtils;
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +39,8 @@ public class WeixinUserController extends CommonController {
     public String index(HttpServletRequest request, Model model) {
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
-        model.addAttribute("user", user);
+        KUser kUser = service.getById(user.getId());
+        model.addAttribute("user", kUser);
         model.addAttribute("wxUser", wxUser);
         return "weixin/user-detail";
     }
