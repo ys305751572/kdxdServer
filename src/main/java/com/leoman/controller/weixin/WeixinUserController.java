@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/23.
  */
 @Controller
-@RequestMapping(value = "weixin/user")
+@RequestMapping(value = "/weixin/user")
 public class WeixinUserController extends CommonController {
 
     @Autowired
@@ -65,7 +65,7 @@ public class WeixinUserController extends CommonController {
         request.getSession().removeAttribute(Constant.SESSION_WEIXIN_USER);
         request.getSession().removeAttribute(Constant.SESSION_WEIXIN_WXUSER);
         CookiesUtils.logoutCookie(request, response);
-        request.getSession().setAttribute(Constant.GO_URL, PathUtils.getRemotePath() + "/kdxgServer/weixin/user/index");
+        request.getSession().setAttribute(Constant.GO_URL, PathUtils.getRemotePath() + "/weixin/user/index");
         return "weixin/login";
     }
 }

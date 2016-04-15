@@ -10,4 +10,6 @@ import org.springframework.data.domain.Page;
 public interface PayrecordService extends ICommonService<Payrecord>{
 
     public Page<Payrecord> findPage(Payrecord payrecord,Integer isEnd,int pagenum,int pagesize);
+
+    public Payrecord findOneBySn(String sn);
 }

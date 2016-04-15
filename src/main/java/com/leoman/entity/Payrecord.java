@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "tb_pay_record")
 public class Payrecord extends BaseEntity{
 
+    private String sn;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private KUser user;
@@ -33,6 +35,14 @@ public class Payrecord extends BaseEntity{
 
     public void setEndDate(Long endDate) {
         this.endDate = endDate;
+    }
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
     }
 
     public KUser getUser() {

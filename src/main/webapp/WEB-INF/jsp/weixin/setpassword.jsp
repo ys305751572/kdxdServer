@@ -45,7 +45,6 @@
                             "password": password
                         },
                         function (result) {
-                            alert(result);
                             if (result.status == 0) {
                                 window.location.href = "${contextPath}/weixin/login/toLogin"
                             } else {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -43,12 +44,14 @@ public class PayrecordServiceImpl implements PayrecordService{
 
     @Override
     public Payrecord getById(Long id) {
-        return null;
+        return dao.findOne(id);
     }
 
     @Override
     public Payrecord deleteById(Long id) {
-        return null;
+        Payrecord payrecord = dao.findOne(id);
+        dao.delete(payrecord);
+        return payrecord;
     }
 
     @Override
@@ -58,11 +61,15 @@ public class PayrecordServiceImpl implements PayrecordService{
 
     @Override
     public Payrecord update(Payrecord payrecord) {
-        return null;
+        return dao.save(payrecord);
     }
 
     @Override
+    @Transactional
     public void deleteAll(Long[] ids) {
+        for (Long id: ids             ) {
+            deleteById(id);
+        }
     }
 
     @Override
@@ -86,5 +93,10 @@ public class PayrecordServiceImpl implements PayrecordService{
             }
         };
         return dao.findAll(spec,new PageRequest(pagenum - 1,pagesize, Sort.Direction.DESC,"id"));
+    }
+
+    @Override
+    public Payrecord findOneBySn(String sn) {
+        return dao.findOneBySn(sn);
     }
 }

@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/dd.css"/>
+    <script type="text/javascript" src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <title>个人资料</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
     <form>
         <input class="je" id="money" type="text" placeholder="请输入确认金额"/>
         <div class="ending1" onclick="rechargeMoney()">
-            <input class="btn" type="button" onclick="rechargeMoney()" value="立即充值"/>
+            <input class="btn" type="button" value="立即充值"/>
         </div>
     </form>
 </section>
@@ -30,14 +31,20 @@
 <script>
     // 充值操作
     function rechargeMoney() {
-        $.post("${contextPath}/kdxgServer/weixin/coinlog/getRechargeOrderNo", {
+        var money = $("#money").val();
+        if(null == money || money == ''){
+            alert("请输入金额");
+            return;
+        }
+
+        $.post("${contextPath}/weixin/coinlog/getRechargeOrderNo", {
                     "money": $("#money").val()
                 },
                 function (result) {
                     if (result.status == 0) {
                         $.ajax({
                             method: "POST",
-                            url: "${contextPath}/kdxgServer/weixin/pay/recharge",
+                            url: "${contextPath}/weixin/pay/recharge",
                             dataType: "html",
                             data: {orderId: result.data},
                             success: function (result1) {

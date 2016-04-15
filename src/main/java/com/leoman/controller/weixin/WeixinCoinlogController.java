@@ -82,10 +82,11 @@ public class WeixinCoinlogController extends CommonController {
             Payrecord payrecord = new Payrecord();
             payrecord.setUser(user);
             payrecord.setMoney(Double.parseDouble(money));
+            payrecord.setSn("kdxg" + System.currentTimeMillis());
 
             payrecordService.create(payrecord);
 
-            WebUtil.print(response, new Result(true).data(payrecord.getId()));
+            WebUtil.print(response, new Result(true).data(payrecord.getSn()));
         } catch (Exception e) {
             e.printStackTrace();
             WebUtil.print(response, new Result(false).msg("操作失败!"));

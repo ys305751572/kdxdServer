@@ -320,7 +320,7 @@
 				<pro.jdbc.url>jdbc:mysql://4.16.3.75:3306/kdxg?characterEncoding=UTF-8</pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
-				<pro.upload.url>http://4.16.3.175:8888/files/upload/</pro.upload.url>
+				<pro.upload.url>http://localhost:8888/files/upload/</pro.upload.url>
 				<pro.upload.path>D:/tomcat7/webapps/files/upload/</pro.upload.path>
 				<base.url>http://localhost:8080/kdxgServer/</base.url>
 				<base.domain>http://localhost:8080</base.domain>

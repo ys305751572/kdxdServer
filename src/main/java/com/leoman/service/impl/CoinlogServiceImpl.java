@@ -67,7 +67,7 @@ public class CoinlogServiceImpl implements CoinlogService{
 
     @Override
     public Coinlog create(Coinlog coinlog) {
-        return null;
+        return dao.save(coinlog);
     }
 
     @Override

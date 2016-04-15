@@ -1,25 +1,17 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.core.Configue;
-import com.leoman.entity.KUser;
-import com.leoman.entity.Order;
-import com.leoman.entity.Payrecord;
-import com.leoman.entity.WxUser;
-import com.leoman.service.KUserService;
-import com.leoman.service.OrderService;
-import com.leoman.service.PayrecordService;
-import com.leoman.service.WxUserService;
+import com.leoman.entity.*;
+import com.leoman.service.*;
 import com.leoman.utils.WebUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -43,6 +35,9 @@ public class WeixinPayController {
 
     @Autowired
     private PayrecordService payrecordService;
+
+    @Autowired
+    private CoinlogService coinlogService;
 
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request,
@@ -77,12 +72,17 @@ public class WeixinPayController {
     @RequestMapping(value = "recharge")
     public void recharge(HttpServletRequest request,
                          HttpServletResponse response,
-                         Long orderId) {
-        Payrecord payrecord = payrecordService.getById(orderId);
+                         String sn) {
+        Payrecord payrecord = payrecordService.findOneBySn(sn);
 
         Double totalPrice = payrecord.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderId.toString(), totalPrice, "在线充值", "JSAPI",
+
+        System.out.println("wxUser--openId:" + wxUser.getOpenId());
+        System.out.println("recharge--orderNo:" + sn);
+        System.out.println("totalPrice:" + totalPrice);
+
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), sn, totalPrice, "在线充值", "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/coinCallback");
         WebUtil.printJson(response, result);
     }
@@ -115,7 +115,7 @@ public class WeixinPayController {
 
                 Order order = orderService.findByOrderSn(orderNo);
                 //只有当订单状态为未付款时，将状态改为已付款待发货
-                if ("0".equals(order.getStatus())) {
+                if (order.getStatus() == 0) {
                     order.setStatus(1);
                     order.setUpdateDate(System.currentTimeMillis());
                     orderService.update(order);
@@ -161,14 +161,22 @@ public class WeixinPayController {
             if ("SUCCESS".equals(wxMpPayCallback.getReturn_code())) {
                 String orderNo = wxMpPayCallback.getOut_trade_no();
 
-                Payrecord payrecord = payrecordService.getById(Long.parseLong(orderNo));
-                if (null == payrecord.getUpdateDate()) {
-                    payrecord.setUpdateDate(System.currentTimeMillis());
-                    payrecordService.update(payrecord);
+                Payrecord payrecord = payrecordService.findOneBySn(orderNo);
+
+                if (null != payrecord) {
+                    // 生成充值记录
+                    Coinlog coinlog = new Coinlog();
+                    coinlog.setUserId(payrecord.getUser().getId());
+                    coinlog.setMoney(payrecord.getMoney());
+                    coinlog.setCreateDate(System.currentTimeMillis());
+
+                    coinlogService.create(coinlog);
 
                     KUser kUser = payrecord.getUser();
                     kUser.setMoney(kUser.getMoney() + payrecord.getMoney());
                     kUserService.update(kUser);
+                } else {
+                    System.out.println("充值记录号有误！！！！！！！");
                 }
             }
             System.out.println("----------");
