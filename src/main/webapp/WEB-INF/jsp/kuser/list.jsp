@@ -53,14 +53,14 @@
                                 <option value="1">微信平台</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>状态：</label>
-                            <select class="form-control input-sm" id="status">
-                                <option value="" selected="selected">全部</option>
-                                <option value="0">正常</option>
-                                <option value="1">禁用</option>
-                            </select>
-                        </div>
+                        <%--<div class="form-group">--%>
+                            <%--<label>状态：</label>--%>
+                            <%--<select class="form-control input-sm" id="status">--%>
+                                <%--<option value="" selected="selected">全部</option>--%>
+                                <%--<option value="0">正常</option>--%>
+                                <%--<option value="1">禁用</option>--%>
+                            <%--</select>--%>
+                        <%--</div>--%>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
                     </form>
 
@@ -187,13 +187,13 @@
                             "defaultContent":
                             "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
                             "<i class='fa fa-edit'></i>" +
-                            "</a>"
-                            +
-                            "&nbsp;&nbsp;"
-                            +
-                            "<button type='button'  title='禁用' class='btn btn-circle settingAdded'>" +
-                            "<i class='fa fa-recycle'></i>" +
-                            "</button>",
+                            "</a>",
+//                            +
+//                            "&nbsp;&nbsp;"
+//                            +
+//                            "<button type='button'  title='禁用' class='btn btn-circle settingAdded'>" +
+//                            "<i class='fa fa-recycle'></i>" +
+//                            "</button>",
                             "targets": -1
                         }
                     ],

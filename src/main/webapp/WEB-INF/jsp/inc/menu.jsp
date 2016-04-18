@@ -43,7 +43,7 @@
                     </li>
                 </ul>
             </li>
-            <!-- 微信菜单测试 -->
+            <!-- 微信菜单测试
             <li>
                 <a href="#"><i class="fa fa-user fa-fw"></i>微信菜单测试<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
@@ -55,7 +55,7 @@
                     </li>
                 </ul>
             </li>
-
+            -->
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

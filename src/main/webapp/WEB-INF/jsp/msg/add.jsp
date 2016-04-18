@@ -45,6 +45,7 @@
                     <div class="panel-body">
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/msg/save" class="form-horizontal" role="form">
                             <div class="form-group">
+                                <input type="hidden" id="id" name="id" value>
                                 <label  class="col-sm-2 control-label">消息名称:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="20"
@@ -130,9 +131,9 @@
         },
         fn: {
             init: function () {
-
+                console.log($("#id").val());
                 if($("#id").val()!=""){
-                    $(".page-header").text("编辑商品")
+                    $(".page-header").text("编辑消息")
                 }
                 $("#submitProduct").click(function(){
                     product.fn.save();

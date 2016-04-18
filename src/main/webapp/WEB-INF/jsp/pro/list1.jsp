@@ -195,7 +195,7 @@
                         {
                             "data": null,
                             "defaultContent":
-                            "<a  title='查看'  class='btn btn-primary btn-circle edit'>" +
+                            "<a  title='编辑'  class='btn btn-primary btn-circle edit'>" +
                             "<i class='fa fa-edit'></i>" +
                             "</a>"
                             +

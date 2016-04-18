@@ -24,6 +24,7 @@
 <style>
     .kv-file-upload{display: none;}
     .fileinput-upload-button {display: none;}
+    .detail{padding-top: 7px;}
 </style>
 <body>
 
@@ -46,13 +47,12 @@
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">资讯名称:</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 detail">
                                     ${info.title}
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
-
                                 <div class="col-sm-3">
                                     <input type="hidden" id="imageId" name="imageId" value="${info.image.path}">
 
@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 detail">
                                     <script id="container" name="content" type="text/plain">${c}</script>
                                 </div>
                             </div>

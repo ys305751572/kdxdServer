@@ -24,6 +24,7 @@
 <style>
     .kv-file-upload{display: none;}
     .fileinput-upload-button {display: none;}
+    .detail{padding-top: 7px;}
 </style>
 <body>
 
@@ -46,20 +47,20 @@
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/msg/save" class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">消息名称:</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 detail">
                                     ${message.title}
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">发送时间:</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 detail" >
                                     ${message.sendDate}
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-3 detail">
                                     <input type="hidden" id="imageId" name="imageId" value="${message.image.path}">
 
                                     <div class="image_show"  <c:if test="${message.image == null}"> style="display: none"  </c:if>>
@@ -75,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6 detail">
                                     <script id="container" name="content" type="text/plain">${message.content}</script>
                                 </div>
                             </div>
