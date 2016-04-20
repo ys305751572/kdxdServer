@@ -19,13 +19,31 @@ public class Order extends BaseEntity  {
     @JoinColumn(name = "user_id")
     private KUser user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ps_id")
-    private ProductService productService;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "ps_id")
+//    private ProductService productService;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(name = "user_name")
+    private String userName;
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "product_id")
+//    private Product product;
+
+    @Column(name = "days")
+    private Integer days;
+
+    @Column(name = "service_money")
+    private Double serviceMoney;
+
+    @Column(name = "product_name")
+    private String productName;
+
+    @Column(name = "start_date")
+    private Long startDate;
+
+    @Column(name = "service_start_date")
+    private Long serviceStartDate;
 
     private Double money;
 
@@ -41,22 +59,70 @@ public class Order extends BaseEntity  {
     @Column(name = "address")
     private String address;
 
-    public ProductService getProductService() {
-        return productService;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getDays() {
+        return days;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setDays(Integer days) {
+        this.days = days;
     }
 
+    public Double getServiceMoney() {
+        return serviceMoney;
+    }
+
+    public void setServiceMoney(Double serviceMoney) {
+        this.serviceMoney = serviceMoney;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Long startDate) {
+        this.startDate = startDate;
+    }
+
+    public Long getServiceStartDate() {
+        return serviceStartDate;
+    }
+
+    public void setServiceStartDate(Long serviceStartDate) {
+        this.serviceStartDate = serviceStartDate;
+    }
+
+//    public ProductService getProductService() {
+//        return productService;
+//    }
+//
+//    public void setProductService(ProductService productService) {
+//        this.productService = productService;
+//    }
+
+//    public Product getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
+//
     public KUser getUser() {
         return user;
     }

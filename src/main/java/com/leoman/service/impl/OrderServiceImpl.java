@@ -56,11 +56,11 @@ public class OrderServiceImpl implements OrderService {
                 if (StringUtils.isNotBlank(order.getSn())) {
                     list.add(criteriaBuilder.like(root.get("sn").as(String.class), '%' + order.getSn() + '%'));
                 }
-                if (order.getProduct() != null && StringUtils.isNotBlank(order.getProduct().getTitle())) {
-                    list.add(criteriaBuilder.like(root.get("product").get("title").as(String.class), '%' + order.getProduct().getTitle() + '%'));
+                if (StringUtils.isNotBlank(order.getProductName())) {
+                    list.add(criteriaBuilder.like(root.get("product").get("title").as(String.class), '%' + order.getProductName() + '%'));
                 }
-                if (StringUtils.isNotBlank(order.getUser().getNickname())) {
-                    list.add(criteriaBuilder.like(root.get("user").get("nickname").as(String.class), order.getUser().getNickname()));
+                if (StringUtils.isNotBlank(order.getUserName())) {
+                    list.add(criteriaBuilder.like(root.get("user").get("nickname").as(String.class), order.getUserName()));
                 }
                 if (order.getCreateDate() != null) {
                     list.add(criteriaBuilder.equal(root.get("createDate").as(Long.class), order.getCreateDate()));
@@ -68,9 +68,9 @@ public class OrderServiceImpl implements OrderService {
                 if (order.getStatus() != null) {
                     list.add(criteriaBuilder.equal(root.get("status").as(Integer.class), order.getStatus()));
                 }
-                if (order.getUser() != null && order.getUser().getId() != null) {
-                    list.add(criteriaBuilder.equal(root.get("user").get("id").as(Long.class), order.getUser().getId()));
-                }
+//                if (order.getUser() != null && order.getUser().getId() != null) {
+//                    list.add(criteriaBuilder.equal(root.get("user").get("id").as(Long.class), order.getUser().getId()));
+//                }
                 return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
             }
         };

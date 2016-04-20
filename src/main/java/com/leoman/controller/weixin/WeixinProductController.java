@@ -284,8 +284,16 @@ public class WeixinProductController extends CommonController {
             // 生成订单信息
             Order order = new Order();
             order.setSn(new Date().getTime() + "");
-            order.setProductService(productService);
-            order.setProduct(productBuyRecord.getProduct());
+//            order.setProductService(productService);
+
+            order.setDays(productService.getDays());
+            order.setServiceMoney(productService.getMoney());
+            order.setProductName(productBuyRecord.getProduct().getTitle());
+            order.setStartDate(productBuyRecord.getProduct().getStartDate());
+            order.setServiceStartDate(productBuyRecord.getProduct().getServiceStartDate());
+            order.setUserName(productBuyRecord.getUser().getNickname());
+
+//            order.setProduct(productBuyRecord.getProduct());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);

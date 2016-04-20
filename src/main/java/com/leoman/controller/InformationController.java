@@ -117,6 +117,7 @@ public class InformationController extends CommonController {
                 Image image= new Image();
                 image.setId(imageId);
                 info.setImage(image);
+                info.setIsList(0);
                 service.create(info);
             }
 

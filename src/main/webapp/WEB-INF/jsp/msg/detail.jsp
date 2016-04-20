@@ -62,22 +62,16 @@
 
                                 <div class="col-sm-3 detail">
                                     <input type="hidden" id="imageId" name="imageId" value="${message.image.path}">
-
                                     <div class="image_show"  <c:if test="${message.image == null}"> style="display: none"  </c:if>>
-                                        <img src="" class='img-responsive' >
-                                    </div>
-                                    <div class="image_handle"  <c:if test="${message.image != null}">  style="display: none"  </c:if>data-toggle="tooltip" data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
-                                        <div class="dropped"></div>
+                                        <img src="${message.image.path}" class='img-responsive' >
                                     </div>
                                 </div>
-                                <div class="col-sm-5">
-                                    <a href="javascript:void(0)" id="removeImg" class="btn btn-message" role="button" >删除图片</a>
-                                </div>
+
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
                                 <div class="col-sm-6 detail">
-                                    <script id="container" name="content" type="text/plain">${message.content}</script>
+                                    ${message.content}
                                 </div>
                             </div>
                         </form>

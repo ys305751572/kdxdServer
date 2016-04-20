@@ -56,20 +56,20 @@ public class WeixinOrderController extends CommonController {
         return "weixin/order-list";
     }
 
-    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {
-        try {
-            Order order = new Order();
-            KUser user = new KUser();
-            user.setId(userId);
-            order.setUser(user);
-
-            int pageNum = getPageNum(start, length);
-            Page<Order> page = orderService.findPage(order, pageNum, length);
-            Map<String, Object> result = DataTableFactory.fitting(draw, page);
-            WebUtil.print(response, result);
-        } catch (Exception e) {
-            GeneralExceptionHandler.log(e);
-            WebUtil.print(response, emptyData);
-        }
-    }
+//    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {
+//        try {
+//            Order order = new Order();
+//            KUser user = new KUser();
+//            user.setId(userId);
+//            order.setUser(user);
+//
+//            int pageNum = getPageNum(start, length);
+//            Page<Order> page = orderService.findPage(order, pageNum, length);
+//            Map<String, Object> result = DataTableFactory.fitting(draw, page);
+//            WebUtil.print(response, result);
+//        } catch (Exception e) {
+//            GeneralExceptionHandler.log(e);
+//            WebUtil.print(response, emptyData);
+//        }
+//    }
 }

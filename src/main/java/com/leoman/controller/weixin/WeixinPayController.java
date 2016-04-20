@@ -39,6 +39,9 @@ public class WeixinPayController {
     @Autowired
     private CoinlogService coinlogService;
 
+    @Autowired
+    private WebPayrecordService webPayrecordService;
+
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request,
                         HttpServletResponse response) {
@@ -64,7 +67,7 @@ public class WeixinPayController {
         String orderNo = order.getSn();
         Double totalPrice = order.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProduct().getTitle(), "JSAPI",
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProductName(), "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
         WebUtil.printJson(response, result);
     }
@@ -179,6 +182,13 @@ public class WeixinPayController {
                     KUser kUser = payrecord.getUser();
                     kUser.setMoney(kUser.getMoney() + payrecord.getMoney());
                     kUserService.update(kUser);
+
+                    // 生成网站收支记录
+                    WebPayrecord r = new WebPayrecord();
+                    r.setRecordCode(String.valueOf(System.currentTimeMillis()));
+                    r.setMoney(payrecord.getMoney());
+                    r.setPlat(0);
+                    webPayrecordService.create(r);
                 } else {
                     System.out.println("充值记录号有误！！！！！！！");
                 }

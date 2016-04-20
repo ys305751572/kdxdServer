@@ -174,9 +174,9 @@
                     "columns": [
                         {"data": "id"},
                         {"data": "sn"},
-                        {"data": "user.nickname"},
-                        {"data": "product.title"},
-                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
+                        {"data": "userName"},
+                        {"data": "productName"},
+                        {"data": "serviceStartDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
                         {"data": "status",
                             render : function(data) {
                                 if(data == 0) {

@@ -62,14 +62,17 @@ public class OrderController extends CommonController {
         try {
             int pageNum = getPageNum(start, length);
 
-            KUser _user = new KUser();
-            _user.setNickname(nickname);
+//            KUser _user = new KUser();
+//            _user.setNickname(nickname);
+//
+//            Product pro = new Product();
+//            pro.setTitle(title);
 
-            Product pro = new Product();
-            pro.setTitle(title);
+//            order.setUser(_user);
+//            order.setProduct(pro);
 
-            order.setUser(_user);
-            order.setProduct(pro);
+            order.setUserName(nickname);
+            order.setProductName(title);
 
             Page<Order> page = service.findPage(order, pageNum, length);
             Map<String, Object> result = DataTableFactory.fitting(draw, page);

@@ -101,11 +101,11 @@
                                     <label  class="col-sm-2 control-label" >金额:</label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="days" name="days" maxlength="20"
-                                                value="" placeholder="请输入服务天数">
+                                                value="" data-rule="required;integer" placeholder="请输入服务天数">
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="days2" name="money" maxlength="20"
-                                               value="" placeholder="请输入服务金额">
+                                        <input type="text" class="form-control" id="money" name="money" maxlength="20"
+                                               value="" data-rule="required;decimal" placeholder="请输入服务金额">
                                     </div>
                                     <div class="col-sm-3">
                                         <button type='button'  title='' class='btn btn-circle form-service-add'>
@@ -122,12 +122,12 @@
                                     <div class="form-group form-service">
                                         <label  class="col-sm-2 control-label" >金额:</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" id="days" name="days" maxlength="20"
+                                            <input type="text" class="form-control" id="days" name="days" maxlength="20"  data-rule="required;integer"
                                                    value="${serviceObj.days}" placeholder="请输入服务天数">
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" id="days2" name="money" maxlength="20"
-                                                   value="${serviceObj.money}" placeholder="请输入服务金额">
+                                            <input type="text" class="form-control" id="money" name="money" maxlength="20"
+                                                   value="${serviceObj.money}" data-rule="required;decimal" placeholder="请输入服务金额">
                                         </div>
                                         <div class="col-sm-3">
                                             <button type='button'  title='' class='btn btn-circle form-service-add'>
@@ -192,6 +192,7 @@
     var product = {
         v: {
             id: "product",
+            index : 3,
             list: [],
             dTable: null
         },
@@ -224,10 +225,10 @@
                 var html = "<div class=\"form-group form-service\">";
                 html += "<label  class=\"col-sm-2 control-label\" ></label>";
                 html += "<div class=\"col-sm-3\">";
-                html += "<input type=\"text\" class=\"form-control\" id=\"days2\" name=\"days\" maxlength=\"20\" value=\"\" placeholder=\"请输入服务天数\">";
+                html += "<input type=\"text\" class=\"form-control\" id=\"days"+ product.v.index +"\" name=\"days\" maxlength=\"20\" value=\"\"  data-rule=\"required;integer\" placeholder=\"请输入服务天数\">";
                 html += "</div>";
                 html += "<div class=\"col-sm-3\">";
-                html += "<input type=\"text\" class=\"form-control\" id=\"days2\" name=\"money\" maxlength=\"20\" value=\"\" placeholder=\"请输入服务金额\">";
+                html += "<input type=\"text\" class=\"form-control\" id=\"money"+ product.v.index +"\" name=\"money\" maxlength=\"20\" data-rule=\"required;decimal\" value=\"\" placeholder=\"请输入服务金额\">";
                 html += "</div>";
                 html += "<div class=\"col-sm-3\">";
                 html += "<button type=\'button\' title=\'\' class=\'btn btn-circle form-service-add\'>";
@@ -237,6 +238,8 @@
                 html += "<i class=\'fa fa-minus-circle\'></i>";
                 html += "</button>";
                 html += "</div></div>";
+
+                product.v.index++;
 
                 $(".form-service").last().after(html);
                 var $first = $(".form-service").first().find("button").last();

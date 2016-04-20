@@ -87,8 +87,10 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Message create(Message message) {
-        new MessageTimerWork(message.getSendDate());
-        return dao.save(message);
+        message = dao.save(message);
+        message = getById(message.getId());
+        new MessageTimerWork(message.getSendDate(),message);
+        return message;
     }
 
     @Override
