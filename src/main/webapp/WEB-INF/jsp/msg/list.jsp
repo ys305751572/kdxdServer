@@ -199,7 +199,7 @@
                             "&nbsp;&nbsp;"
                             +
                             "<a title='删除' class='btn btn-primary btn-circle delete'>" +
-                            "<i class='fa fa-recycle'></i>" +
+                            "<i class='fa fa-times'></i>" +
                             "</a>",
                             "targets": -1
                         }

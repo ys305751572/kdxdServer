@@ -55,7 +55,7 @@ body{
 	font-size:24px;
 	color:#a0a0a0;
 	line-height: 30px;
-	overflow: all;
+	overflow: auto;
 }
 .section p{
 	position: relative;
@@ -150,7 +150,7 @@ body{
 	border-radius: 65px;
 	background-color:#ff911a ;
 	text-align: center;
-	overflow: all;
+	overflow: auto;
 	color: #fff;
 }
 .year{
@@ -164,7 +164,7 @@ body{
 	border-radius: 65px;
 	background-color:#6e6e6e ;
 	text-align: center;
-	overflow: all;
+	overflow: auto;
 	color: #fff;
 }
 .footer_box{
@@ -239,6 +239,11 @@ body{
 	margin-right: 70px;
 	font-size: 40px;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-appearance: none;
+}
+
+textarea {  -webkit-appearance: none;}
 .button5{
 	height:70px;
 	width: 100%;
@@ -250,6 +255,7 @@ body{
 	border: none;
 	outline: none;
 	margin-top: 106px;
+	background: #00a642;
 }
 .button5:active{
 	color:rgba(255,255,255,0.5);
@@ -385,8 +391,7 @@ body{
 	z-index: -1;
 }
 .radio input[type="radio"]:focus + label::before {
-	/* outline:
-    /*thin dotted;*/*/
+
 outline: none;
 	/* outline: 5px auto -webkit-focus-ring-color;
      outline-offset: -0px;*/

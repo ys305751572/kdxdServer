@@ -26,9 +26,9 @@ public class Order extends BaseEntity  {
     @Column(name = "user_name")
     private String userName;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "product_id")
-//    private Product product;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "days")
     private Integer days;
@@ -115,14 +115,13 @@ public class Order extends BaseEntity  {
 //        this.productService = productService;
 //    }
 
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
-//
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
     public KUser getUser() {
         return user;
     }

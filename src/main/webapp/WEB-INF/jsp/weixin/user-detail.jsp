@@ -38,7 +38,7 @@
 
 <footer class="loading">
     <div class="ending1">
-        <input class="button5" type="submit" value="注&nbsp;销" onclick="logOut()"/>
+        <input class="button5" type="submit" value="注&nbsp;销" style="background:#ff8400; " onclick="logOut()"/>
     </div>
 </footer>
 

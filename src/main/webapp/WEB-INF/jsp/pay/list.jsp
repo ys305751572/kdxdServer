@@ -63,9 +63,6 @@
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
-                                    <col class="gradeA even"/>
-                                    <col class="gradeA odd"/>
-                                    <col class="gradeA even"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
@@ -73,9 +70,6 @@
                                     <th>手机号</th>
                                     <th>缴费金额</th>
                                     <th>缴费时间</th>
-                                    <th>服务开始时间</th>
-                                    <th>服务结束时间</th>
-                                    <th>服务是否结束</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -159,18 +153,7 @@
                         {"data": "id"},
                         {"data": "user.mobile"},
                         {"data": "money", render : function (data) {return "￥" + data}},
-                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
-                        {"data": "startDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
-                        {"data": "endDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
-                        {"data": "endDate",render:function(data) {
-                            var currentDate = new Date().getTime();
-                            if(currentDate > data){
-                                return "是";
-                            }
-                            else {
-                                return '否'
-                            }
-                        }},
+                        {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}}
                     ],
                     "columnDefs": [
                         {

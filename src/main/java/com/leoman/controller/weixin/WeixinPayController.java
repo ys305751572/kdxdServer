@@ -204,9 +204,5 @@ public class WeixinPayController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

@@ -25,7 +25,7 @@
             <input class="flex4" type="text" placeholder="收货地址" value="${address.address}" id="address" maxlength="500" name="address"/>
         </div>
         <div class="ending1">
-            <input class="button5" id="btn1" type="button" value="保存" onclick="saveInfo()" style="background-color: #00a642"/>
+            <input class="button5" id="btn1" type="button" value="保存" onclick="saveInfo()" />
         </div>
     </form>
 </section>

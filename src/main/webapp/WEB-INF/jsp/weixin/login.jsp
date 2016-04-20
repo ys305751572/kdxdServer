@@ -25,7 +25,7 @@
             <input class="flex2" type="password" placeholder="请输入密码" id="password" name="password"/>
         </div>
         <div class="loading">
-            <input class="loading_box" id="loginBtn" type="submit" value="登&nbsp;录"/>
+            <input class="loading_box" id="loginBtn" type="submit" style="background-color: #ff8400;" value="登&nbsp;录"/>
         </div>
         <div class="loading">
             <input class="loading_box1" id="registerBtn" type="button" value="注&nbsp;册"/>

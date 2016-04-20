@@ -208,6 +208,15 @@ body{
 	outline: none;
 	background: #00a642;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+
+	-webkit-appearance: none;
+
+}
+
+textarea {  -webkit-appearance: none;}
+}
+
 .button5:active{
 	color: rgba(0,166,66,0.5);
 }

@@ -13,6 +13,15 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+
+	-webkit-appearance: none;
+
+}
+
+textarea {  -webkit-appearance: none;}
+}
+
 .sidebar{
 	height: 50px;
 	width: 86px;

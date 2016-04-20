@@ -10,6 +10,10 @@ body{
 	background: url(../images/general_bg.png);
 	overflow: hidden;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-appearance: none;
+}
+textarea {  -webkit-appearance: none;}
 .content{
 	width: 94%;
 	margin-right: auto;

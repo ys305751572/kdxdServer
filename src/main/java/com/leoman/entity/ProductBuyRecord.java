@@ -38,6 +38,17 @@ public class ProductBuyRecord extends BaseEntity{
     @Column(name = "result")
     private String result;
 
+    @Transient
+    private String payResult;
+
+    public String getPayResult() {
+        return payResult;
+    }
+
+    public void setPayResult(String payResult) {
+        this.payResult = payResult;
+    }
+
     public Long getCouponsEndDate() {
         return couponsEndDate;
     }

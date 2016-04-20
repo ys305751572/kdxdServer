@@ -40,7 +40,7 @@
 <footer class="footer">
     <div class="btn2">
         <input type="hidden" id="tempId"/>
-        <input type="button" class="button5" id="btn1" name="address" onclick="controlDIV()" value="编辑"/>
+        <input type="button" class="button5" id="btn1" name="address"  onclick="controlDIV()" value="编辑"/>
         <input type="button" class="button5" id="btn2" name="address" onclick="updateAddress()" value="添加" style="background:#ff8400;margin-top: 30px;"/>
     </div>
 </footer>

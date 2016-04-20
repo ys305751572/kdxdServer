@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Administrator on 2016/3/16.
@@ -303,6 +300,17 @@ public class WeixinProductController extends CommonController {
             order.setCreateDate(System.currentTimeMillis());
 
             orderService.create(order);
+
+            String startDate = DateUtils.longToString(productBuyRecord.getProduct().getServiceStartDate(),"yyyy-MM-dd HH:mm:ss");
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(productBuyRecord.getProduct().getServiceStartDate());
+            c.add(Calendar.DAY_OF_YEAR,productService.getDays());
+            String endDate = DateUtils.longToString(c.getTimeInMillis(),"yyyy-MM-dd HH:mm:ss");
+
+            String isGetCoupon = productBuyRecord.getIsGetCoupons() == 1 ? "优惠券一张" : "";
+            String result = "水果一份(" + startDate + "-" + endDate + ")" + isGetCoupon;
+            productBuyRecord.setResult(result);
+            pbservice.create(productBuyRecord);
 
             return order.getId();
         } catch (Exception e) {

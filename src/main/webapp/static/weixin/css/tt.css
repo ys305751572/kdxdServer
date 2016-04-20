@@ -547,6 +547,7 @@ body{ background:url(../images/general_bg.png);}
 	border: none;
 	outline: none;
 	margin-top: 300px;
+	background: #00a642;;
 }
 .button5:active{
 	color: rgba(255,255,255,0.5);
@@ -585,6 +586,15 @@ body{ background:url(../images/general_bg.png);}
 	border-radius: 20px;
 	color: #888888;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+
+	-webkit-appearance: none;
+
+}
+
+textarea {  -webkit-appearance: none;}
+}
+
 .register1{
 	 height:100px;
 	width: 100%;

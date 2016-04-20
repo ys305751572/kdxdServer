@@ -54,7 +54,7 @@ public class WebPayrecordServiceImpl implements WebPayrecordService{
 
     @Override
     public WebPayrecord create(WebPayrecord webPayrecord) {
-        return null;
+        return dao.save(webPayrecord);
     }
 
     @Override
