@@ -16,7 +16,7 @@
     <div class="logo">
         <span>我的有效期</span>
         <c:if test="${productService.id != null}">
-            <span class="monney"><span style="color: #909090">¥</span>${productService.money}</span>
+            <span class="monney">服务价格：<span style="color: #909090">¥</span>${productService.money}</span>
         </c:if>
     </div>
     <div class="button">

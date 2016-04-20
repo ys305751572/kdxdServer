@@ -44,31 +44,64 @@
 </body>
 </html>
 <script type="text/javascript">
-    $(function(){
-        wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: '', // 必填，公众号的唯一标识
-            timestamp: new Date().getTime, // 必填，生成签名的时间戳
-            nonceStr: '', // 必填，生成签名的随机串
-            signature: '',// 必填，签名，见附录1
-            jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        });
-    });
+    var imgUrl = "图片地址";
+    var lineLink = "http://qq.tt/kdxgServer/weixin/user/invite";
+    var descContent = '快来领福利啦';
+    var shareTitle = '邀请好友';
+    var appid = 'wxc0dd28b467224a05';
 
-    function shareToFriend(){
-        wx.onMenuShareAppMessage({
-            title: '踢踢科技', // 分享标题
-            desc: '上的看法是代理费及', // 分享描述
-            link: '${contextPath}/weixin/user/invite', // 分享链接
-            imgUrl: '${wxUser.headImgUrl}', // 分享图标
-            type: 'link', // 分享类型,music、video或link，不填默认为link
-            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () {
-                // 用户确认分享后执行的回调函数
-            },
-            cancel: function () {
-                // 用户取消分享后执行的回调函数
-            }
+    function shareFriend() {
+        WeixinJSBridge.invoke('sendAppMessage', {
+            "appid": appid,
+            "img_url": imgUrl,
+            "img_width": "200",
+            "img_height": "200",
+            "link": lineLink,
+            "desc": descContent,
+            "title": shareTitle
+        }, function (res) {
+            //_report('send_msg', res.err_msg);
+        })
+    }
+
+    function shareTimeline() {
+        WeixinJSBridge.invoke('shareTimeline',{
+            "img_url": imgUrl,
+            "img_width": "200",
+            "img_height": "200",
+            "link": lineLink,
+            "desc": descContent,
+            "title": shareTitle
+        }, function(res) {
+            //_report('timeline', res.err_msg);
         });
     }
+
+    function shareWeibo() {
+        WeixinJSBridge.invoke('shareWeibo',{
+            "content": descContent,
+            "url": lineLink,
+        }, function(res) {
+            //_report('weibo', res.err_msg);
+        });
+    }
+
+    // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        // 发送给好友
+        WeixinJSBridge.on('menu:share:appmessage', function(argv){
+            shareFriend();
+        });
+        // 分享到朋友圈
+        // WeixinJSBridge.on('menu:share:timeline', function(argv){
+        //     shareTimeline();
+        // });
+        // 分享到微博
+        // WeixinJSBridge.on('menu:share:weibo', function(argv){
+        //     shareWeibo();
+        // });
+    }, false);
+
+    // 隐藏右上角的选项菜单入口;
+    WeixinJSBridge.call('hideOptionMenu');
 </script>
