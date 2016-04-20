@@ -7,10 +7,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript"></script>
     <title>必中券详情</title>
 </head>
 <body>
+<input type="hidden" id="userId" value="${user.id}"/>
+<input type="hidden" id="couponId" value="${coupon.id}"/>
 <section class="content" id="content">
     <div class="all">
         <div class="bzj">
@@ -42,3 +45,21 @@
 </footer>
 </body>
 </html>
+<script type="text/javascript">
+    function shareToFriend() {
+        wx.onMenuShareAppMessage({
+            title: '踢踢科技', // 分享标题
+            desc: '上的看法是代理费及', // 分享描述
+            link: '${contextPath}/weixin/user/invite?userId=' + $('#userId').val() + '&couponId=' + $('#couponId').val(), // 分享链接
+            imgUrl: '${wxUser.headImgUrl}', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    }
+</script>

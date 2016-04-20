@@ -10,11 +10,13 @@
     <title>邀请好友</title>
 </head>
 <body>
+<input type="hidden" id="userId" value="${userId}"/>
+<input type="hidden" id="couponId" value="${couponId}"/>
 <section class="content">
     <div class="topbar">
         <img class="logo" src="${contextPath}/static/weixin/images/Oval 240.png">
         <img class="bgt" src="${contextPath}/static/weixin/images/Group 2 (2).png">
-        <span class="word">hi、您好、我是您的好友${user.nickname}，特邀请您来福利抢购</span>
+        <span class="word">hi、您好、我是您的好友${wxUser.nickname}，特邀请您来福利抢购</span>
     </div>
     <div class="banner">
         <img class="banner_box" src="${contextPath}/static/weixin/images/Bitmap.png">
@@ -32,7 +34,7 @@
 </section>
 <footer class="loading">
     <div class="ending1">
-        <input class="button5" type="submit" value="立即加入"/>
+        <input class="button5" type="button" onclick="toRegister()" value="立即加入"/>
     </div>
 </footer>
 </body>
@@ -40,5 +42,9 @@
 <script type="text/javascript">
     function goActivityInfo() {
         window.location.href = "${contextPath}/weixin/activity/info?id=1";
+    }
+
+    function toRegister() {
+        window.location.href = "${contextPath}/weixin/user/toRegister?userId=" + $('#userId').val() + "&couponId=" + $('#couponId').val();
     }
 </script>

@@ -46,9 +46,11 @@ public class WeixinUserController extends CommonController {
     }
 
     @RequestMapping("invite")
-    public String invite(HttpServletRequest request, Model model) {
-        KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        model.addAttribute("user", user);
+    public String invite(HttpServletRequest request, Model model, Long userId, Long couponId) {
+        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+        model.addAttribute("wxUser", wxUser);
+        model.addAttribute("userId", userId);
+        model.addAttribute("couponId", couponId);
         return "weixin/invite-friend";
     }
 
@@ -75,5 +77,11 @@ public class WeixinUserController extends CommonController {
         CookiesUtils.logoutCookie(request, response);
         request.getSession().setAttribute(Constant.GO_URL, PathUtils.getRemotePath() + "/weixin/user/index");
         return "weixin/login";
+    }
+
+    @RequestMapping("toRegister")
+    public String toRegister(HttpServletRequest request, Model model, Long userId, Long couponId) {
+        KUser user = service.getById(userId);
+        return "weixin/address-list";
     }
 }
