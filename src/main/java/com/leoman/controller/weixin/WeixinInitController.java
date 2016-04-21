@@ -67,15 +67,9 @@ public class WeixinInitController {
         button6.setName("我的订单");
         button6.setUrl(UrlManage.getProUrl("weixin/order/index"));
 
-        WxMenu.WxMenuButton button7 = new WxMenu.WxMenuButton();
-        button7.setType(WxConsts.BUTTON_VIEW);
-        button7.setName("邀请好友");
-        button7.setUrl(UrlManage.getProUrl("weixin/user/invite"));
-
         button3.getSubButtons().add(button4);
         button3.getSubButtons().add(button5);
         button3.getSubButtons().add(button6);
-        button3.getSubButtons().add(button7);
 
         menu.getButtons().add(button1);
         menu.getButtons().add(button2);

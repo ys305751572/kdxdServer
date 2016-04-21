@@ -13,7 +13,9 @@
 <input type="hidden" id="pageSize" value="10"/>
 <input type="hidden" id="current" value="${current}"/>
 <input type="hidden" id="totalPage" value="${totalPage}"/>
-
+<c:if test="${null == coinList || coinList.size() == 0}">
+    <span class="cz">暂无充值记录</span>
+</c:if>
 <c:forEach var="n" items="${coinList}">
     <div class="list">
         <div class="list1">

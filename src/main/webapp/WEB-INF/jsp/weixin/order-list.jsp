@@ -16,13 +16,17 @@
 
 <section class="section2">
     <div class="list">
+        <c:if test="${null == orderList || orderList.size() == 0}">
+            <span class="ddbh1">暂无订单记录</span>
+        </c:if>
         <c:forEach var="n" items="${orderList}">
             <div class="ddbh">
                 <span class="ddbh1">订单编号：${n.sn}</span>
                 <span class="ddbh2">状态：
-                    <c:if test="${n.status == 0}"><span style="color: #ff8400">待发货</span></c:if>
-                    <c:if test="${n.status == 1}"><span style="color: #ff8400">已发货</span></c:if>
-                    <c:if test="${n.status == 2}"><span style="color: #ff8400">已签收</span></c:if>
+                    <c:if test="${n.status == 0}"><span style="color: #ff8400">待付款</span></c:if>
+                    <c:if test="${n.status == 1}"><span style="color: #ff8400">待发货</span></c:if>
+                    <c:if test="${n.status == 2}"><span style="color: #ff8400">已发货</span></c:if>
+                    <c:if test="${n.status == 3}"><span style="color: #ff8400">已签收</span></c:if>
                 </span>
             </div>
             <div class="nr">

@@ -100,8 +100,8 @@
 
     wx.ready(function () {
         wx.onMenuShareAppMessage({
-            title: $('#activityTitle').val(), // 分享标题
-            desc: $('#activityContent').val(), // 分享描述
+            title: '踢踢送福利啦', // 分享标题
+            desc: $('#activityTitle').val(), // 分享描述
             link: 'http://qq.tt/kdxgServer/weixin/user/invite?userId=' + $('#userId').val() + "&wxUserHead=" + $('#wxUserHead').val() + "&wxUserName=" + $('#wxUserName').val(), // 分享链接
             imgUrl: $('#activityPath').val(), // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link

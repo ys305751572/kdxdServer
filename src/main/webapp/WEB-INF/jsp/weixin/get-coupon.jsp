@@ -25,11 +25,11 @@
     </div>
     <span class="sj">有效期：<date:date value="${couponDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
     <div class="banner">
-        <img class="banner_box" src="${contextPath}/static/weixin/images/Bitmap.png"/>
-        <span class="fl">福利大派送，水果大抢购，只要分享100%中奖率</span>
+        <img class="banner_box" src="${activity.image.path}"/>
+        <span class="fl">${activity.title}</span>
     </div>
     <div class="lxkf">
-        <a href="javascript:void(0)"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span></a>
+        <a href="javascript:void(0)"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span><span class="kf">15871662460</span></a>
     </div>
     <div class="lxkf" onclick="goActivityInfo()">
         <a href="javascript:void(0)">活动详情</a>
