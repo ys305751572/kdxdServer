@@ -77,6 +77,8 @@ public class WeixinUserController extends CommonController {
             if (null != coupon) {
                 coupon.setIsChanged(0);
                 couponService.update(coupon);
+
+                model.addAttribute("couponDate", coupon.getEndDate());
             }
         }
 

@@ -7,12 +7,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript"></script>
     <title>必中券列表</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("#btn1").click(function () {
+                $("#share").fadeToggle(1000);
+            });
+        });
+    </script>
 </head>
 <body>
+<div class="share" id="share">
+    <p class="share_word">点击右上角菜单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>分享发送给您的好友</p>
+    <img src="${contextPath}/static/weixin/images/箭头.png">
+</div>
 <input type="hidden" id="timestamp" value="${timestamp}"/>
 <input type="hidden" id="noncestr" value="${noncestr}"/>
 <input type="hidden" id="signature" value="${signature}"/>
@@ -42,7 +54,7 @@
     <span>必须支付抢购费用以后，您的订单才会生效</span>
 </section>
 <div class="ending1" style="margin-top: -50px">
-    <input class="button5" type="button" value="邀请好友" style="background-color: #00a642"/>
+    <input class="button5" id="btn1" type="button" value="邀请好友" style="background-color: #00a642"/>
 </div>
 <script type="text/javascript">
     // 点击跳转到必中券详情界面
