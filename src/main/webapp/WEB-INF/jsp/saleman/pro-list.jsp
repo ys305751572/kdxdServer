@@ -262,7 +262,7 @@
             },
             qrcode : function(proId,salemanId) {
                 $("#infoModal").modal("show");
-                var elText = "http://qq.tt/kdxgServer/weixin/product/detail?proId=" + proId + "&salemanId" + salemanId;
+                var elText = "http://qq.tt/kdxgServer/weixin/product/detail?id=" + proId + "&salemanId=" + salemanId;
                 kuserList.v.qrcode.makeCode(elText);
             },
 

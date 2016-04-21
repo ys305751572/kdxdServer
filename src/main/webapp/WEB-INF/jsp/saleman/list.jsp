@@ -216,7 +216,7 @@
                         var items = kuserList.v.list;
                         $('td', row).last().find(".add").attr("href", 'admin/saleman/add?id=' + data.id);
                         $('td', row).last().find(".delete").attr("href", 'admin/saleman/delete?id=' + data.id);
-                        $('td', row).last().find(".prolist").attr("href", 'admin/saleman/proIndex?id=' + data.id);
+                        $('td', row).last().find(".prolist").attr("href", 'admin/saleman/proIndex?salemanId=' + data.id);
                     },
                     "fnServerParams": function (aoData) {
                         aoData.name = $("#name").val();
