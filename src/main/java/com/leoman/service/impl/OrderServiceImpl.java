@@ -35,14 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order modifyStatus(Long id, Integer status) {
         Order _order = dao.findOne(id);
-        switch (status) {
-            case 0:
-                _order.setStatus(1);
-                break;
-            case 1:
-                _order.setStatus(2);
-                break;
-        }
+        _order.setStatus(_order.getStatus() + 1);
         return dao.save(_order);
     }
 

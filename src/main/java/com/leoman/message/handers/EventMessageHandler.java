@@ -38,12 +38,10 @@ public class EventMessageHandler implements WxMpMessageHandler {
                 InfomationService infomationService = (InfomationService) BeanUtil.getBean("informationServiceImpl");
                 List<Information> list = infomationService.findList(1, 10).getContent();
 
-                WxMpXmlOutNewsMessage.Item item = null;
-
                 NewsBuilder news = WxMpXmlOutMessage.NEWS();
 
                 for (Information info : list) {
-                    item = new WxMpXmlOutNewsMessage.Item();
+                    WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
                     item.setUrl(Configue.getBaseUrl() + "weixin/information/detail?id=" + info.getId());
                     item.setPicUrl(Configue.getUploadUrl() + info.getImage().getPath());
                     item.setDescription(info.getContent());

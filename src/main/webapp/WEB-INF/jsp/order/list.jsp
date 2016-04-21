@@ -59,9 +59,10 @@
                             <label>状态：</label>
                             <select class="form-control input-sm" id="status">
                                 <option value="" selected="selected">全部</option>
-                                <option value="0">待发货</option>
-                                <option value="1">已发货</option>
-                                <option value="2">已签收</option>
+                                <option value="0">待付款</option>
+                                <option value="1">待发货</option>
+                                <option value="2">已发货</option>
+                                <option value="3">已签收</option>
                             </select>
                         </div>
                         <button type="button" id="c_search" class="btn btn-info btn-sm">查询</button>
@@ -179,13 +180,13 @@
                         {"data": "serviceStartDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}},
                         {"data": "status",
                             render : function(data) {
-                                if(data == 0) {
+                                if (data == 0) {
+                                    return "待付款"
+                                } else if (data == 1) {
                                     return "待发货"
-                                }
-                                if(data == 1) {
+                                } else if (data == 2) {
                                     return "已发货"
-                                }
-                                else if(data == 2) {
+                                } else {
                                     return "已签收"
                                 }
                             }
@@ -214,14 +215,14 @@
                     "createdRow": function (row, data, index) {
                         kuserList.v.list.push(data);
                         $('td', row).eq(0).html("<input type='checkbox' value=" + data.id + ">");
-                        if(data.status == 0){
+                        if(data.status == 1){
                             $(row).addClass("success")
                             $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-truck");
                             $('td', row).last().find(".settingAdded").attr("title", "确认发货")
-                        } if(data.status == 1){
+                        } if(data.status == 2){
                             $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-check");
                             $('td', row).last().find(".settingAdded").attr("title", "确认签收");
-                        }else if(data.status == 2){
+                        }else if(data.status == 3){
                             $('td', row).last().find("button").css("display","none")
 //                            $('td', row).last().find(".settingAdded").attr("title");
                         }
