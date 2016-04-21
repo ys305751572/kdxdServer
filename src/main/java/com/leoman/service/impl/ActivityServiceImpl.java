@@ -45,7 +45,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public Activity create(Activity activity) {
-        return null;
+        return dao.save(activity);
     }
 
     @Override

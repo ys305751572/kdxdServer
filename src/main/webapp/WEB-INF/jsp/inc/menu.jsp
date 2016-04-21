@@ -30,6 +30,9 @@
                     <li >
                         <a href="admin/msg/index"><i class="fa fa-user fa-fw"></i>消息列表</a>
                     </li>
+                    <li >
+                        <a href="admin/act/index"><i class="fa fa-user fa-fw"></i>活动说明</a>
+                    </li>
                 </ul>
             </li>
             <li>

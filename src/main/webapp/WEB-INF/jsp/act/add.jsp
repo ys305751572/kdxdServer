@@ -15,15 +15,21 @@
     <meta name="author" content="">
     <title>活动说明</title>
     <%@ include file="../inc/css.jsp" %>
-    <link href="static/js/plugins/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="static/js/plugins/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet"
+          type="text/css"/>
     <script src="static/js/plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
     <script src="static/js/plugins/bootstrap-fileinput/js/fileinput_locale_zh.js" type="text/javascript"></script>
     <link href="static/js/plugins/dropper/jquery.fs.dropper.css" rel="stylesheet">
     <script src="static/js/plugins/dropper/jquery.fs.dropper.js"></script>
 </head>
 <style>
-    .kv-file-upload{display: none;}
-    .fileinput-upload-button {display: none;}
+    .kv-file-upload {
+        display: none;
+    }
+
+    .fileinput-upload-button {
+        display: none;
+    }
 </style>
 <body>
 
@@ -43,11 +49,38 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
+                        <form id="productForm" method="post" enctype="multipart/form-data"
+                              action="${contextPath}/admin/act/save" class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">活动名称:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="title" name="title" maxlength="20"
+                                           data-rule="required" value="${act.title}" placeholder="请输入资讯名称">
+                                </div>
+                            </div>
+                            <div class="form-group img_tooltip">
+                                <label for="imageId" class="col-sm-2 control-label">封面:</label>
+                                <div class="col-sm-3">
+                                    <input type="hidden" id="imageId" name="imageId" value="${act.image.id}">
+                                    <div class="image_show"  <c:if
+                                            test="${act.image.path eq null}"> style="display: none" </c:if>>
+                                        <img src="${act.image.path}" class='img-responsive'>
+                                    </div>
+                                    <div class="image_handle"  <c:if
+                                            test="${act.image.path ne null}"> style="display: none" </c:if>data-toggle="tooltip"
+                                         data-placement="top" title="" data-original-title="建议上传宽480px高320px的图片">
+                                        <div class="dropped"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <a href="javascript:void(0)" id="removeImg" class="btn btn-info"
+                                       role="button">删除图片</a>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">活动说明:</label>
                                 <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain"></script>
+                                    <script id="container" name="content" type="text/plain">${act.content}</script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -78,15 +111,15 @@
 <script type="text/javascript" src="ueditor1_4_3/ueditor.all.js"></script>
 <script>
     $('.form_datetime').datetimepicker({
-        language:  'zh-CN',
+        language: 'zh-CN',
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
         forceParse: 0,
         showMeridian: 1,
-        format:'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd hh:ii'
     });
 </script>
 </body>
@@ -101,21 +134,21 @@
         fn: {
             init: function () {
 
-                if($("#id").val()!=""){
-                    $(".page-header").text("编辑商品")
-                }
-                $("#submitProduct").click(function(){
+//                if ($("#id").val() != "") {
+//                    $(".page-header").text("编辑商品")
+//                }
+                $("#submitProduct").click(function () {
                     product.fn.save();
                 })
                 product.fn.imageInit();
                 product.fn.dropperInit();
-                $("#removeImg").click(function(){
+                $("#removeImg").click(function () {
                     product.fn.clearImageView();
                 })
                 UE.getEditor('container');
 
             },
-            clearImageView: function(){
+            clearImageView: function () {
                 $("#imageId").val("");
                 $(".image_show").html("");
                 $(".image_handle").show();
@@ -150,15 +183,15 @@
             onFileError: function (e, file, error) {
                 $bluemobi.notify(error, "error");
             },
-            initialPreview:function(){
+            initialPreview: function () {
                 var imgPreViews = [];
                 <c:forEach var="_image" items="${product.images}" >
-                var img =  "<img src='${_image.path}' style ='height:160px'>"
+                var img = "<img src='${_image.path}' style ='height:160px'>"
                 imgPreViews.push(img);
                 </c:forEach>
                 return imgPreViews;
             },
-            initialPreviewConfig:function(){
+            initialPreviewConfig: function () {
                 var imgPreViewsConf = [];
                 <c:forEach var="_image" items="${product.images}" >
                 var conf = {
@@ -172,7 +205,7 @@
                 return imgPreViewsConf;
 
             },
-            imageInit:function(){
+            imageInit: function () {
                 var $input = $("#the_file");
                 $input.fileinput({
                     uploadUrl: "gen/save/images", // server upload action
@@ -184,11 +217,11 @@
                     maxFileCount: 3,
                     initialPreview: product.fn.initialPreview(),
                     initialPreviewConfig: product.fn.initialPreviewConfig(),
-                    msgFilesTooMany:"只能上传三张图片",
-                    allowedFileTypes:['image'],
-                    uploadExtraData: function() {  // callback example
+                    msgFilesTooMany: "只能上传三张图片",
+                    allowedFileTypes: ['image'],
+                    uploadExtraData: function () {  // callback example
                         var out = {}, key, i = 0;
-                        $('.kv-input:visible').each(function() {
+                        $('.kv-input:visible').each(function () {
                             $el = $(this);
                             key = $el.hasClass('kv-new') ? 'new_' + i : 'init_' + i;
                             out[key] = $el.val();
@@ -196,15 +229,15 @@
                         });
                         return out;
                     }
-                }).on('filebatchuploadsuccess', function(event, data, previewId, index) {
+                }).on('filebatchuploadsuccess', function (event, data, previewId, index) {
                     var response = data.response;
-                    if(response.status==0){
+                    if (response.status == 0) {
                         var imageIds = "";
-                        $.each(response.data,function(index,data){
-                            imageIds+=data.id+",";
+                        $.each(response.data, function (index, data) {
+                            imageIds += data.id + ",";
                         })
-                        if(imageIds.length>0){
-                            imageIds =  imageIds.substr(0,imageIds.length-1);
+                        if (imageIds.length > 0) {
+                            imageIds = imageIds.substr(0, imageIds.length - 1);
                         }
                         $("#imageIds").val(imageIds);
 
@@ -219,25 +252,26 @@
                 });
             },
             save: function () {
-
+                $bluemobi.notify("保存成功","success");
                 console.log($("#datetest").val());
-                if(!$('#productForm').isValid()) {
+                if (!$('#productForm').isValid()) {
                     return false;
-                };
+                }
+                ;
 
-                if($("#imageId")==""||$("#imageId")==null){
+                if ($("#imageId") == "" || $("#imageId") == null) {
                     $bluemobi.notify("缩略图不能为空!", "error");
                     return false;
                 }
 
-                if($(".glyphicon-hand-down").length==0){ // 没有图片的情况
+                if ($(".glyphicon-hand-down").length == 0) { // 没有图片的情况
                     $("#productForm").ajaxSubmit({
                         dataType: "json",
                         success: function (result) {
-                            product.fn.responseComplete(result,true);
+                            product.fn.responseComplete(result, true);
                         }
                     });
-                }else{ // 有图片的情况
+                } else { // 有图片的情况
                     $(".fileinput-upload-button").trigger("click");
                 }
 
