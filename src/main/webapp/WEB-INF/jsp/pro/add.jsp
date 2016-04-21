@@ -143,8 +143,8 @@
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">简介:</label>
-                                <div class="col-sm-6">
-                                    <script id="container" name="content" type="text/plain">${product.content}</script>
+                                <div class="col-sm-8">
+                                    <textarea cols="50" rows="8" name="content" style="resize: none;" class="form-control">${product.content}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -169,10 +169,6 @@
 <!-- /#wrapper -->
 
 <%@ include file="../inc/footer.jsp" %>
-<!-- 配置文件 -->
-<script type="text/javascript" src="ueditor1_4_3/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="ueditor1_4_3/ueditor.all.js"></script>
 <script>
     $('.form_datetime').datetimepicker({
         language:  'zh-CN',
