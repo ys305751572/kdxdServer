@@ -2,9 +2,11 @@ package com.leoman.controller.weixin;
 
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
+import com.leoman.entity.Activity;
 import com.leoman.entity.Address;
 import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
+import com.leoman.service.ActivityService;
 import com.leoman.service.KUserService;
 import com.leoman.utils.CookiesUtils;
 import com.leoman.utils.PathUtils;
@@ -28,6 +30,9 @@ public class WeixinUserController extends CommonController {
     @Autowired
     private KUserService service;
 
+    @Autowired
+    private ActivityService activityService;
+
     @RequestMapping("index")
     public String index(HttpServletRequest request, Model model) {
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
@@ -40,11 +45,40 @@ public class WeixinUserController extends CommonController {
 
     @RequestMapping("invite")
     public String invite(HttpServletRequest request, Model model, Long userId, Long couponId) {
+        // 获取活动详情
+        Activity activity = activityService.getById(1L);
+        model.addAttribute("activity", activity);
+
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         model.addAttribute("wxUser", wxUser);
-        request.getSession().setAttribute(Constant.TEMP_FROMUSERID, userId);
-        request.getSession().setAttribute(Constant.TEMP_COUPONID, couponId);
+
+        System.out.println("***********************************************************1、准备邀请***********************************************************");
+        System.out.println("邀请人id：" + userId);
+        System.out.println("优惠券id：" + couponId);
+        System.out.println("***********************************************************1、准备邀请***********************************************************");
+
+        model.addAttribute("fromUserId", userId);
+        model.addAttribute("couponId", couponId);
         return "weixin/invite-friend";
+    }
+
+    @RequestMapping("invite2")
+    public String invite2(HttpServletRequest request, Model model, Long userId, Long couponId) {
+        // 获取活动详情
+        Activity activity = activityService.getById(1L);
+        model.addAttribute("activity", activity);
+
+        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+        model.addAttribute("wxUser", wxUser);
+
+        System.out.println("***********************************************************1、准备邀请***********************************************************");
+        System.out.println("邀请人id：" + userId);
+        System.out.println("优惠券id：" + couponId);
+        System.out.println("***********************************************************1、准备邀请***********************************************************");
+
+        model.addAttribute("fromUserId", userId);
+        model.addAttribute("couponId", couponId);
+        return "weixin/get-coupon";
     }
 
     @RequestMapping("toAddress")
@@ -73,14 +107,14 @@ public class WeixinUserController extends CommonController {
     }
 
     @RequestMapping("toLogin")
-    public String toLogin(HttpServletRequest request) {
-        String fromUserId = (String) request.getSession().getAttribute(Constant.TEMP_FROMUSERID);
-        String couponId = (String) request.getSession().getAttribute(Constant.TEMP_COUPONID);
-
-        System.out.println("***********************************************************登录界面***********************************************************");
+    public String toLogin(Model model, Long fromUserId, Long couponId) {
+        System.out.println("***********************************************************2、登录界面***********************************************************");
         System.out.println("邀请人id：" + fromUserId);
         System.out.println("优惠券id：" + couponId);
-        System.out.println("***********************************************************登录界面***********************************************************");
+        System.out.println("***********************************************************2、登录界面***********************************************************");
+
+        model.addAttribute("fromUserId", fromUserId);
+        model.addAttribute("couponId", couponId);
         return "weixin/login";
     }
 }

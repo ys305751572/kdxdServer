@@ -23,4 +23,6 @@ public interface CouponService extends ICommonService<Coupon> {
 
     // 根据用户id查询优惠券信息
     public Coupon findOneByUserId(Long userId);
+
+    public List<Coupon> findListByUserId2(Long userId);
 }

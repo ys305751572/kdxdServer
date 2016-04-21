@@ -55,9 +55,6 @@ public class WeixinProductController extends CommonController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private ProductImageService productImageService;
-
     /**
      * 商品列表 测试
      *
@@ -121,11 +118,9 @@ public class WeixinProductController extends CommonController {
         }
         List<Coupon> counts = cService.findListByUserId(weixinUser.getId());
         Integer buyCount = pbservice.findCountByProductId(id);
-//        List<ProductImage> imageList = productImageService.findListByProductId(id);
         model.addAttribute("product", product);
         model.addAttribute("counts", counts.size());
         model.addAttribute("buyCount", buyCount);
-//        model.addAttribute("imageList", imageList);
         return "weixin/product-detail";
     }
 
@@ -301,11 +296,11 @@ public class WeixinProductController extends CommonController {
 
             orderService.create(order);
 
-            String startDate = DateUtils.longToString(productBuyRecord.getProduct().getServiceStartDate(),"yyyy-MM-dd HH:mm:ss");
+            String startDate = DateUtils.longToString(productBuyRecord.getProduct().getServiceStartDate(), "yyyy-MM-dd HH:mm:ss");
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(productBuyRecord.getProduct().getServiceStartDate());
-            c.add(Calendar.DAY_OF_YEAR,productService.getDays());
-            String endDate = DateUtils.longToString(c.getTimeInMillis(),"yyyy-MM-dd HH:mm:ss");
+            c.add(Calendar.DAY_OF_YEAR, productService.getDays());
+            String endDate = DateUtils.longToString(c.getTimeInMillis(), "yyyy-MM-dd HH:mm:ss");
 
             String isGetCoupon = productBuyRecord.getIsGetCoupons() == 1 ? "优惠券一张" : "";
             String result = "水果一份(" + startDate + "-" + endDate + ")" + isGetCoupon;
@@ -318,5 +313,32 @@ public class WeixinProductController extends CommonController {
         }
 
         return 0L;
+    }
+
+    /**
+     * 跳转到最新抢购界面
+     *
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("toBuy")
+    public String toBuy(HttpServletRequest request, Model model) {
+        List<Product> productList = service.findList(1, 1000000).getContent();
+
+        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        Product product = productList.get(0);
+
+
+        Set<Image> list = product.getList();
+        for (Image a : list) {
+            a.setPath(ConfigUtil.getString("upload.url") + a.getPath());
+        }
+        List<Coupon> counts = cService.findListByUserId(kUser.getId());
+        Integer buyCount = pbservice.findCountByProductId(product.getId());
+        model.addAttribute("product", product);
+        model.addAttribute("counts", counts.size());
+        model.addAttribute("buyCount", buyCount);
+        return "weixin/product-detail";
     }
 }

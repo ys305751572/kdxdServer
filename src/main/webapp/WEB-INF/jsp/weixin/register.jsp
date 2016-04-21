@@ -57,6 +57,8 @@
 <body style="background: #f7f7f7">
 <section class="ff1">
     <form action="${contextPath}/weixin/login/toPassword" method="post">
+        <input type="hidden" id="fromUserId" name="fromUserId" value="${fromUserId}"/>
+        <input type="hidden" id="couponId" name="couponId" value="${couponId}"/>
         <div class="flex_box3">
             <input class="flex4" type="text" placeholder="请输入手机号" id="username" name="username"/>
         </div>

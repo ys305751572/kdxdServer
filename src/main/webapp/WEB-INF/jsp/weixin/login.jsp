@@ -16,6 +16,8 @@
         <img src="${contextPath}/static/weixin/images/login_ logo.png">
     </figure>
 </header>
+<input type="hidden" id="fromUserId" value="${fromUserId}"/>
+<input type="hidden" id="couponId" value="${couponId}"/>
 <section class="ff">
     <form action="${contextPath}/weixin/login/loginCheck" method="post">
         <div class="flex_box">
@@ -41,7 +43,7 @@
         fn: {
             init: function () {
                 $("#registerBtn").click(function () {
-                    window.location.href = "${contextPath}/weixin/login/toRegister";
+                    window.location.href = "${contextPath}/weixin/login/toRegister?fromUserId=" + $('#fromUserId').val() + "&couponId=" + $('#couponId').val();
                 });
             },
             findPwd: function () {

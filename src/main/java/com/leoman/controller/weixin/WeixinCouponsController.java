@@ -2,9 +2,11 @@ package com.leoman.controller.weixin;
 
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
+import com.leoman.entity.Activity;
 import com.leoman.entity.Coupon;
 import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
+import com.leoman.service.ActivityService;
 import com.leoman.service.CouponService;
 import com.leoman.utils.HttpRequestUtil;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -34,10 +36,17 @@ public class WeixinCouponsController extends CommonController {
     private CouponService service;
 
     @Autowired
+    private ActivityService activityService;
+
+    @Autowired
     private WxMpConfigStorage wxMpConfigStorage;
 
     @RequestMapping("/list")
     public String list(HttpServletRequest request, ModelMap model) {
+        // 获取活动详情
+        Activity activity = activityService.getById(1L);
+        model.addAttribute("activity", activity);
+
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         List<Coupon> list = service.findListByUserId(kUser.getId());
@@ -55,10 +64,6 @@ public class WeixinCouponsController extends CommonController {
         // 生成签名
         String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
 
-        System.out.println("timestamp：" + timestamp);
-        System.out.println("noncestr：" + noncestr);
-        System.out.println("signature：" + signature);
-
         model.addAttribute("timestamp", timestamp);
         model.addAttribute("noncestr", noncestr);
         model.addAttribute("signature", signature);
@@ -68,12 +73,31 @@ public class WeixinCouponsController extends CommonController {
 
     @RequestMapping("/detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
+        // 获取活动详情
+        Activity activity = activityService.getById(1L);
+        model.addAttribute("activity", activity);
+
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         Coupon coupon = service.getById(id);
         model.addAttribute("coupon", coupon);
         model.addAttribute("wxUser", wxUser);
         model.addAttribute("user", kUser);
+
+        // 生成时间戳
+        String timestamp = System.currentTimeMillis() + "";
+        timestamp = timestamp.substring(0, 10);
+
+        // 生成随机字符串
+        String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
+
+        // 生成签名
+        String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/detail");
+
+        model.addAttribute("timestamp", timestamp);
+        model.addAttribute("noncestr", noncestr);
+        model.addAttribute("signature", signature);
+
         return "weixin/coupon-detail";
     }
 
@@ -112,42 +136,6 @@ public class WeixinCouponsController extends CommonController {
             e.printStackTrace();
             return "false";
         }
-    }
-
-    private String getSign(String jsApi_ticket, String noncestr, String timestamp, String url) {
-        String sign = "jsapi_ticket=" + jsApi_ticket + "&noncestr=" + noncestr + "&timestamp=" + timestamp + "&url=" + url;
-        sign = DigestUtils.md5Hex(sign.toString()).toLowerCase();
-        return sign;
-    }
-
-    public String Encrypt(String strSrc) {
-        MessageDigest md = null;
-        String strDes = null;
-
-        byte[] bt = strSrc.getBytes();
-        try {
-
-            md = MessageDigest.getInstance("SHA-1");
-            md.update(bt);
-            strDes = bytes2Hex(md.digest());  //to HexString
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println("Invalid algorithm.");
-            return null;
-        }
-        return strDes;
-    }
-
-    public String bytes2Hex(byte[] bts) {
-        String des = "";
-        String tmp = null;
-        for (int i = 0; i < bts.length; i++) {
-            tmp = (Integer.toHexString(bts[i] & 0xFF));
-            if (tmp.length() == 1) {
-                des += "0";
-            }
-            des += tmp;
-        }
-        return des;
     }
 
     // 获得js signature

@@ -8,27 +8,35 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
-    <title>邀请好友</title>
+    <script type="text/javascript"></script>
+    <title>优惠卷领取</title>
 </head>
 <body>
 <section class="content">
-    <div class="topbar">
-        <img class="logo" src="${wxUser.headImgUrl}">
-        <img class="bgt" src="${contextPath}/static/weixin/images/Group 2 (2).png">
-        <span class="word">hi、您好、我是您的好友${wxUser.nickname}，特邀请您来福利抢购</span>
+
+    <div class="topbar1">
+        <img class="logo1" src="${wxUser.headImgUrl}"/>
+        <span class="note1">hi、您好、我是您的好友${wxUser.nickname}，赠送您</span>
+        <img class="bgt3" src="images/Group 2.png">
     </div>
+    <div class="topbar2">
+        <span class="bzq2">必中卷</span>
+        <span class="hy">会员专享抢购必中卷</span>
+
+    </div>
+    <span class="sj">有效期：2016年2月22日13；44；01</span>
     <div class="banner">
-        <img class="banner_box" src="${contextPath}/static/weixin/images/Bitmap.png">
+        <img class="banner_box" src="images/Bitmap.png">
         <span class="fl">福利大派送，水果大抢购，只要分享100%中奖率</span>
     </div>
     <div class="lxkf">
-        <a href="#"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span></a>
+        <a href="#"><img class="dh" src="static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span></a>
     </div>
     <div class="lxkf" onclick="goActivityInfo()">
-        <a href="javascript:void(0)">活动详情</a>
+        <a href="#">活动详情</a>
     </div>
     <div class="lxkf">
-        <a href="javascript:void(0)">进入公众号</a>
+        <a href="#">进入公众号</a>
     </div>
 </section>
 <footer class="loading">

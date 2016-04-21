@@ -35,7 +35,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public Activity getById(Long id) {
-        return null;
+        return dao.findOne(id);
     }
 
     @Override

@@ -18,4 +18,7 @@ public interface CouponDao extends JpaRepository<Coupon, Long>, JpaSpecification
 
     @Query("select a from Coupon a where a.userId = ?1 and a.status = 0 and a.isUsed = 0 order by a.id desc")
     public List<Coupon> findListByUserId(Long userId);
+
+    @Query("select a from Coupon a where a.userId = ?1 and a.isUsed = 0 order by a.id desc")
+    public List<Coupon> findListByUserId2(Long userId, Long currentDate);
 }

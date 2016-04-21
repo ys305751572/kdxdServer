@@ -70,21 +70,35 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/toRegister")
-    public String toRegister() {
+    public String toRegister(Model model, Long fromUserId, Long couponId) {
+        System.out.println("***********************************************************3、准备注册***********************************************************");
+        System.out.println("邀请人id：" + fromUserId);
+        System.out.println("优惠券id：" + couponId);
+        System.out.println("***********************************************************3、准备注册***********************************************************");
+
+        model.addAttribute("fromUserId", fromUserId);
+        model.addAttribute("couponId", couponId);
         return "weixin/register";
     }
 
     @RequestMapping("/toPassword")
-    public String toSetPassword(String username, String yzm, Model model) {
+    public String toSetPassword(String username, String yzm, Model model, Long fromUserId, Long couponId) {
+        System.out.println("***********************************************************4、准备注册***********************************************************");
+        System.out.println("邀请人id：" + fromUserId);
+        System.out.println("优惠券id：" + couponId);
+        System.out.println("***********************************************************4、准备注册***********************************************************");
+
         Map<String, String> reg = new HashMap<String, String>();
         reg.put("username", username);
         reg.put("code", yzm);
         model.addAttribute("reg", reg);
+        model.addAttribute("fromUserId", fromUserId);
+        model.addAttribute("couponId", couponId);
         return "weixin/setpassword";
     }
 
     @RequestMapping("/register")
-    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code) {
+    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code, Long fromUserId, Long couponId) {
         try {
             // 参数验证
             if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
@@ -112,37 +126,31 @@ public class WeixinBaseController {
             user.setCount(0);
             KUser resultUser = userService.register(user);
 
-            String fromUserId = (String) request.getSession().getAttribute(Constant.TEMP_FROMUSERID);
-            String couponId = (String) request.getSession().getAttribute(Constant.TEMP_COUPONID);
-
             if (null != resultUser) {
-                System.out.println("***********************************************************注册界面***********************************************************");
+                System.out.println("***********************************************************5、注册界面***********************************************************");
                 System.out.println("邀请人id:" + fromUserId);
                 System.out.println("优惠券id:" + couponId);
-                System.out.println("***********************************************************注册界面***********************************************************");
+                System.out.println("***********************************************************5、注册界面***********************************************************");
 
                 // 邀请人注册成功后，增加邀请人的邀请数量
                 if (null != fromUserId) {
                     if (null == couponId) {
-                        KUser inviteUser = userService.getById(Long.parseLong(fromUserId));
+                        KUser inviteUser = userService.getById(fromUserId);
 
-                        System.out.println("邀请数量：" + inviteUser.getCount());
+                        inviteUser.setCount(inviteUser.getCount() + 1);
 
                         if (inviteUser.getCount() % 3 == 0) {
                             inviteUser.setCount(0);
-
                             // 添加优惠券
-                            couponService.createCoupon(Long.parseLong(fromUserId));
-                        } else {
-                            inviteUser.setCount(inviteUser.getCount() + 1);
+                            couponService.createCoupon(fromUserId);
                         }
                         userService.update(inviteUser);
                     } else {
-                        couponService.reUse(Long.parseLong(couponId));
+                        couponService.reUse(couponId);
                     }
                 } else {
                     if (null != couponId) {
-                        Coupon coupon = couponService.getById(Long.parseLong(couponId));
+                        Coupon coupon = couponService.getById(couponId);
                         coupon.setUserId(user.getId());
                         couponService.update(coupon);
                     }

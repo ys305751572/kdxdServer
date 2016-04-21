@@ -37,7 +37,7 @@
     <span>必须支付抢购费用以后，您的订单才会生效</span>
 </section>
 <div class="ending1" style="margin-top: -50px">
-    <input class="button5" type="button" onclick="shareToFriend()" value="邀请好友" style="background-color: #00a642"/>
+    <input class="button5" type="button" value="邀请好友" style="background-color: #00a642"/>
 </div>
 <script type="text/javascript">
     // 点击跳转到必中券详情界面
@@ -78,7 +78,6 @@
     });
 
     wx.error(function (res) {
-        alert("fail share");
         alert(res.errMsg);
     });
 
@@ -100,8 +99,4 @@
             }
         });
     });
-
-    function shareToFriend() {
-        alert(0);
-    }
 </script>

@@ -12,6 +12,8 @@
     <title>设置密码</title>
 </head>
 <body style="background: #f7f7f7">
+<input type="hidden" id="fromUserId" name="fromUserId" value="${fromUserId}"/>
+<input type="hidden" id="couponId" name="couponId" value="${couponId}"/>
 <section class="ff1">
     <form action="${contextPath}/weixin/login/register" method="post">
         <div class="flex_box3">
@@ -42,7 +44,9 @@
                 $.post("${contextPath}/weixin/login/register", {
                             "username": $("#username").val(),
                             "code": $("#code").val(),
-                            "password": password
+                            "password": password,
+                            "fromUserId": $('#fromUserId').val(),
+                            "couponId": $('#couponId').val()
                         },
                         function (result) {
                             if (result.status == 0) {

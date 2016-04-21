@@ -77,6 +77,21 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public List<Coupon> findListByUserId2(Long userId) {
+        List<Coupon> list = dao.findListByUserId2(userId, System.currentTimeMillis());
+
+        for (Coupon coupon : list) {
+            if (coupon.getEndDate() > System.currentTimeMillis()) {
+                coupon.setStatus(0);
+            } else {
+                coupon.setStatus(1);
+            }
+        }
+
+        return list;
+    }
+
+    @Override
     public Coupon findOneByUserId(Long userId) {
         List<Coupon> list = dao.findListByUserId(userId);
 
