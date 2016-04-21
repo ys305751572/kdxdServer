@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -106,7 +107,7 @@ public class WeixinProductController extends CommonController {
      * @param model
      * @return
      */
-    @RequestMapping("detail")
+    @RequestMapping(value = "/detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
 
         try {
@@ -125,6 +126,7 @@ public class WeixinProductController extends CommonController {
             model.addAttribute("product", product);
             model.addAttribute("counts", counts.size());
             model.addAttribute("buyCount", buyCount);
+            model.addAttribute("kUser", weixinUser);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,6 +144,18 @@ public class WeixinProductController extends CommonController {
     public void snapUp(HttpServletRequest request, HttpServletResponse response, Long id, Boolean isUsed) {
 
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+//        if(user == null) {
+//            final String toLoginUrl = request.getContextPath() + "/weixin/login/toLogin";
+//            System.out.println("toLoginUrl:" + toLoginUrl);
+//            try {
+//                response.sendRedirect(toLoginUrl);
+//                return;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return;
+//            }
+//        }
+
         try {
             ProductBuyRecord pbr = service.createProductByRecord(response, id, isUsed, user.getId());
             WebUtil.print(response, new Result(true).data(pbr));

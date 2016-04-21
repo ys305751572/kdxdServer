@@ -5,7 +5,8 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
-    <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/lrtk.css"/>
     <script type="text/javascript" src="${contextPath}/static/weixin/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="${contextPath}/static/weixin/js/koala.min.1.5.js"></script>
@@ -26,6 +27,7 @@
         <span class="nav3">配送签收</span>
     </nav>
 </header>
+<input type="hidden" id="userId" value="${kUser.id}"/>
 <section class="section1">
     <!-- 代码 开始 -->
     <div id="fsD1" class="focus">
@@ -47,7 +49,11 @@
         </div>
     </div>
     <script type="text/javascript">
-        Qfast.add('widgets', {path: "${contextPath}/static/weixin/js/terminator2.2.min.js", type: "js", requires: ['fx']});
+        Qfast.add('widgets', {
+            path: "${contextPath}/static/weixin/js/terminator2.2.min.js",
+            type: "js",
+            requires: ['fx']
+        });
         Qfast(false, 'widgets', function () {
             K.tabs({
                 id: 'fsD1',   //焦点图包裹id
@@ -114,18 +120,25 @@
 
             },
             goBuy: function (status) {
-                // 直接购买
-                $.post("weixin/product/snapUp", {
-                    id: $('#id').val(),
-                    isUsed: status
-                }, function (result) {
-                    if (result.status == '0') {
-                        // 如果返回结果不为空，代表抢购成功，此时跳转到抢购结果界面
-                        window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.data.id;
-                    } else {
-                        alert(result.msg);
-                    }
-                });
+                var userId = $('#userId').val();
+
+                if (null == userId || userId == '') {
+
+                    window.location.href = "${contextPath}/weixin/login/toLogin";
+                }else{
+                    // 直接购买
+                    $.post("weixin/product/snapUp", {
+                        id: $('#id').val(),
+                        isUsed: status
+                    }, function (result) {
+                        if (result.status == '0') {
+                            // 如果返回结果不为空，代表抢购成功，此时跳转到抢购结果界面
+                            window.location.href = "${contextPath}/weixin/product/toSnapUpResult?pbrId=" + result.data.id;
+                        } else {
+                            alert("result::" + result.msg);
+                        }
+                    });
+                }
             },
             goActivityInfo: function () {
                 window.location.href = "${contextPath}/weixin/activity/info?id=1";

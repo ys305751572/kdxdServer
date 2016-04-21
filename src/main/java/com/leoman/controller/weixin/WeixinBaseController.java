@@ -49,7 +49,7 @@ public class WeixinBaseController {
     private CacheService<String> cacheService;
 
     @RequestMapping("/toLogin")
-    public String toLogin(HttpServletRequest request, HttpServletResponse response) {
+    public String toLogin(HttpServletRequest request, HttpServletResponse response,Long salemanId,Model model) {
         Map<String, Object> params = CookiesUtils.ReadCookieMap(request);
         if (params != null && params.size() != 0) {
             String mobile = (String) params.get("mobile");
@@ -61,7 +61,6 @@ public class WeixinBaseController {
                 }
             }
         }
-
         return "weixin/login";
     }
 
