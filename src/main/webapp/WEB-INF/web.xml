@@ -40,7 +40,7 @@
         <filter-class>com.leoman.filter.WeixinFilter</filter-class>
         <init-param>
             <param-name>skipUrls</param-name>
-            <param-value>/weixin/,/weixin/login/*,/weixin/login,/weixin/pay/*,/weixin/user/toLogin,/weixin/user/invite,/weixin/user/invite2,/weixin/product/detail</param-value>
+            <param-value>/weixin/,/weixin/login/*,/weixin/login,/weixin/pay/*,/weixin/user/toLogin,/weixin/user/invite,/weixin/user/invite2,/weixin/product/detail,/weixin/activity/info</param-value>
         </init-param>
     </filter>
     <filter-mapping>
