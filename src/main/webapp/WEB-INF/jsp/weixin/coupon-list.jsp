@@ -17,6 +17,11 @@
 <input type="hidden" id="noncestr" value="${noncestr}"/>
 <input type="hidden" id="signature" value="${signature}"/>
 <input type="hidden" id="userId" value="${user.id}"/>
+<input type="hidden" id="activityTitle" value="${activity.title}"/>
+<input type="hidden" id="activityContent" value="${activity.content}"/>
+<input type="hidden" id="activityPath" value="${activity.image.path}"/>
+<input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
+<input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
 <section class="section">
     <c:forEach var="n" items="${couponList}">
         <div class="bzq" onclick="getInfo(${n.id})">
@@ -83,19 +88,17 @@
 
     wx.ready(function () {
         wx.onMenuShareAppMessage({
-            title: '邀请好友', // 分享标题
-            desc: '快来领福利啦', // 分享描述
-            link: 'http://qq.tt/kdxgServer/weixin/user/invite?userId=' + $('#userId').val(), // 分享链接
-            imgUrl: 'http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg', // 分享图标
+            title: $('#activityTitle').val(), // 分享标题
+            desc: $('#activityContent').val(), // 分享描述
+            link: 'http://qq.tt/kdxgServer/weixin/user/invite?userId=' + $('#userId').val() + "&wxUserHead=" + $('#wxUserHead').val() + "&wxUserName=" + $('#wxUserName').val(), // 分享链接
+            imgUrl: $('#activityPath').val(), // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             success: function () {
                 // 用户确认分享后执行的回调函数
-                alert("share ok");
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数
-                alert("share cancel");
             }
         });
     });

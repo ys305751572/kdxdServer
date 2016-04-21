@@ -3,6 +3,8 @@ package com.leoman.service.impl;
 import com.leoman.dao.ActivityDao;
 import com.leoman.entity.Activity;
 import com.leoman.service.ActivityService;
+import com.leoman.utils.ConfigUtil;
+import com.leoman.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class ActivityServiceImpl implements ActivityService {
     public Activity getById(Long id) {
         Activity activity = dao.findOne(id);
         activity.setContent(activity.getContent().replace("&lt", "<").replace("&gt", ">"));
+        activity.getImage().setPath(ConfigUtil.getString("upload.url") + activity.getImage().getPath());
         return activity;
     }
 

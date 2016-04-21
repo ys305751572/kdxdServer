@@ -2,11 +2,9 @@ package com.leoman.controller.weixin;
 
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.Constant;
-import com.leoman.entity.Activity;
-import com.leoman.entity.Address;
-import com.leoman.entity.KUser;
-import com.leoman.entity.WxUser;
+import com.leoman.entity.*;
 import com.leoman.service.ActivityService;
+import com.leoman.service.CouponService;
 import com.leoman.service.KUserService;
 import com.leoman.utils.CookiesUtils;
 import com.leoman.utils.PathUtils;
@@ -33,6 +31,9 @@ public class WeixinUserController extends CommonController {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private CouponService couponService;
+
     @RequestMapping("index")
     public String index(HttpServletRequest request, Model model) {
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
@@ -44,7 +45,7 @@ public class WeixinUserController extends CommonController {
     }
 
     @RequestMapping("invite")
-    public String invite(HttpServletRequest request, Model model, Long userId, Long couponId) {
+    public String invite(HttpServletRequest request, Model model, Long userId, Long couponId, String wxUserHead, String wxUserName) {
         // 获取活动详情
         Activity activity = activityService.getById(1L);
         model.addAttribute("activity", activity);
@@ -59,17 +60,25 @@ public class WeixinUserController extends CommonController {
 
         model.addAttribute("fromUserId", userId);
         model.addAttribute("couponId", couponId);
+        model.addAttribute("wxUserHead", wxUserHead);
+        model.addAttribute("wxUserName", wxUserName);
         return "weixin/invite-friend";
     }
 
     @RequestMapping("invite2")
-    public String invite2(HttpServletRequest request, Model model, Long userId, Long couponId) {
+    public String invite2(HttpServletRequest request, Model model, Long userId, Long couponId, String wxUserHead, String wxUserName) {
         // 获取活动详情
         Activity activity = activityService.getById(1L);
         model.addAttribute("activity", activity);
 
-        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
-        model.addAttribute("wxUser", wxUser);
+        // 获取优惠券详情
+        if (null != couponId) {
+            Coupon coupon = couponService.getById(couponId);
+            if (null != coupon) {
+                coupon.setIsChanged(0);
+                couponService.update(coupon);
+            }
+        }
 
         System.out.println("***********************************************************1、准备邀请***********************************************************");
         System.out.println("邀请人id：" + userId);
@@ -78,6 +87,8 @@ public class WeixinUserController extends CommonController {
 
         model.addAttribute("fromUserId", userId);
         model.addAttribute("couponId", couponId);
+        model.addAttribute("wxUserHead", wxUserHead);
+        model.addAttribute("wxUserName", wxUserName);
         return "weixin/get-coupon";
     }
 

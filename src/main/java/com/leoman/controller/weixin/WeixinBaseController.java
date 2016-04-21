@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,8 +152,10 @@ public class WeixinBaseController {
                 } else {
                     if (null != couponId) {
                         Coupon coupon = couponService.getById(couponId);
-                        coupon.setUserId(user.getId());
-                        couponService.update(coupon);
+                        if (null != coupon && coupon.getIsChanged() == 0) {
+                            coupon.setUserId(user.getId());
+                            couponService.update(coupon);
+                        }
                     }
                 }
             }

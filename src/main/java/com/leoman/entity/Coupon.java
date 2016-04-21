@@ -21,6 +21,9 @@ public class Coupon extends BaseEntity{
     @Column(name = "is_used")
     private Integer isUsed;
 
+    @Column(name = "is_changed")
+    private Integer isChanged;
+
     @Transient
     private boolean isOverdue = false; // 是否过期 0:未过期 1:已过期
 
@@ -62,5 +65,13 @@ public class Coupon extends BaseEntity{
 
     public void setIsUsed(Integer isUsed) {
         this.isUsed = isUsed;
+    }
+
+    public Integer getIsChanged() {
+        return isChanged;
+    }
+
+    public void setIsChanged(Integer isChanged) {
+        this.isChanged = isChanged;
     }
 }

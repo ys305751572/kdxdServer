@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +39,7 @@ public class CouponServiceImpl implements CouponService {
         c.setUserId(userId);
         c.setIsUsed(0); // 默认为未使用
         c.setStatus(0); // 默认为有效
+        c.setIsChanged(0);
         c.setEndDate(DateUtils.daysAfter(new Date(), DAY));
         dao.save(c);
     }
@@ -78,17 +80,22 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public List<Coupon> findListByUserId2(Long userId) {
-        List<Coupon> list = dao.findListByUserId2(userId, System.currentTimeMillis());
+        try {
+            List<Coupon> list = dao.findListByUserId2(userId);
 
-        for (Coupon coupon : list) {
-            if (coupon.getEndDate() > System.currentTimeMillis()) {
-                coupon.setStatus(0);
-            } else {
-                coupon.setStatus(1);
+            for (Coupon coupon : list) {
+                if (DateUtils.longToDate(coupon.getEndDate(), "yyyy-MM-dd HH:mm:ss").after(DateUtils.longToDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"))) {
+                    coupon.setStatus(0);
+                } else {
+                    coupon.setStatus(1);
+                }
             }
-        }
 
-        return list;
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -119,7 +126,17 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Coupon getById(Long id) {
-        return dao.findOne(id);
+        Coupon coupon = dao.findOne(id);
+        try {
+            if (null != coupon && DateUtils.longToDate(coupon.getEndDate(), "yyyy-MM-dd HH:mm:ss").after(DateUtils.longToDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"))) {
+                coupon.setStatus(0);
+            } else {
+                coupon.setStatus(1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return coupon;
     }
 
     @Override
@@ -130,6 +147,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Coupon create(Coupon coupon) {
+        coupon.setIsChanged(0);
         return dao.save(coupon);
     }
 

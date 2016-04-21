@@ -13,9 +13,9 @@
 <body>
 <section class="content">
     <div class="topbar">
-        <img class="logo" src="${wxUser.headImgUrl}">
+        <img class="logo" src="${wxUserHead}">
         <img class="bgt" src="${contextPath}/static/weixin/images/Group 2 (2).png">
-        <span class="word">hi、您好、我是您的好友${wxUser.nickname}，特邀请您来福利抢购</span>
+        <span class="word">hi、您好、我是您的好友${wxUserName}，特邀请您来福利抢购</span>
     </div>
     <div class="banner">
         <img class="banner_box" src="${contextPath}/static/weixin/images/Bitmap.png">

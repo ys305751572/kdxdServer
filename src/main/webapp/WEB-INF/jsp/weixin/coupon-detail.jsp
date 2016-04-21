@@ -16,6 +16,11 @@
 <input type="hidden" id="timestamp" value="${timestamp}"/>
 <input type="hidden" id="noncestr" value="${noncestr}"/>
 <input type="hidden" id="signature" value="${signature}"/>
+<input type="hidden" id="activityTitle" value="${activity.title}"/>
+<input type="hidden" id="activityContent" value="${activity.content}"/>
+<input type="hidden" id="activityPath" value="${activity.image.path}"/>
+<input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
+<input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
 <section class="content" id="content">
     <div class="all">
         <div class="bzj">
@@ -61,7 +66,7 @@
         <footer class="loading" id="loading">
             <div class="ending1" id="ending1">
                 <input class="button5" type="button" onclick="toBuy()" value="立即使用" style="background: #ff8400"/>
-                <input class="button5" id="btn1" type="button" value="转增朋友"/>
+                <input class="button5" id="btn1" type="button" value="转赠朋友"/>
             </div>
         </footer>
     </c:if>
@@ -104,19 +109,17 @@
 
     wx.ready(function () {
         wx.onMenuShareAppMessage({
-            title: '踢踢福利', // 分享标题
-            desc: ${activity.content}, // 分享描述
-            link: 'http://qq.tt/kdxgServer/weixin/user/invite2?userId=' + $('#userId').val() + "&couponId=" + $('#couponId').val(), // 分享链接
-            imgUrl: 'http://pic14.nipic.com/20110522/7411759_164157418126_2.jpg', // 分享图标
+            title: $('#activityTitle').val(), // 分享标题
+            desc: $('#activityContent').val(), // 分享描述
+            link: 'http://qq.tt/kdxgServer/weixin/user/invite2?userId=' + $('#userId').val() + "&couponId=" + $('#couponId').val() + "&wxUserHead=" + $('#wxUserHead').val() + "&wxUserName=" + $('#wxUserName').val(), // 分享链接
+            imgUrl: $('#activityPath').val(), // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             success: function () {
                 // 用户确认分享后执行的回调函数
-                alert("share ok");
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数
-                alert("share cancel");
             }
         });
     });

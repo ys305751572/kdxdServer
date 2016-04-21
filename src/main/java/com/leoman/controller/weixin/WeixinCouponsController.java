@@ -8,6 +8,7 @@ import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
 import com.leoman.service.ActivityService;
 import com.leoman.service.CouponService;
+import com.leoman.utils.DateUtils;
 import com.leoman.utils.HttpRequestUtil;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import net.sf.json.JSONObject;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +51,11 @@ public class WeixinCouponsController extends CommonController {
 
         KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
-        List<Coupon> list = service.findListByUserId(kUser.getId());
+
+        System.out.println("踢踢用户信息：" + kUser);
+        System.out.println("微信用户信息：" + wxUser);
+
+        List<Coupon> list = service.findListByUserId2(kUser.getId());
         model.addAttribute("couponList", list);
         model.addAttribute("wxUser", wxUser);
         model.addAttribute("user", kUser);
@@ -92,7 +98,7 @@ public class WeixinCouponsController extends CommonController {
         String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
 
         // 生成签名
-        String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/detail");
+        String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/detail?id=" + id);
 
         model.addAttribute("timestamp", timestamp);
         model.addAttribute("noncestr", noncestr);
@@ -104,9 +110,6 @@ public class WeixinCouponsController extends CommonController {
     public String getSignature(HttpServletRequest request, String noncestr, String timestamp, String url) {
         try {
             String ticket = (String) request.getSession().getAttribute(Constant.jsApi_ticket);
-
-            String base_jsApi_ticket = wxMpConfigStorage.getJsapiTicket();
-            System.out.println("base_jsApi_ticket：" + base_jsApi_ticket);
 
             System.out.println("ticket：" + ticket);
 
