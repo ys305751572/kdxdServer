@@ -6,6 +6,10 @@
 	font-family:"Microsoft YaHei"! important;
 	font-size: 24px;
 }
+input[type="button"], input[type="submit"], input[type="reset"] {
+	-webkit-appearance: none;
+}
+textarea {  -webkit-appearance: none;}
 .banner{
 	width: 100%;
 	height: 410px;
@@ -13,15 +17,6 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-input[type="button"], input[type="submit"], input[type="reset"] {
-
-	-webkit-appearance: none;
-
-}
-
-textarea {  -webkit-appearance: none;}
-}
-
 .sidebar{
 	height: 50px;
 	width: 86px;
@@ -33,7 +28,7 @@ textarea {  -webkit-appearance: none;}
 	top: 36px;
 	text-align: center;
 	line-height: 40px;
-	}
+}
 .sidebar a{
 	text-decoration: none;
 	color: rgba(255,148, 30,0.5);
@@ -42,17 +37,23 @@ textarea {  -webkit-appearance: none;}
 	color: rgba(255,148, 30,0.3);
 }
 .pic_box{
-	width: 100%;
-	height: 410px;
-	background-image: url(../images/personal%20center_head%20portrait_view.png);
-	background-repeat: no-repeat;
-	background-position:center top 50px;
+	width: 180px;
+	height: 180px;
+	margin: 0 auto;
 	text-align: center;
+	padding-top: 50px;
 }
-#name{
-	position: relative;
-	top: 256px;
+.pic_box span{
 	color: #fff;
+	position: relative;
+	top: 10px;
+	font-size: 1rem;
+
+}
+.pic_box img{
+	width: 180px;
+	height: 180px;
+	border-radius: 90px;
 }
 .menu{
 	display: block;
@@ -167,7 +168,7 @@ textarea {  -webkit-appearance: none;}
 	background-image: url(../images/Group%202.png);
 	background-position: center;
 	background-repeat: no-repeat;
-	
+
 }
 .toutiao{
 	line-height: 160px;
@@ -183,9 +184,11 @@ textarea {  -webkit-appearance: none;}
 	margin: 0 auto;
 }
 .ddbh{
-	padding-bottom:30px;
-	border-bottom: 2px solid #e3e3e3; 
+	padding-bottom:50px;
+	border-bottom: 2px solid #e3e3e3;
 }
+.ddbh1{
+	float: left;}
 .ddbh2{
 	float: right;
 }
@@ -212,7 +215,7 @@ textarea {  -webkit-appearance: none;}
 	text-align: right;
 }
 .add1 ul{
-list-style-type: none;
+	list-style-type: none;
 }
 .add1{
 	padding: 30px 0;
@@ -220,4 +223,74 @@ list-style-type: none;
 }
 .mr{
 	padding: 30px 0px;
+}
+.fy{
+	position: fixed;
+	bottom: 70px;
+	width: 100%;
+	height: 120px;
+}
+.btn6{
+	display: block;
+	width: 200px;
+	height: 80px;
+	float: left;
+	margin-left: 40px;
+	font-size: 30px;
+	border-radius:30px;
+	background: #f29838;
+	border: none;
+	color:  #fff;
+	outline: none;
+}
+.btn7{
+	height: 80px;
+	width: 200px;
+	display: block;
+	float: right;
+	margin-right: 40px;
+	font-size: 30px;
+	border-radius:30px;
+	background: #f29838;
+	border: none;
+	color:  #fff;
+	outline: none;
+}
+.btn7:active{
+	color: rgba(242,152,56,0.5);
+}
+.fy1{
+	position: fixed;
+	bottom: 100px;
+	width: 100%;
+	height: 120px;
+}
+.btn3{
+	display: block;
+	width: 200px;
+	height: 80px;
+	float: left;
+	margin-left: 40px;
+	font-size: 30px;
+	border-radius:30px;
+	border: 1px solid #f29838;
+	color:  #f29838;
+	outline: none;
+	background: rgba(0,0,0,0);
+}
+.btn4{
+	height: 80px;
+	width: 200px;
+	display: block;
+	float: right;
+	margin-right: 40px;
+	font-size: 30px;
+	border-radius:30px;
+	background: rgba(0,0,0,0);
+	border: 1px solid #f29838;
+	color: #f29838;
+	outline: none;
+}
+.btn4:active,.btn3:active{
+	color: rgba(242,152,56,0.5);
 }

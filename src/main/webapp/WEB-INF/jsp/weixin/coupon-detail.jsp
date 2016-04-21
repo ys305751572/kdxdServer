@@ -11,13 +11,26 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript"></script>
     <title>必中券详情</title>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("#btn1").click(function () {
+                $("#share").fadeToggle(1000);
+            });
+
+            $("#btn2").click(function () {
+                $("#share").fadeToggle(1000);
+            });
+        });
+    </script>
 </head>
 <body>
+<div class="share" id="share">
+    <p class="share_word">点击右上角菜单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>分享发送给您的好友</p>
+    <img src="${contextPath}/static/weixin/images/箭头.png">
+</div>
 <input type="hidden" id="timestamp" value="${timestamp}"/>
 <input type="hidden" id="noncestr" value="${noncestr}"/>
 <input type="hidden" id="signature" value="${signature}"/>
-<input type="hidden" id="activityTitle" value="${activity.title}"/>
-<input type="hidden" id="activityContent" value="${activity.content}"/>
 <input type="hidden" id="activityPath" value="${activity.image.path}"/>
 <input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
 <input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
@@ -44,6 +57,7 @@
         <a href="#"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span></a>
     </div>
 </section>
+<div class="place"></div>
 <c:if test="${coupon.status == 1}">
     <input type="hidden" id="userId" value="${user.id}"/>
     <input type="hidden" id="couponId" value="${coupon.id}"/>
@@ -52,7 +66,7 @@
     </section>
     <footer class="loading">
         <div class="ending1">
-            <input class="button5" type="button" value="邀请好友"/>
+            <input class="button5" type="button" id="btn2" value="邀请好友"/>
         </div>
     </footer>
 </c:if>
@@ -109,8 +123,8 @@
 
     wx.ready(function () {
         wx.onMenuShareAppMessage({
-            title: $('#activityTitle').val(), // 分享标题
-            desc: $('#activityContent').val(), // 分享描述
+            title: '领取福利啦', // 分享标题
+            desc: '点击领取福利~~~', // 分享描述
             link: 'http://qq.tt/kdxgServer/weixin/user/invite2?userId=' + $('#userId').val() + "&couponId=" + $('#couponId').val() + "&wxUserHead=" + $('#wxUserHead').val() + "&wxUserName=" + $('#wxUserName').val(), // 分享链接
             imgUrl: $('#activityPath').val(), // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link

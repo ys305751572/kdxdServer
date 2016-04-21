@@ -28,7 +28,8 @@
         <a href="javascript:void(0)">活动详情</a>
     </div>
     <div class="lxkf">
-        <a href="javascript:void(0)">进入公众号</a>
+        <a href="javascript:void(0)">公众号</a>
+        <img src="${contextPath}/static/weixin/images/qrcode_logo.jpg" width="200px" height="200px" />
     </div>
 </section>
 <footer class="loading">
