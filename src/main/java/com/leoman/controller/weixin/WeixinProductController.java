@@ -108,19 +108,26 @@ public class WeixinProductController extends CommonController {
      */
     @RequestMapping("detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
-        KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        Product product = service.getById(id);
+
+        try {
+            System.out.println("id:" + id);
+
+            KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            Product product = service.getById(id);
 
 
-        Set<Image> list = product.getList();
-        for (Image a : list) {
-            a.setPath(ConfigUtil.getString("upload.url") + a.getPath());
+            Set<Image> list = product.getList();
+            for (Image a : list) {
+                a.setPath(ConfigUtil.getString("upload.url") + a.getPath());
+            }
+            List<Coupon> counts = (weixinUser == null ? Collections.<Coupon>emptyList() : cService.findListByUserId(weixinUser.getId()));
+            Integer buyCount = pbservice.findCountByProductId(id);
+            model.addAttribute("product", product);
+            model.addAttribute("counts", counts.size());
+            model.addAttribute("buyCount", buyCount);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        List<Coupon> counts = cService.findListByUserId(weixinUser.getId());
-        Integer buyCount = pbservice.findCountByProductId(id);
-        model.addAttribute("product", product);
-        model.addAttribute("counts", counts.size());
-        model.addAttribute("buyCount", buyCount);
         return "weixin/product-detail";
     }
 

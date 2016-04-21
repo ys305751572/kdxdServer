@@ -46,6 +46,17 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#"><i class="fa fa-user fa-fw"></i>业务员管理<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li >
+                        <a href="admin/saleman/index"><i class="fa fa-user fa-fw"></i>业务员列表</a>
+                    </li>
+                    <li >
+                        <a href="admin/salemanrecord/index"><i class="fa fa-user fa-fw"></i>业务员记录列表</a>
+                    </li>
+                </ul>
+            </li>
             <!-- 微信菜单测试
             <li>
                 <a href="#"><i class="fa fa-user fa-fw"></i>微信菜单测试<span class="fa arrow"></span></a>

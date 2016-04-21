@@ -94,6 +94,9 @@
 <script src="${contextPath }/static/js/sb-admin-2.js"></script>
 <script src="${contextPath }/static/js/global.js"></script>
 
+<!-- qrcode -->
+<script src="${contextPath }/static/qrcode/qrcode.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$("#mediator").click(function() {
