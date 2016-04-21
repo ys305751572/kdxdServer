@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2016/3/10.
  */
 @Service
-public class ActivityServiceImpl implements ActivityService{
+public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     private ActivityDao dao;
@@ -35,7 +35,9 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Override
     public Activity getById(Long id) {
-        return dao.findOne(id);
+        Activity activity = dao.findOne(id);
+        activity.setContent(activity.getContent().replace("&lt", "<").replace("&gt", ">"));
+        return activity;
     }
 
     @Override
