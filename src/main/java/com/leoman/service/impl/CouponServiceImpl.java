@@ -10,12 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +63,15 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public void reUse(Long couponId) {
+        Coupon c = dao.findOne(couponId);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        c.setEndDate(calendar.getTimeInMillis());
+        dao.save(c);
+    }
+
+    @Override
     public List<Coupon> findListByUserId(Long userId) {
         return dao.findListByUserId(userId, System.currentTimeMillis());
     }
@@ -93,26 +104,30 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Coupon getById(Long id) {
-        return null;
+        return dao.findOne(id);
     }
 
     @Override
     public Coupon deleteById(Long id) {
+        dao.delete(id);
         return null;
     }
 
     @Override
     public Coupon create(Coupon coupon) {
-        return null;
+        return dao.save(coupon);
     }
 
     @Override
     public Coupon update(Coupon coupon) {
-        return null;
+        return dao.save(coupon);
     }
 
     @Override
+    @Transactional
     public void deleteAll(Long[] ids) {
-
+        for (Long id : ids) {
+            deleteById(id);
+        }
     }
 }

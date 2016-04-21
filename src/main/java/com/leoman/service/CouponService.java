@@ -13,9 +13,11 @@ public interface CouponService extends ICommonService<Coupon> {
 
     public void createCoupon(Long userId);
 
-    public Page<Coupon> findPageByUserId(Long userId,int pagenum,int pagesize);
+    public Page<Coupon> findPageByUserId(Long userId, int pagenum, int pagesize);
 
     public void use(Long id);
+
+    public void reUse(Long couponId);
 
     public List<Coupon> findListByUserId(Long userId);
 

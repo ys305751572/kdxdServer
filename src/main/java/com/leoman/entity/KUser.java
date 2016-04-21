@@ -34,6 +34,9 @@ public class KUser extends BaseEntity{
     @Column(name = "money")
     private Double money;
 
+    @Column(name = "count")
+    private Integer count;
+
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Address> list = null;
@@ -100,5 +103,13 @@ public class KUser extends BaseEntity{
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

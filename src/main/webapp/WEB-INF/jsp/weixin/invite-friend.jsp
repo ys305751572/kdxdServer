@@ -7,14 +7,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
+    <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <title>邀请好友</title>
 </head>
 <body>
-<input type="hidden" id="userId" value="${userId}"/>
-<input type="hidden" id="couponId" value="${couponId}"/>
 <section class="content">
     <div class="topbar">
-        <img class="logo" src="${contextPath}/static/weixin/images/Oval 240.png">
+        <img class="logo" src="${wxUser.headImgUrl}">
         <img class="bgt" src="${contextPath}/static/weixin/images/Group 2 (2).png">
         <span class="word">hi、您好、我是您的好友${wxUser.nickname}，特邀请您来福利抢购</span>
     </div>
@@ -45,6 +44,6 @@
     }
 
     function toRegister() {
-        window.location.href = "${contextPath}/weixin/user/toRegister?userId=" + $('#userId').val() + "&couponId=" + $('#couponId').val();
+        window.location.href = "${contextPath}/weixin/user/toLogin";
     }
 </script>

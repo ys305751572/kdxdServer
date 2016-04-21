@@ -1,20 +1,13 @@
 package com.leoman.controller.weixin;
 
 import com.leoman.controller.common.CommonController;
-import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.entity.Address;
 import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
 import com.leoman.service.KUserService;
-import com.leoman.service.WxUserService;
-import com.leoman.utils.BeanUtil;
 import com.leoman.utils.CookiesUtils;
-import com.leoman.utils.HttpUtil;
 import com.leoman.utils.PathUtils;
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,8 +42,8 @@ public class WeixinUserController extends CommonController {
     public String invite(HttpServletRequest request, Model model, Long userId, Long couponId) {
         WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
         model.addAttribute("wxUser", wxUser);
-        model.addAttribute("userId", userId);
-        model.addAttribute("couponId", couponId);
+        request.getSession().setAttribute(Constant.TEMP_FROMUSERID, userId);
+        request.getSession().setAttribute(Constant.TEMP_COUPONID, couponId);
         return "weixin/invite-friend";
     }
 
@@ -79,9 +72,15 @@ public class WeixinUserController extends CommonController {
         return "weixin/login";
     }
 
-    @RequestMapping("toRegister")
-    public String toRegister(HttpServletRequest request, Model model, Long userId, Long couponId) {
-        KUser user = service.getById(userId);
-        return "weixin/address-list";
+    @RequestMapping("toLogin")
+    public String toLogin(HttpServletRequest request) {
+        String fromUserId = (String) request.getSession().getAttribute(Constant.TEMP_FROMUSERID);
+        String couponId = (String) request.getSession().getAttribute(Constant.TEMP_COUPONID);
+
+        System.out.println("***********************************************************登录界面***********************************************************");
+        System.out.println("邀请人id：" + fromUserId);
+        System.out.println("优惠券id：" + couponId);
+        System.out.println("***********************************************************登录界面***********************************************************");
+        return "weixin/login";
     }
 }

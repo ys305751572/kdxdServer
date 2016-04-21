@@ -3,8 +3,10 @@ package com.leoman.controller.weixin;
 import com.leoman.cache.CacheService;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
+import com.leoman.entity.Coupon;
 import com.leoman.entity.KUser;
 import com.leoman.pay.util.XMLUtil;
+import com.leoman.service.CouponService;
 import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;
 import com.leoman.utils.CommonUtils;
@@ -38,6 +40,9 @@ public class WeixinBaseController {
 
     @Autowired
     private KUserService userService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Resource(name = "cacheTempCodeServiceImpl")
     private CacheService<String> cacheService;
@@ -79,21 +84,13 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/register")
-    public void register(HttpServletResponse response, String username, String password, String code) {
+    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code) {
         try {
-            System.out.println("=========================================================================================================================");
-            System.out.println("username:" + username);
-            System.out.println("password:" + password);
-            System.out.println("code:" + code);
-            System.out.println("=========================================================================================================================");
-
             // 参数验证
             if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
                 WebUtil.print(response, new Result(false).msg("参数错误"));
                 return;
             }
-
-            System.out.println("===================================first================================");
 
             // 判断验证码
             String hasCode = cacheService.get(username);
@@ -102,8 +99,6 @@ public class WeixinBaseController {
                 return;
             }
 
-            System.out.println("===================================second================================");
-
             // 验证用户是否已注册
             KUser _user = userService.findByMobile(username);
             if (_user != null) {
@@ -111,12 +106,49 @@ public class WeixinBaseController {
                 return;
             }
 
-            System.out.println("===================================three================================");
-
             KUser user = new KUser();
             user.setMobile(username);
             user.setPassword(password);
-            userService.register(user);
+            user.setCount(0);
+            KUser resultUser = userService.register(user);
+
+            String fromUserId = (String) request.getSession().getAttribute(Constant.TEMP_FROMUSERID);
+            String couponId = (String) request.getSession().getAttribute(Constant.TEMP_COUPONID);
+
+            if (null != resultUser) {
+                System.out.println("***********************************************************注册界面***********************************************************");
+                System.out.println("邀请人id:" + fromUserId);
+                System.out.println("优惠券id:" + couponId);
+                System.out.println("***********************************************************注册界面***********************************************************");
+
+                // 邀请人注册成功后，增加邀请人的邀请数量
+                if (null != fromUserId) {
+                    if (null == couponId) {
+                        KUser inviteUser = userService.getById(Long.parseLong(fromUserId));
+
+                        System.out.println("邀请数量：" + inviteUser.getCount());
+
+                        if (inviteUser.getCount() % 3 == 0) {
+                            inviteUser.setCount(0);
+
+                            // 添加优惠券
+                            couponService.createCoupon(Long.parseLong(fromUserId));
+                        } else {
+                            inviteUser.setCount(inviteUser.getCount() + 1);
+                        }
+                        userService.update(inviteUser);
+                    } else {
+                        couponService.reUse(Long.parseLong(couponId));
+                    }
+                } else {
+                    if (null != couponId) {
+                        Coupon coupon = couponService.getById(Long.parseLong(couponId));
+                        coupon.setUserId(user.getId());
+                        couponService.update(coupon);
+                    }
+                }
+            }
+
             WebUtil.print(response, new Result(true));
         } catch (Exception e) {
             e.printStackTrace();

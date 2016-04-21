@@ -17,6 +17,8 @@ public interface Constant {
 
     String WEIXIN_STATE = "weixin_state";
 
+    String jsApi_ticket = "";
+
     String EVENT_DEF_SUBSCRIBE_TEXT = "感谢关注!";
 
     String MSG_DEF_TEXT = "您输入的序列号不正确，请重新输入!";
@@ -31,4 +33,8 @@ public interface Constant {
     String MEMBER_TYPE_BUSINESS = "BUSINESS";
 
     String GO_URL = "GO_URL";
+
+    String TEMP_FROMUSERID = "";
+
+    String TEMP_COUPONID = "";
 }
