@@ -15,7 +15,7 @@
 <input type="hidden" id="totalPage" value="${totalPage}"/>
 
 <c:if test="${null == orderList || orderList.size() == 0}">
-    <span class="ddbh1" style="font-size: 2.0em;position: relative;top: 50px;left: 50px;">暂无订单记录</span>
+    <span style="font-size: 2.0em;position: relative;top: 50px;left: 50px;color: #ff8400;">暂无订单记录</span>
 </c:if>
 <c:forEach var="n" items="${orderList}">
     <section class="section2">

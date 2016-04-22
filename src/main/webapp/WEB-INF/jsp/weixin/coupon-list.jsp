@@ -34,28 +34,33 @@
 <input type="hidden" id="activityPath" value="${activity.image.path}"/>
 <input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
 <input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
-<section class="section">
-    <c:forEach var="n" items="${couponList}">
+<c:if test="${null == couponList || couponList.size() == 0}">
+    <span style="font-size: 1.6em;text-align: center;color: #000;height: 500px">暂无必中券</span>
+</c:if>
+<c:forEach var="n" items="${couponList}">
+    <section class="section">
         <div class="bzq" onclick="getInfo(${n.id})">
             <div class="bz">
                 <span class="bz1">必中</span></div>
             <div class="qg">
                 <ul>
-                    <li><h2><span id="toutiao1">抢购必中卷</span></h2></li>
+                    <li><h2><span id="toutiao1">抢购必中券</span></h2></li>
                     <li id="pt1">有效期：<date:date value="${n.endDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></li>
                 </ul>
             </div>
             <c:if test="${n.status == 1}"><span class="gq1">过期</span></c:if>
             <c:if test="${n.status == 0}"><span class="gq1" style="background: #ff6600;color: #fff;">使用</span></c:if>
         </div>
-    </c:forEach>
-</section>
+    </section>
+</c:forEach>
 <section class="fukuan" id="fukuan" style="margin-top: 100px">
-    <span>必须支付抢购费用以后，您的订单才会生效</span>
+    <span>邀请三位好友可以获取一张必中券</span>
 </section>
-<div class="ending1" style="margin-top: -50px">
+<div class="ending1" style="margin-top: -50px;">
     <input class="button5" id="btn1" type="button" value="邀请好友" style="background-color: #00a642"/>
+    <div class="place" style="width: 100%; height: 100px;"></div>
 </div>
+
 <script type="text/javascript">
     // 点击跳转到必中券详情界面
     function getInfo(id) {

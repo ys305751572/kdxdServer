@@ -40,12 +40,12 @@
         <p>随时获取最新水果优惠信息</p>
     </div>
 </section>
-<div class="place"></div>
 <footer class="loading">
     <div class="ending1">
         <input class="button5" type="button" onclick="toRegister()" value="立即加入"/>
     </div>
 </footer>
+<div style="width: 100%;height: 100px;"></div>
 <input type="hidden" id="fromUserId" value="${fromUserId}"/>
 <input type="hidden" id="couponId" value="${couponId}"/>
 </body>
