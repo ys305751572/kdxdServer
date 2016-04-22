@@ -35,7 +35,7 @@
 <input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
 <input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
 <c:if test="${null == couponList || couponList.size() == 0}">
-    <span style="font-size: 1.6em;text-align: center;color: #000;height: 500px">暂无必中券</span>
+    <span style="font-size: 1.6em;text-align: center;color: #000;height: 500px;width: 100%;padding-top: 50px;display: block;">暂无必中券</span>
 </c:if>
 <c:forEach var="n" items="${couponList}">
     <section class="section">
@@ -53,10 +53,10 @@
         </div>
     </section>
 </c:forEach>
-<section class="fukuan" id="fukuan" style="margin-top: 100px">
-    <span>邀请三位好友可以获取一张必中券</span>
+<section class="fukuan" id="fukuan">
+    <span style="position: relative;top: -170px">邀请三位好友可以获取一张必中券</span>
 </section>
-<div class="ending1" style="margin-top: -50px;">
+<div class="ending1">
     <input class="button5" id="btn1" type="button" value="邀请好友" style="background-color: #00a642"/>
     <div class="place" style="width: 100%; height: 100px;"></div>
 </div>
