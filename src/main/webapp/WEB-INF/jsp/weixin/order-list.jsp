@@ -5,7 +5,7 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ccc.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/cc.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <title>我的订单列表</title>
 </head>
@@ -14,12 +14,12 @@
 <input type="hidden" id="current" value="${current}"/>
 <input type="hidden" id="totalPage" value="${totalPage}"/>
 
-<section class="section2">
-    <div class="list">
-        <c:if test="${null == orderList || orderList.size() == 0}">
-            <span class="ddbh1">暂无订单记录</span>
-        </c:if>
-        <c:forEach var="n" items="${orderList}">
+<c:if test="${null == orderList || orderList.size() == 0}">
+    <span class="ddbh1" style="font-size: 1.2em;">暂无订单记录</span>
+</c:if>
+<c:forEach var="n" items="${orderList}">
+    <section class="section2">
+        <div class="list">
             <div class="ddbh">
                 <span class="ddbh1">订单编号：${n.sn}</span>
                 <span class="ddbh2">状态：
@@ -42,9 +42,9 @@
             <div class="sj">
                 <span class="sj1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
             </div>
-        </c:forEach>
-    </div>
-</section>
+        </div>
+    </section>
+</c:forEach>
 <div class="fy1">
     <button class="btn3" value="上一页" onclick="prevPage()">上一页</button>
     <button class="btn4" value="下一页" onclick="nextPage()">下一页</button>

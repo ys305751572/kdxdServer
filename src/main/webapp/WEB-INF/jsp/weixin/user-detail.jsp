@@ -5,7 +5,7 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ccc.css"/>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/cc.css"/>
     <title>个人资料</title>
 </head>
 <body>
@@ -22,23 +22,31 @@
     <div class="bgt">
         <img src="${contextPath}/static/weixin/images/personal center_dotted line _view.png">
     </div>
-    <div class="cz">
-        <a href="weixin/coinlog/index"><span class="span">我要充值</span></a>
-    </div>
-    <div class="dd">
-        <a href="weixin/order/index"><span class="span">我的订单</span></a>
-    </div>
-    <div class="add">
-        <a href="weixin/address/list"><span class="span">收货地址</span></a>
-    </div>
-    <div class="jl">
-        <a href="weixin/coinlog/list"><span class="span">充值记录</span></a>
-    </div>
+    <a href="weixin/coinlog/index">
+        <div class="cz">
+            <span class="span">我要充值</span>
+        </div>
+    </a>
+    <a href="weixin/order/index">
+        <div class="dd">
+            <span class="span">我的订单</span>
+        </div>
+    </a>
+    <a href="weixin/address/list">
+        <div class="add">
+            <span class="span">收货地址</span>
+        </div>
+    </a>
+    <a href="weixin/coinlog/list">
+        <div class="jl">
+            <span class="span">充值记录</span>
+        </div>
+    </a>
 </section>
 
 <footer class="loading">
-    <div class="ending1">
-        <input class="button5" type="submit" value="注&nbsp;销" style="background:#ff8400; " onclick="logOut()"/>
+    <div class="ending1" onclick="logOut()">
+        <input class="button5" type="submit" value="注&nbsp;销" style="background:#ff8400; "/>
     </div>
 </footer>
 

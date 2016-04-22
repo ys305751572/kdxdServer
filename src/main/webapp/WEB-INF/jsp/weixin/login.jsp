@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header>
     <figure class="logo">
         <img src="${contextPath}/static/weixin/images/login_ logo.png">

@@ -5,7 +5,7 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/sss.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/awesome-bootstrap-checkbox.css"/>
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <script type="text/javascript"></script>

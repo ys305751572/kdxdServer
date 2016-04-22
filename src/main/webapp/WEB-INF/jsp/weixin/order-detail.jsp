@@ -10,7 +10,7 @@
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <title><c:if test="${pbr.resultStatus == 0}">抢购成功</c:if><c:if test="${pbr.resultStatus == 1}">抢购失败</c:if></title>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header class="header">
     <p><c:if test="${pbr.resultStatus == 0}">恭喜您！抢购到如下商品</c:if><c:if test="${pbr.resultStatus == 1}">手气不太好，没抢到，再来一次</c:if></p>
 </header>
