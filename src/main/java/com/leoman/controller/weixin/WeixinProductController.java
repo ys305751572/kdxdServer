@@ -342,8 +342,8 @@ public class WeixinProductController extends CommonController {
      * @return
      */
     @RequestMapping("toBuy")
-    public String toBuy(HttpServletRequest request, Model model) {
-        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+    public String toBuy(Model model,Long userId) {
+        KUser kUser = userService.getById(userId);
 
         List<Product> productList = service.findList(1, 1000000).getContent();
         Product product = productList.get(0);
