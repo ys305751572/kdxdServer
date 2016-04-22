@@ -160,6 +160,19 @@ public class ProductServiceImpl implements ProductService {
             WebUtil.print(response, new Result(false).msg("商品已抢完!"));
             return null;
         }
+
+        ProductBuyRecord pbr = new ProductBuyRecord();
+
+        KUser user = new KUser();
+        user.setId(userId);
+        pbr.setUser(user);
+
+        Product _product = new Product();
+        _product.setId(id);
+        pbr.setProduct(_product);
+        pbr.setIsUserCoupons(isUsed ? 1 : 0);
+
+
         // 是否使用优惠券
         if (isUsed) {
             List<Coupon> list = couponService.findListByUserId(userId);
@@ -172,39 +185,43 @@ public class ProductServiceImpl implements ProductService {
 
                 // 将优惠券状态更改为已使用
                 couponService.update(coupon);
-                //toReduce(userId);
             }
-        } else {
-            isGetCoupon = KdxgUtils.isGetByprobability();
-            if (isGetCoupon) {
-                endDate = DateUtils.daysAfter(new Date(), 3);
-            }
-        }
-        ProductBuyRecord pbr = new ProductBuyRecord();
 
-        KUser user = new KUser();
-        user.setId(userId);
-        pbr.setUser(user);
-
-        Product _product = new Product();
-        _product.setId(id);
-        pbr.setProduct(_product);
-
-        pbr.setIsUserCoupons(isUsed ? 1 : 0);
-        pbr.setCouponsEndDate(endDate);
-        Boolean flag = KdxgUtils.isGetByprobability();
-        if (flag) {
+            // 使用了必中券，就一定会抢购成功
             pbr.setResultStatus(0);
+            isGetCoupon = KdxgUtils.isGetByprobability();
             if (isGetCoupon) {
                 pbr.setIsGetCoupons(1);
                 couponService.createCoupon(userId);
             } else {
                 pbr.setIsGetCoupons(0);
             }
+
+            if (isGetCoupon) {
+                endDate = DateUtils.daysAfter(new Date(), 3);
+            }
         } else {
-            pbr.setIsGetCoupons(0);
-            pbr.setResultStatus(1);
+            Boolean flag = KdxgUtils.isGetByprobability();
+            if (flag) {
+                pbr.setResultStatus(0);
+                isGetCoupon = KdxgUtils.isGetByprobability();
+                if (isGetCoupon) {
+                    pbr.setIsGetCoupons(1);
+                    couponService.createCoupon(userId);
+                } else {
+                    pbr.setIsGetCoupons(0);
+                }
+
+                if (isGetCoupon) {
+                    endDate = DateUtils.daysAfter(new Date(), 3);
+                }
+            } else {
+                pbr.setIsGetCoupons(0);
+                pbr.setResultStatus(1);
+            }
         }
+
+        pbr.setCouponsEndDate(endDate);
         pbr.setPayDays(0);
         pbr.setPayMoney(0.0);
         pbr.setResult("");

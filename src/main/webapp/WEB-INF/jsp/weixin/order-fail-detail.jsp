@@ -37,6 +37,7 @@
 <section class="section">
     <div class="list">
         <input type="hidden" id="productId" value="${pbr.product.id}"/>
+        <img src="${pbr.product.coverImage.path}" width="110px" height="110px" />
         <form>
             <ul>
                 <li><h2><span id="toutiao">${pbr.product.title}</span></h2></li>
@@ -46,18 +47,18 @@
     </div>
     <div class="list2">
         <a href="javascript:void(0)" onclick="toPay()" class="list2_link">
-            <div class="list1">
-                <span>继续抢购</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png">
+            <div class="list2_link">
+                <span>继续抢购</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png"/>
             </div>
         </a>
         <a href="weixin/order/index" class="list2_link">
             <div class="list1">
-                <span>查看订单</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png">
+                <span>查看订单</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png"/>
             </div>
         </a>
         <a href="javascript:void(0)" class="list2_link">
             <div class="list1" id="btn1">
-                <span>邀请好友获得必中卷</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png">
+                <span>邀请好友获得必中卷</span><img src="${contextPath}/static/weixin/images/Rectangle 8.png"/>
             </div>
         </a>
     </div>
@@ -117,6 +118,6 @@
 
     // 继续抢购
     function toPay() {
-        window.location.href = "${contextPath}/weixin/product/detail?id=" + $('#productId').va();
+        window.location.href = "${contextPath}/weixin/product/detail?id=" + $('#productId').val();
     }
 </script>

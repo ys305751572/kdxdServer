@@ -182,6 +182,7 @@ public class WeixinProductController extends CommonController {
      */
     @RequestMapping("toSnapUpResult")
     public String toSnapUpResult(HttpServletRequest request, Long pbrId, Long addressId, Model model) {
+        String url = "";
 
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         ProductBuyRecord pbr = pbservice.getById(pbrId);
@@ -190,8 +191,10 @@ public class WeixinProductController extends CommonController {
         Address address = null;
         if (null == addressId) {
             address = userService.findDefaultAddressByUserId(weixinUser.getId());
+            url = "http://qq.tt/kdxgServer/weixin/product/toSnapUpResult?pbrId=" + pbrId;
         } else {
             address = addressService.getById(addressId);
+            url = "http://qq.tt/kdxgServer/weixin/product/toSnapUpResult?pbrId=" + pbrId + "&addressId=" + addressId;
         }
         model.addAttribute("address", address);
 
@@ -218,8 +221,6 @@ public class WeixinProductController extends CommonController {
             System.out.println("踢踢用户信息：" + kUser);
             System.out.println("微信用户信息：" + wxUser);
 
-            List<Coupon> list = couponService.findListByUserId2(kUser.getId());
-            model.addAttribute("couponList", list);
             model.addAttribute("wxUser", wxUser);
             model.addAttribute("user", kUser);
 
@@ -231,7 +232,7 @@ public class WeixinProductController extends CommonController {
             String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
 
             // 生成签名
-            String signature = CommonUtils.getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/product/toSnapUpResult?pbrId=" + pbrId + "&addressId=" + addressId, wxMpConfigStorage);
+            String signature = CommonUtils.getSignature(request, noncestr, timestamp, url, wxMpConfigStorage);
 
             model.addAttribute("timestamp", timestamp);
             model.addAttribute("noncestr", noncestr);
