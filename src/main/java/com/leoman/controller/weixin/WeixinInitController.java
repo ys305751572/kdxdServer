@@ -40,12 +40,12 @@ public class WeixinInitController {
 
         WxMenu menu = new WxMenu();
         WxMenu.WxMenuButton button1 = new WxMenu.WxMenuButton();
-        button1.setType(WxConsts.EVT_CLICK);
+        button1.setType(WxConsts.BUTTON_CLICK);
         button1.setName("活动资讯");
         button1.setKey(Constant.EVENT_ACTIVITY_LIST);
 
         WxMenu.WxMenuButton button2 = new WxMenu.WxMenuButton();
-        button2.setType(WxConsts.EVT_CLICK);
+        button2.setType(WxConsts.BUTTON_CLICK);
         button2.setName("限时抢购");
         button2.setKey(Constant.EVENT_PRODUCT_LIST);
 
