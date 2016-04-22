@@ -5,10 +5,13 @@ import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
 import com.leoman.entity.Coupon;
 import com.leoman.entity.KUser;
+import com.leoman.entity.Saleman;
+import com.leoman.entity.SalemanRecord;
 import com.leoman.pay.util.XMLUtil;
 import com.leoman.service.CouponService;
 import com.leoman.service.KUserService;
 import com.leoman.service.LoginService;
+import com.leoman.service.SalamanRecordService;
 import com.leoman.utils.CommonUtils;
 import com.leoman.utils.CookiesUtils;
 import com.leoman.utils.SmsSendUtils;
@@ -45,6 +48,9 @@ public class WeixinBaseController {
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private SalamanRecordService salamanRecordService;
+
     @Resource(name = "cacheTempCodeServiceImpl")
     private CacheService<String> cacheService;
 
@@ -61,6 +67,8 @@ public class WeixinBaseController {
                 }
             }
         }
+        System.out.println("salemanId:" + salemanId);
+        model.addAttribute("salemanId",salemanId);
         return "weixin/login";
     }
 
@@ -70,7 +78,7 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/toRegister")
-    public String toRegister(Model model, Long fromUserId, Long couponId) {
+    public String toRegister(Model model, Long fromUserId, Long couponId,Long salemanId) {
         System.out.println("***********************************************************3、准备注册***********************************************************");
         System.out.println("邀请人id：" + fromUserId);
         System.out.println("优惠券id：" + couponId);
@@ -78,11 +86,14 @@ public class WeixinBaseController {
 
         model.addAttribute("fromUserId", fromUserId);
         model.addAttribute("couponId", couponId);
+
+        System.out.println("salemanId:" + salemanId);
+        model.addAttribute("salemanId",salemanId);
         return "weixin/register";
     }
 
     @RequestMapping("/toPassword")
-    public String toSetPassword(String username, String yzm, Model model, Long fromUserId, Long couponId) {
+    public String toSetPassword(String username, String yzm, Model model, Long fromUserId, Long couponId,Long salemanId) {
         System.out.println("***********************************************************4、准备注册***********************************************************");
         System.out.println("邀请人id：" + fromUserId);
         System.out.println("优惠券id：" + couponId);
@@ -94,12 +105,18 @@ public class WeixinBaseController {
         model.addAttribute("reg", reg);
         model.addAttribute("fromUserId", fromUserId);
         model.addAttribute("couponId", couponId);
+
+        System.out.println("salemanId:" + salemanId);
+
+        model.addAttribute("salemanId",salemanId);
         return "weixin/setpassword";
     }
 
     @RequestMapping("/register")
-    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code, Long fromUserId, Long couponId) {
+    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code, Long fromUserId, Long couponId,Long  salemanId) {
         try {
+
+
             // 参数验证
             if (StringUtils.isBlank(username) && StringUtils.isBlank(code)) {
                 WebUtil.print(response, new Result(false).msg("参数错误"));
@@ -125,6 +142,22 @@ public class WeixinBaseController {
             user.setPassword(password);
             user.setCount(0);
             KUser resultUser = userService.register(user);
+
+            System.out.println("salemanId:" + salemanId);
+            if(salemanId != null) {
+                SalemanRecord record = new SalemanRecord();
+                Saleman s = new Saleman();
+                s.setId(salemanId);
+
+                KUser u = new KUser();
+                u.setId(resultUser.getId());
+
+                record.setSaleman(s);
+                record.setKuser(u);
+                record.setContent("注册");
+
+                salamanRecordService.create(record);
+            }
 
             if (null != resultUser) {
                 System.out.println("***********************************************************5、注册界面***********************************************************");

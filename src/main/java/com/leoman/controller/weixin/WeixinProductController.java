@@ -140,7 +140,7 @@ public class WeixinProductController extends CommonController {
      * @param id
      * @param isUsed
      */
-    @RequestMapping(value = "/snapUp", method = RequestMethod.POST)
+    @RequestMapping(value = "/snapUp")
     public void snapUp(HttpServletRequest request, HttpServletResponse response, Long id, Boolean isUsed) {
 
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);

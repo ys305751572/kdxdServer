@@ -14,6 +14,7 @@
 <body style="background: #f7f7f7">
 <input type="hidden" id="fromUserId" name="fromUserId" value="${fromUserId}"/>
 <input type="hidden" id="couponId" name="couponId" value="${couponId}"/>
+<input type="hidden" id="salemanId" name="salemanId" value="${salemanId}"/>
 <section class="ff1">
     <form action="${contextPath}/weixin/login/register" method="post">
         <div class="flex_box3">
@@ -46,7 +47,8 @@
                             "code": $("#code").val(),
                             "password": password,
                             "fromUserId": $('#fromUserId').val(),
-                            "couponId": $('#couponId').val()
+                            "couponId": $('#couponId').val(),
+                            "salemanId" : $("#salemanId").val()
                         },
                         function (result) {
                             if (result.status == 0) {

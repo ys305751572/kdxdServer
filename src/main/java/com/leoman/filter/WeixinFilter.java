@@ -70,7 +70,7 @@ public class WeixinFilter implements Filter {
 
             KUser kUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
             WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
-
+            Logger.info("kuser:===========" + kUser);
             if (null != wxUser) {
                 System.out.println("wxUser的OpenId:" + wxUser.getOpenId());
             }
@@ -90,8 +90,9 @@ public class WeixinFilter implements Filter {
                 return;
             }
 
+
             if (null == kUser) {
-                Logger.info("url:" + httpRequest.getContextPath());
+                Logger.info("urlkUser:" + httpRequest.getContextPath());
                 Map<String, String[]> paramsMap = httpRequest.getParameterMap();
                 StringBuffer buffer = new StringBuffer("?");
                 for (String s : paramsMap.keySet()) {
@@ -103,7 +104,12 @@ public class WeixinFilter implements Filter {
                 String goUrl = httpRequest.getRequestURL() + buffer.toString().substring(0, buffer.length() - 1);
                 System.out.println("goUrl:" + goUrl);
                 httpRequest.getSession().setAttribute(Constant.GO_URL, goUrl);
-                final String toLoginUrl = httpRequest.getContextPath() + "/weixin/login/toLogin";
+
+                String params = "";
+                if(goUrl.indexOf("?") != -1) {
+                    params = goUrl.substring(goUrl.indexOf("?") ,goUrl.length());
+                }
+                final String toLoginUrl = httpRequest.getContextPath() + "/weixin/login/toLogin" + params;
                 System.out.println("toLoginUrl:" + toLoginUrl);
                 httpResponse.sendRedirect(toLoginUrl);
                 return;
