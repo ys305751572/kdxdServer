@@ -25,13 +25,19 @@
             <input class="flex4" type="text" placeholder="收货地址" value="${address.address}" id="address" maxlength="500" name="address"/>
         </div>
         <div class="ending1">
-            <input class="button5" id="btn1" type="button" value="保存" onclick="saveInfo()" />
+            <input class="button5" type="button" value="保存" style="background-color: #00a642" onclick="saveInfo()"/>
+            <input class="button5" type="button" value="取消" style="background-color: #ff8400;margin-top: 1.2em;" onclick="goBack()"/>
         </div>
     </form>
 </section>
 </body>
 </html>
 <script type="text/javascript">
+    // 返回列表界面
+    function goBack() {
+        window.location.href = '${contextPath}/weixin/address/list';
+    }
+
     // 保存收货地址信息
     function saveInfo() {
         var flag = true;
