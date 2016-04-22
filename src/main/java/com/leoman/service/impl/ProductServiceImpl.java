@@ -189,17 +189,6 @@ public class ProductServiceImpl implements ProductService {
 
             // 使用了必中券，就一定会抢购成功
             pbr.setResultStatus(0);
-            isGetCoupon = KdxgUtils.isGetByprobability();
-            if (isGetCoupon) {
-                pbr.setIsGetCoupons(1);
-                couponService.createCoupon(userId);
-            } else {
-                pbr.setIsGetCoupons(0);
-            }
-
-            if (isGetCoupon) {
-                endDate = DateUtils.daysAfter(new Date(), 3);
-            }
         } else {
             Boolean flag = KdxgUtils.isGetByprobability();
             if (flag) {
