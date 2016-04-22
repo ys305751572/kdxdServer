@@ -123,21 +123,13 @@
                 var id = $('#id').val();
                 var userId = $('#userId').val();
 
-                alert("id：" + id);
-                alert("userId：" + userId);
-                alert("status：" + status);
-
                 if (null == userId || userId == '') {
-                    alert(0);
-
                     var params = window.location.search;
                     var ss = params.lastIndexOf("=");
                     var ss2 = params.substring((ss + 1), params.length);
 
                     window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
                 } else {
-                    alert(1);
-
                     // 直接购买
                     $.post("weixin/product/snapUp", {
                         id: id,

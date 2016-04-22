@@ -140,7 +140,6 @@
 
     function toBuy() {
         var couponId = $('#couponId').val();
-        alert(couponId);
         window.location.href = "${contextPath}/weixin/product/toBuy?couponId=" + couponId;
     }
 </script>
