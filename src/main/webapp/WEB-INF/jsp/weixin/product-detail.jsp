@@ -12,7 +12,7 @@
     <script type="text/javascript" src="${contextPath}/static/weixin/js/koala.min.1.5.js"></script>
     <title>抢购界面</title>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header class="header_img">
     <div class="img1"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png"></div>
     <div class="line"><img src="${contextPath}/static/weixin/images/Line.png"></div>

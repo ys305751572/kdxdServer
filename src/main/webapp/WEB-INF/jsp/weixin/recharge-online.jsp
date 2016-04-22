@@ -13,7 +13,7 @@
 <section>
     <div class="list" id="qb">
         <input type="hidden" id="userId" value="${user.id}"/>
-        <span class="cz">我的钱包</span><span class="sz1">¥<span style="color:#ff911a ">${user.money}</span></span>
+        <span class="cz" style="font-size: 1.3em;">我的钱包</span><span class="sz1">¥<span style="color:#ff911a ">${user.money}</span></span>
 
     </div>
     <form>

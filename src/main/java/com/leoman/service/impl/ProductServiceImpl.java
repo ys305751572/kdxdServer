@@ -130,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void deleteImages(Long productId, Integer imageId) {
-        productImageService.deleteProductImageByProductIdAndImageId(productId,imageId);
+        productImageService.deleteProductImageByProductIdAndImageId(productId, imageId);
         imageService.deleteById(imageId);
     }
 
@@ -191,16 +191,24 @@ public class ProductServiceImpl implements ProductService {
         pbr.setProduct(_product);
 
         pbr.setIsUserCoupons(isUsed ? 1 : 0);
-        pbr.setIsGetCoupons(isGetCoupon ? 1 : 0);
         pbr.setCouponsEndDate(endDate);
-        pbr.setResultStatus(0);
+        Boolean flag = KdxgUtils.isGetByprobability();
+        if (flag) {
+            pbr.setResultStatus(0);
+            if (isGetCoupon) {
+                pbr.setIsGetCoupons(1);
+                couponService.createCoupon(userId);
+            } else {
+                pbr.setIsGetCoupons(0);
+            }
+        } else {
+            pbr.setIsGetCoupons(0);
+            pbr.setResultStatus(1);
+        }
         pbr.setPayDays(0);
         pbr.setPayMoney(0.0);
         pbr.setResult("");
         pbr = pbservice.create(pbr);
-        if (isGetCoupon) {
-            couponService.createCoupon(userId);
-        }
         return pbr;
     }
 

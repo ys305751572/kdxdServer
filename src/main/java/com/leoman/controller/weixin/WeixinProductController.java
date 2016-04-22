@@ -8,9 +8,11 @@ import com.leoman.core.bean.Result;
 import com.leoman.entity.*;
 import com.leoman.service.*;
 import com.leoman.service.ProductService;
+import com.leoman.utils.CommonUtils;
 import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.WebUtil;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -55,6 +57,12 @@ public class WeixinProductController extends CommonController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ActivityService activityService;
+
+    @Autowired
+    private WxMpConfigStorage wxMpConfigStorage;
 
     /**
      * 商品列表 测试
@@ -197,7 +205,40 @@ public class WeixinProductController extends CommonController {
             e.printStackTrace();
         }
 
-        return "weixin/order-detail";
+        if (pbr.getResultStatus() == 0) {
+            return "weixin/order-detail";
+        } else {
+            // 获取活动详情
+            Activity activity = activityService.getById(1L);
+            model.addAttribute("activity", activity);
+
+            KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+
+            System.out.println("踢踢用户信息：" + kUser);
+            System.out.println("微信用户信息：" + wxUser);
+
+            List<Coupon> list = couponService.findListByUserId2(kUser.getId());
+            model.addAttribute("couponList", list);
+            model.addAttribute("wxUser", wxUser);
+            model.addAttribute("user", kUser);
+
+            // 生成时间戳
+            String timestamp = System.currentTimeMillis() + "";
+            timestamp = timestamp.substring(0, 10);
+
+            // 生成随机字符串
+            String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
+
+            // 生成签名
+            String signature = CommonUtils.getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/product/toSnapUpResult?pbrId=" + pbrId + "&addressId=" + addressId, wxMpConfigStorage);
+
+            model.addAttribute("timestamp", timestamp);
+            model.addAttribute("noncestr", noncestr);
+            model.addAttribute("signature", signature);
+
+            return "weixin/order-fail-detail";
+        }
     }
 
     /**
