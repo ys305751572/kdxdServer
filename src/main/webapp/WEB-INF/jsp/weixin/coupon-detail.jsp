@@ -139,6 +139,8 @@
     });
 
     function toBuy() {
-        window.location.href = "${contextPath}/weixin/product/toBuy?userId=" + $('#userId').val();
+        var couponId = $('#couponId').val();
+        alert(couponId);
+        window.location.href = "${contextPath}/weixin/product/toBuy?couponId=" + couponId;
     }
 </script>

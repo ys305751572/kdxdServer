@@ -337,13 +337,13 @@ public class WeixinProductController extends CommonController {
     /**
      * 跳转到最新抢购界面
      *
-     * @param request
      * @param model
      * @return
      */
     @RequestMapping("toBuy")
-    public String toBuy(Model model,Long userId) {
-        KUser kUser = userService.getById(userId);
+    public String toBuy(Model model, Long couponId) {
+        Coupon coupon = couponService.getById(couponId);
+        KUser kUser = userService.getById(coupon.getUserId());
 
         List<Product> productList = service.findList(1, 1000000).getContent();
         Product product = productList.get(0);
