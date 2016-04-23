@@ -28,18 +28,19 @@ public class CustomWeixinInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
             String code = request.getParameter("code");
+            WxUser wxUserPlus = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
             System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
             System.out.println("code:" + code);
             System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
 
-            // if (Constant.WEIXIN_STATE.equals(request.getParameter("state")) && StringUtils.isNotBlank(code)) {
-            if (StringUtils.isNotBlank(code)) {
-                WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+            System.out.println("wxUser:" + wxUserPlus);
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
 
-                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
-                System.out.println("wxMpOAuth2AccessToken:" + wxMpOAuth2AccessToken);
-                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;");
+            // if (Constant.WEIXIN_STATE.equals(request.getParameter("state")) && StringUtils.isNotBlank(code)) {
+            if (null == wxUserPlus && StringUtils.isNotBlank(code)) {
+                WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
 
                 WxUser wxUser = wxUserService.getWxUserByToken(wxMpOAuth2AccessToken);
 
