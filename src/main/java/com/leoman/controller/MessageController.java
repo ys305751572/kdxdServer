@@ -5,10 +5,10 @@ import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
 import com.leoman.core.bean.Result;
 import com.leoman.entity.Image;
-import com.leoman.entity.Information;
 import com.leoman.entity.Message;
 import com.leoman.entity.vo.MessageVo;
 import com.leoman.service.MessageService;
+import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +113,11 @@ public class MessageController extends CommonController{
             vo = new MessageVo();
             vo.setId(message.getId());
             vo.setTitle(message.getTitle());
-            vo.setImage(message.getImage());
+
+            if(message.getImage() != null) {
+                message.getImage().setPath(ConfigUtil.getString("upload.url") + message.getImage().getPath());
+                vo.setImage(message.getImage());
+            }
             try {
                 vo.setSendDate(DateUtils.longToString(message.getSendDate(),"yyyy-MM-dd HH:mm:ss"));
             } catch (ParseException e) {
