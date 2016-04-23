@@ -47,34 +47,37 @@ public class WeixinCouponsController extends CommonController {
     @RequestMapping("/list")
     public String list(HttpServletRequest request, ModelMap model) {
         // 获取活动详情
-        Activity activity = activityService.getById(1L);
-        model.addAttribute("activity", activity);
+        try {
+            Activity activity = activityService.getById(1L);
+            model.addAttribute("activity", activity);
 
-        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+            KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
-        System.out.println("踢踢用户信息：" + kUser);
-        System.out.println("微信用户信息：" + wxUser);
+            System.out.println("踢踢用户信息：" + kUser);
+            System.out.println("微信用户信息：" + wxUser);
 
-        List<Coupon> list = service.findListByUserId2(kUser.getId());
-        model.addAttribute("couponList", list);
-        model.addAttribute("wxUser", wxUser);
-        model.addAttribute("user", kUser);
+            List<Coupon> list = service.findListByUserId2(kUser.getId());
+            model.addAttribute("couponList", list);
+            model.addAttribute("wxUser", wxUser);
+            model.addAttribute("user", kUser);
 
-        // 生成时间戳
-        String timestamp = System.currentTimeMillis() + "";
-        timestamp = timestamp.substring(0, 10);
+            // 生成时间戳
+            String timestamp = System.currentTimeMillis() + "";
+            timestamp = timestamp.substring(0, 10);
 
-        // 生成随机字符串
-        String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
+            // 生成随机字符串
+            String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
 
-        // 生成签名
-        String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
+            // 生成签名
+            String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
 
-        model.addAttribute("timestamp", timestamp);
-        model.addAttribute("noncestr", noncestr);
-        model.addAttribute("signature", signature);
-
+            model.addAttribute("timestamp", timestamp);
+            model.addAttribute("noncestr", noncestr);
+            model.addAttribute("signature", signature);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "weixin/coupon-list";
     }
 
