@@ -1,11 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: wangbin
-  Date: 2015/8/13
-  Time: 14:28
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="/tags" prefix="date" %>
 <%@ include file="../inc/taglibs.jsp" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -47,7 +41,7 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">商品名称:</label>
                                     <div class="col-sm-5">
-                                        <h4>${order.product.title}</h4>
+                                        <h4>${order.productName}</h4>
                                     </div>
                                 </div>
 
@@ -60,7 +54,7 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">服务时间:</label>
                                     <div class="col-sm-5">
-                                        <h4>${order.createDate}</h4>
+                                        <h4><date:date value="${order.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></h4>
                                     </div>
                                 </div>
                                     <div class="form-group">

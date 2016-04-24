@@ -312,7 +312,7 @@ public class WeixinProductController extends CommonController {
             order.setServiceStartDate(productBuyRecord.getProduct().getServiceStartDate());
             order.setUserName(productBuyRecord.getUser().getNickname());
 
-//            order.setProduct(productBuyRecord.getProduct());
+            order.setProduct(productBuyRecord.getProduct());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);
