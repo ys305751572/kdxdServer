@@ -76,6 +76,7 @@ public class WeixinInitController {
         menu.getButtons().add(button3);
 
         try {
+            System.out.println("==============menuCreate()==================");
             wxMpService.menuCreate(menu);
         } catch (Exception e) {
             e.printStackTrace();

@@ -63,7 +63,7 @@ public class MessageController extends CommonController{
      * @param response
      * @param msg
      */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save")
     @ResponseBody
     public void save(HttpServletResponse response, Message msg,Integer imageId,String sendTimeQ) {
         try {

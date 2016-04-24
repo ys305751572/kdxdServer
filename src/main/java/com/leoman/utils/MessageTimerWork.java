@@ -40,7 +40,7 @@ public class MessageTimerWork {
 
     private void doExecute() {
         // TODO 发送消息
-        System.out.println("===============发送消息============");
+        System.out.println("===============message send()============");
         WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
 
         List<String> openIds = new ArrayList<String>();
@@ -48,6 +48,7 @@ public class MessageTimerWork {
             WxMpUserList userList = wxMpService.userList(null);
             openIds.addAll(userList.getOpenIds());
 //            while(StringUtils.isNotBlank(userList.getNextOpenId())) {
+//                System.out.println("nextOpenId:" + userList.getNextOpenId());
 //                openIds.addAll(wxMpService.userList(userList.getNextOpenId()).getOpenIds());
 //            }
 
@@ -70,7 +71,7 @@ public class MessageTimerWork {
             massMessage.getToUsers().addAll(openIds);
 
             WxMpMassSendResult massResult = wxMpService.massOpenIdsMessageSend(massMessage);
-            System.out.println(massResult.toString());
+            System.out.println("massResult:" + massResult.toString());
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
