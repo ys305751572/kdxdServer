@@ -162,7 +162,7 @@
                     },
                     "columns": [
                         {"data": "id"},
-                        {"data": "id"},
+                        {"data": "saleman.id"},
                         {
                             "data": "saleman.name"
                         },
