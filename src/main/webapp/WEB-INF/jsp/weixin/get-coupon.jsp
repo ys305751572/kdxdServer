@@ -35,7 +35,7 @@
         <a href="javascript:void(0)">活动详情</a>
     </div>
     <div style="text-align: center;padding-bottom: 1.2em;">
-        <img src="${contextPath}/static/weixin/images/qrcode_logo.jpg" width="90%;"  />
+        <img src="${contextPath}/static/weixin/images/qrcode_logo.jpg" width="100%;"  />
         <p>长按关注公众号</p>
         <p>随时获取最新水果优惠信息</p>
     </div>

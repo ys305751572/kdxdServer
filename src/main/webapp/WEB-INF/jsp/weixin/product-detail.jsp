@@ -76,7 +76,7 @@
     <div class="topbar">
         <h3>${product.title}</h3>
     </div>
-    <div class="neirong">
+    <div class="neirong" style="font-size: x-large">
         ${product.content}
     </div>
     <aside class="aside1">
