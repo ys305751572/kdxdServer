@@ -61,23 +61,23 @@ public class WeixinCouponsController extends CommonController {
             model.addAttribute("couponList", list);
             model.addAttribute("wxUser", wxUser);
             model.addAttribute("user", kUser);
-
-            // 生成时间戳
-            String timestamp = System.currentTimeMillis() + "";
-            timestamp = timestamp.substring(0, 10);
-
-            // 生成随机字符串
-            String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
-
-            // 生成签名
-            String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
-
-            model.addAttribute("timestamp", timestamp);
-            model.addAttribute("noncestr", noncestr);
-            model.addAttribute("signature", signature);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // 生成时间戳
+        String timestamp = System.currentTimeMillis() + "";
+        timestamp = timestamp.substring(0, 10);
+
+        // 生成随机字符串
+        String noncestr = String.valueOf(System.currentTimeMillis() / 1000);
+
+        // 生成签名
+        String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
+
+        model.addAttribute("timestamp", timestamp);
+        model.addAttribute("noncestr", noncestr);
+        model.addAttribute("signature", signature);
         return "weixin/coupon-list";
     }
 
