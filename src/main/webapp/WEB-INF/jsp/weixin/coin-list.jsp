@@ -21,7 +21,7 @@
         <div class="list1">
             <span class="cz">充值金额</span><span class="sz">${n.money}</span>
             <br>
-            <time class="time1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></time>
+            <time class="time1" style="font-size: larger"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></time>
         </div>
     </div>
 </c:forEach>

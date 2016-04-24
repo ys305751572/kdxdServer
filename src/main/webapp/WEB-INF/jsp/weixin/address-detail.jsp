@@ -22,11 +22,12 @@
             <input class="flex4" type="text" placeholder="收货人手机号" value="${address.mobile}" id="mobile" maxlength="20" name="tel"/>
         </div>
         <div class="flex_box3">
-            <input class="flex4" type="text" placeholder="收货地址" value="${address.address}" id="address" maxlength="500" name="address"/>
+            <input class="flex4" style="color: black" type="text" placeholder="收货地址" value="${address.address}" id="address" maxlength="500" name="address"/>
         </div>
         <div class="ending1">
             <input class="button5" type="button" value="保存" style="background-color: #00a642" onclick="saveInfo()"/>
             <input class="button5" type="button" value="取消" style="background-color: #ff8400;margin-top: 1.2em;" onclick="goBack()"/>
+            <input class="button5" type="button" value="删除" style="background-color: red; margin-top: 1.2em;" onclick="deleteInfo()"/>
         </div>
     </form>
 </section>
@@ -84,5 +85,19 @@
                 }
             });
         }
+    }
+
+    // 删除收货地址信息
+    function deleteInfo() {
+        $.post("${contextPath}/weixin/address/delete", {
+            addressId: $('#id').val()
+        }, function (result) {
+            if (result > 0) {
+                alert('操作成功');
+                window.location.href = "weixin/address/list";
+            } else {
+                alert('操作失败');
+            }
+        });
     }
 </script>

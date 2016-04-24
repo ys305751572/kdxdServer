@@ -48,7 +48,21 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public Address deleteById(Long id) {
+        Address address = dao.findOne(id);
+        if (null != address && address.getIsDefault() == 0) {
+            // 如果是默认地址，则将该用户的第一个地址设置为默认地址
+            List<Address> list = dao.findByUserIdNoDefault(address.getUserId(), id);
+            if (null != list && list.size() > 0) {
+                Address address1 = list.get(0);
+                address1.setIsDefault(0);
+                dao.save(address1);
+            }
+        }
+
+        dao.delete(id);
+
         return null;
     }
 

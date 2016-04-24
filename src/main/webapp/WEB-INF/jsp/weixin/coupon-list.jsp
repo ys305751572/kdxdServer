@@ -30,7 +30,6 @@
 <input type="hidden" id="signature" value="${signature}"/>
 <input type="hidden" id="userId" value="${user.id}"/>
 <input type="hidden" id="activityTitle" value="${activity.title}"/>
-<input type="hidden" id="activityContent" value="${activity.content}"/>
 <input type="hidden" id="activityPath" value="${activity.image.path}"/>
 <input type="hidden" id="wxUserHead" value="${wxUser.headImgUrl}"/>
 <input type="hidden" id="wxUserName" value="${wxUser.nickname}"/>
