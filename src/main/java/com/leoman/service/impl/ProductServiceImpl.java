@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long findBuyCount(Long id) {
-        String sql = "select count(t) from ProductBuyRecord t where t.product.id = " + id;
+        String sql = "select count(t) from ProductBuyRecord t where t.resultStatus = 0 and t.product.id = " + id;
         Query query = em.createQuery(sql, Long.class);
         return (Long) query.getSingleResult();
     }
