@@ -69,7 +69,7 @@ public class WeixinFilter implements Filter {
             }
 
             KUser kUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-            /*WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+            WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
             Logger.info("kuser:===========" + kUser);
             if (null != wxUser) {
                 System.out.println("wxUser的OpenId:" + wxUser.getOpenId());
@@ -88,7 +88,7 @@ public class WeixinFilter implements Filter {
                 System.out.println("OAUTH_URL:" + OAUTH_URL);
                 chain.doFilter(request, response);
                 return;
-            }*/
+            }
 
 
             if (null == kUser) {
