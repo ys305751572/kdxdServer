@@ -2,6 +2,7 @@ package com.leoman.service;
 
 import com.leoman.entity.Order;
 import com.leoman.service.common.ICommonService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface OrderService extends ICommonService<Order> {
 
     // 根据用户id查询对应用户的订单列表（分页）
     public Page<Order> pageByUserId(Long userId, Integer pageNum, Integer pageSize);
+
+    // 获取当天最新的订单信息
+    public List<Order> findNewOne();
 }
