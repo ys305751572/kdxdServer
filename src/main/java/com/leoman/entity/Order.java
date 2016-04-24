@@ -59,6 +59,8 @@ public class Order extends BaseEntity  {
     @Column(name = "address")
     private String address;
 
+    private String picURL;
+
     public String getUserName() {
         return userName;
     }
@@ -176,5 +178,14 @@ public class Order extends BaseEntity  {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Transient
+    public String getPicURL() {
+        return picURL;
+    }
+
+    public void setPicURL(String picURL) {
+        this.picURL = picURL;
     }
 }
