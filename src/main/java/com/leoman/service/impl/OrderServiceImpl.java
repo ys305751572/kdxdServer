@@ -6,6 +6,7 @@ import com.leoman.entity.KUser;
 import com.leoman.entity.Order;
 import com.leoman.service.KUserService;
 import com.leoman.service.OrderService;
+import com.leoman.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -83,6 +85,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Order> pageByUserId(Long userId, Integer pageNum, Integer pageSize) {
         return dao.pageByUserId(userId, new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id"));
+    }
+
+    @Override
+    public List<Order> findNewOne() {
+        List<Order> list = new ArrayList<Order>();
+        try {
+            String today = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+            Long startTime = DateUtils.stringToLong(today + " 00:00:00", "yyyy-MM-dd hh:mm:ss");
+            Long endTime = DateUtils.stringToLong(today + " 23:59:59", "yyyy-MM-dd hh:mm:ss");
+
+            list = dao.findNewOne(startTime, endTime);
+            return list;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override

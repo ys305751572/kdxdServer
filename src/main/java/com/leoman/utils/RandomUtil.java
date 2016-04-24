@@ -1,5 +1,7 @@
 package com.leoman.utils;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -33,6 +35,33 @@ public class RandomUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println("八位随机数：" + generateShortUuid());
+        System.out.println("八位随机数：" + getOrderNo("201604240005"));
+    }
+
+    public static String getOrderNo(String orderNum) {
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        String today = formatter.format(currentTime);
+        Integer temp = 0;
+        String str = "";
+
+        if (StringUtils.isNotBlank(orderNum)) {
+            return today + "0001";
+        } else {
+            String orderDate = orderNum.substring(0, 8);
+            Integer orderInteger = Integer.parseInt(orderNum.substring(8));
+            // 如果相等,则代表当天已经有流水,流水号递增
+            if (orderDate.equals(today)) {
+                orderInteger += 1;
+                temp = orderInteger.toString().length();
+                for (int i = 0; i < 4 - temp; i++) {
+                    str += "0";
+                }
+                return today + str + orderInteger;
+            } else {
+                // 否则，重新生成新的流水号
+                return today + "0001";
+            }
+        }
     }
 }

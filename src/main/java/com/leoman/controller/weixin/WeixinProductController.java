@@ -10,6 +10,7 @@ import com.leoman.service.*;
 import com.leoman.service.ProductService;
 import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
+import com.leoman.utils.RandomUtil;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -292,9 +293,16 @@ public class WeixinProductController extends CommonController {
             // 获取服务信息
             com.leoman.entity.ProductService productService = psService.getById(productServiceId);
 
+            // 获取当天最新的流水号
+            String orderNo = "";
+            List<Order> orderList = orderService.findNewOne();
+            if (null != orderList && orderList.size() > 0) {
+                orderNo = orderList.get(0).getSn();
+            }
+
             // 生成订单信息
             Order order = new Order();
-            order.setSn(new Date().getTime() + "");
+            order.setSn(RandomUtil.getOrderNo(orderNo));
 //            order.setProductService(productService);
 
             order.setDays(productService.getDays());

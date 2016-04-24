@@ -26,4 +26,7 @@ public interface OrderDao extends JpaRepository<Order, Long>, JpaSpecificationEx
 
     @Query("select a from Order a where a.user.id = ?1 order by a.id desc")
     public Page<Order> pageByUserId(Long userId, Pageable pageable);
+
+    @Query("select a from Order a where a.createDate >= ?1 and a.createDate <= ?2 order by a.id desc")
+    public List<Order> findNewOne(Long startDate, Long endDate);
 }
