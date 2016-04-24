@@ -33,8 +33,12 @@ public class MessageTimerWork {
     class Mywork extends TimerTask {
         @Override
         public void run() {
-            doExecute();
-            timer.cancel();
+            try {
+                doExecute();
+                timer.cancel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
