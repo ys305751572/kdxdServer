@@ -141,4 +141,18 @@ public class WeixinAddressController extends CommonController {
 
         return 0L;
     }
+
+    @RequestMapping("delete")
+    @ResponseBody
+    public int delete(Long addressId) {
+        try {
+            service.deleteById(addressId);
+
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }

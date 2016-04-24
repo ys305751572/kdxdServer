@@ -10,6 +10,7 @@ import com.leoman.entity.Information;
 import com.leoman.entity.KUser;
 import com.leoman.entity.Payrecord;
 import com.leoman.service.CoinlogService;
+import com.leoman.service.KUserService;
 import com.leoman.service.PayrecordService;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,14 @@ public class WeixinCoinlogController extends CommonController {
     @Autowired
     private PayrecordService payrecordService;
 
+    @Autowired
+    private KUserService userService;
+
     @RequestMapping("/index")
     public String index(HttpServletRequest request, Model model) {
         KUser user = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        user = userService.getById(user.getId());
+        request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, user);
         model.addAttribute("user", user);
         return "weixin/recharge-online";
     }
