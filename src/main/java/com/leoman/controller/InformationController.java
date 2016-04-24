@@ -101,7 +101,7 @@ public class InformationController extends CommonController {
                 newInfo = service.getById(info.getId());
                 newInfo.setTitle(info.getTitle());
                 newInfo.setContent(info.getContent());
-
+                newInfo.setIntroduction(info.getIntroduction());
                 if(newInfo.getImage() != null) {
                     newInfo.getImage().setId(imageId);
                 }

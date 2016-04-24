@@ -51,6 +51,12 @@
                                     ${info.title}
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <div class="col-sm-3">
+                                    ${info.introduction}
+                                </div>
+                            </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
                                 <div class="col-sm-3">

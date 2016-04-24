@@ -52,6 +52,12 @@
                                            data-rule="required" value="${info.title}" placeholder="请输入资讯名称">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <div class="col-sm-3">
+                                    <textarea cols="40" data-rule="required" rows="8" class="form-control" name="introduction" id="introduction" maxlength="100" placeholder="请输入资讯简介">${info.introduction}</textarea>
+                                </div>
+                            </div>
                             <div class="form-group img_tooltip" >
                                 <label for="imageId" class="col-sm-2 control-label">封面:</label>
 

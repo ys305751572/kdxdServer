@@ -45,7 +45,7 @@ public class EventMessageHandler implements WxMpMessageHandler {
                     WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
                     item.setUrl(Configue.getBaseUrl() + "weixin/information/detail?id=" + info.getId());
                     item.setPicUrl(Configue.getUploadUrl() + info.getImage().getPath());
-                    item.setDescription(info.getContent().replace("&lt","<").replace("&gt",">"));
+                    item.setDescription(info.getIntroduction());
                     item.setTitle(info.getTitle());
                     news.addArticle(item);
                 }
