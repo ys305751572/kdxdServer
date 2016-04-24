@@ -55,7 +55,7 @@ public class WeixinBaseController {
     private CacheService<String> cacheService;
 
     @RequestMapping("/toLogin")
-    public String toLogin(HttpServletRequest request, HttpServletResponse response,Long salemanId,Model model) {
+    public String toLogin(HttpServletRequest request, HttpServletResponse response, Long salemanId, Model model) {
         Map<String, Object> params = CookiesUtils.ReadCookieMap(request);
         if (params != null && params.size() != 0) {
             String mobile = (String) params.get("mobile");
@@ -68,7 +68,7 @@ public class WeixinBaseController {
             }
         }
         System.out.println("salemanId:" + salemanId);
-        model.addAttribute("salemanId",salemanId);
+        model.addAttribute("salemanId", salemanId);
         return "weixin/login";
     }
 
@@ -78,7 +78,7 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/toRegister")
-    public String toRegister(Model model, Long fromUserId, Long couponId,Long salemanId) {
+    public String toRegister(Model model, Long fromUserId, Long couponId, Long salemanId) {
         System.out.println("***********************************************************3、准备注册***********************************************************");
         System.out.println("邀请人id：" + fromUserId);
         System.out.println("优惠券id：" + couponId);
@@ -88,12 +88,12 @@ public class WeixinBaseController {
         model.addAttribute("couponId", couponId);
 
         System.out.println("salemanId:" + salemanId);
-        model.addAttribute("salemanId",salemanId);
+        model.addAttribute("salemanId", salemanId);
         return "weixin/register";
     }
 
     @RequestMapping("/toPassword")
-    public String toSetPassword(String username, String yzm, Model model, Long fromUserId, Long couponId,Long salemanId) {
+    public String toSetPassword(String username, String yzm, Model model, Long fromUserId, Long couponId, Long salemanId) {
         System.out.println("***********************************************************4、准备注册***********************************************************");
         System.out.println("邀请人id：" + fromUserId);
         System.out.println("优惠券id：" + couponId);
@@ -108,12 +108,12 @@ public class WeixinBaseController {
 
         System.out.println("salemanId:" + salemanId);
 
-        model.addAttribute("salemanId",salemanId);
+        model.addAttribute("salemanId", salemanId);
         return "weixin/setpassword";
     }
 
     @RequestMapping("/register")
-    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code, Long fromUserId, Long couponId,Long  salemanId) {
+    public void register(HttpServletRequest request, HttpServletResponse response, String username, String password, String code, Long fromUserId, Long couponId, Long salemanId) {
         try {
 
 
@@ -144,7 +144,7 @@ public class WeixinBaseController {
             KUser resultUser = userService.register(user);
 
             System.out.println("salemanId:" + salemanId);
-            if(salemanId != null) {
+            if (salemanId != null) {
                 SalemanRecord record = new SalemanRecord();
                 Saleman s = new Saleman();
                 s.setId(salemanId);
@@ -199,11 +199,21 @@ public class WeixinBaseController {
     }
 
     @RequestMapping("/loginCheck")
-    public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model) {
+    public String login(HttpServletRequest request, HttpServletResponse response, String mobile, String password, Model model, Long fromUserId, Long couponId) {
         Boolean success = service.loginWeixin(request, response, mobile, password);
         Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
         System.out.println("goUrlObj：" + goUrlObj);
         if (success) {
+            KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+
+            if (null != couponId) {
+                Coupon coupon = couponService.getById(couponId);
+                if (null != coupon && coupon.getIsChanged() == 0) {
+                    coupon.setUserId(kUser.getId());
+                    couponService.update(coupon);
+                }
+            }
+
             if (goUrlObj != null) {
                 String goUrl = (String) goUrlObj;
                 try {

@@ -42,7 +42,7 @@
 </section>
 <footer class="loading">
     <div class="ending1">
-        <input class="button5" type="button" onclick="toRegister()" value="立即加入"/>
+        <input class="button5" type="button" onclick="toRegister()" value="立即领取"/>
     </div>
 </footer>
 <div style="width: 100%;height: 100px;"></div>
