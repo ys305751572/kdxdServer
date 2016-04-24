@@ -47,8 +47,11 @@ public class WeixinOrderController extends CommonController {
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
 
+            String path = "";
+
             for (Order order : list) {
-                order.getProduct().getCoverImage().setPath(Configue.getBaseUrl() + order.getProduct().getCoverImage().getPath());
+                path = Configue.getUploadUrl() + order.getProduct().getCoverImage().getPath();
+                order.getProduct().getCoverImage().setPath(path);
             }
 
             model.addAttribute("orderList", list);
