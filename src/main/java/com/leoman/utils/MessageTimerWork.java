@@ -50,6 +50,7 @@ public class MessageTimerWork {
         List<String> openIds = new ArrayList<String>();
         try {
             WxMpUserList userList = wxMpService.userList(null);
+            System.out.println("openIds============================:" + userList.getOpenIds().size());
             openIds.addAll(userList.getOpenIds());
 //            while(StringUtils.isNotBlank(userList.getNextOpenId())) {
 //                System.out.println("nextOpenId:" + userList.getNextOpenId());
