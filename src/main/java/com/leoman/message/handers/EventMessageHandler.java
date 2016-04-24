@@ -45,12 +45,21 @@ public class EventMessageHandler implements WxMpMessageHandler {
                     WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
                     item.setUrl(Configue.getBaseUrl() + "weixin/information/detail?id=" + info.getId());
                     item.setPicUrl(Configue.getUploadUrl() + info.getImage().getPath());
-                    item.setDescription(info.getContent());
+                    item.setDescription(info.getContent().replace("&lt","<").replace("&gt",">"));
                     item.setTitle(info.getTitle());
                     news.addArticle(item);
                 }
 
-                return news.fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
+                System.out.println("============WxConsts.EVT_CLICK.equals(wxMessage.getEvent()============");
+                WxMpXmlOutNewsMessage wxMpXmlOutNewsMessage = null;
+                try {
+                    System.out.println("toUserName:" + wxMessage.getToUserName() + "====fromUserName:" + wxMessage.getFromUserName());
+                    wxMpXmlOutNewsMessage = news.fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
+                    System.out.println("======wxMpXmlOutNewsMessage====" + wxMpXmlOutNewsMessage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return wxMpXmlOutNewsMessage;
             }
             // 限时抢购
             else if (Constant.EVENT_PRODUCT_LIST.equals(wxMessage.getEventKey())) {
@@ -81,6 +90,7 @@ public class EventMessageHandler implements WxMpMessageHandler {
                     item.setTitle(product.getTitle());
                     news.addArticle(item);
                 }
+                System.out.println("toUserName:" + wxMessage.getToUserName() + "====fromUserName:" + wxMessage.getFromUserName());
                 return news.fromUser(wxMessage.getToUserName()).toUser(wxMessage.getFromUserName()).build();
             }
         }
