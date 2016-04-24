@@ -42,6 +42,7 @@ public class SalemanRecordController extends CommonController {
             WebUtil.print(response, result);
         } catch (Exception e) {
             GeneralExceptionHandler.log(e);
+            e.printStackTrace();
             WebUtil.print(response, emptyData);
         }
     }

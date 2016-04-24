@@ -43,6 +43,11 @@ public class SalemanRecordServiceImpl implements SalamanRecordService {
     }
 
     @Override
+    public List<SalemanRecord> findByUserId(Long userId) {
+        return dao.findByUserId(userId);
+    }
+
+    @Override
     public List<SalemanRecord> findAll() {
         return null;
     }
