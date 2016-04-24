@@ -31,6 +31,7 @@
                 </span>
             </div>
             <div class="nr">
+                <img src="${n.product.coverImage.path}" width="90px" height="90px" />
                 <span class="nr2"><h3>${n.product.title}</h3></span>
                 <address class="nr3">
                     <ul>
@@ -41,7 +42,7 @@
                 </address>
             </div>
             <div class="sj">
-                <span class="sj1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
+                <span class="sj1">配送服务从<date:date value="${n.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date>开始</span>
             </div>
         </div>
     </section>

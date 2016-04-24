@@ -45,7 +45,7 @@ public class RandomUtil {
         Integer temp = 0;
         String str = "";
 
-        if (StringUtils.isNotBlank(orderNum)) {
+        if (!StringUtils.isNotBlank(orderNum)) {
             return today + "0001";
         } else {
             String orderDate = orderNum.substring(0, 8);

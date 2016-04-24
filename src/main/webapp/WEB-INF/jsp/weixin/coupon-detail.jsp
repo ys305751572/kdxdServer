@@ -54,7 +54,7 @@
         <span class="fl">${activity.title}</span>
     </div>
     <div class="lxkf">
-        <a href="javascript:void(0)"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服：</span><span class="kf">15871662460</span></a>
+        <img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服：</span><span class="kf">15871662460</span>
     </div>
 </section>
 <div class="place"></div>

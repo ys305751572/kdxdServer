@@ -208,6 +208,12 @@
                             +
                             "<button type='button'  title='确认签收' class='btn btn-circle '>" +
                             "<i class='settingAdded fa fa-recycle'></i>" +
+                            "</button>"
+                            +
+                            "&nbsp;&nbsp;"
+                            +
+                            "<button type='button'  title='删除' class='btn btn-circle btn-danger deleteInfo'>" +
+                            "<i class='fa fa-remove'></i>" +
                             "</button>",
                             "targets": -1
                         }
@@ -231,8 +237,11 @@
                         var items = kuserList.v.list;
                         $('td', row).last().find(".settingAdded").click(function(){
                             kuserList.fn.settingAdded(data);
-                        })
+                        });
                         $('td', row).last().find(".edit").attr("href",'admin/order/add?id='+data.id);
+                        $('td', row).last().find(".deleteInfo").click(function(){
+                            kuserList.fn.deleteInfo(data.id);
+                        });
                     },
                     "fnServerParams": function (aoData) {
                         aoData.sn = $("#sn").val();
@@ -244,6 +253,13 @@
                         $bluemobi.uiform();
                     }
                 });
+            },
+            deleteInfo:function(id){
+                $bluemobi.optNotify(function () {
+                    $bluemobi.ajax("admin/order/delete", {id:id}, function (result) {
+                        kuserList.fn.responseComplete(result);
+                    })
+                }, "你确定要删除该订单吗？","确定");
             },
             settingAdded:function(data){
                 $bluemobi.optNotify(function () {

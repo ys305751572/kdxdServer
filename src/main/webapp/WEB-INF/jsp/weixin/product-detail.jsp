@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="/tags" prefix="date" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -74,15 +75,17 @@
 </section>
 <section class="content">
     <div class="topbar">
-        <h3>${product.title}</h3>
+        <h2 style="font-size: 40px;padding-top: 0px;">${product.title}</h2>
     </div>
-    <div class="neirong" style="font-size: x-large">
+    <div class="neirong" style="font-size: 30px;">
         ${product.content}
     </div>
+    <span style="color: red;margin-left: 5px;">配送服务开始时间：<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
     <aside class="aside1">
         <span id="aside1">&nbsp;已抢中：${buyCount}</span>
     </aside>
-    <div class="engding">
+    <br/>
+    <div>
         <%--<input type="hidden" id="id" name="id" value="${product.id}">--%>
         <input type="hidden" id="id" name="id" value="${product.id}">
         <c:if test="${counts > 0}">

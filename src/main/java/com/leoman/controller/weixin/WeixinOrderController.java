@@ -3,6 +3,7 @@ package com.leoman.controller.weixin;
 import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.entity.Information;
 import com.leoman.entity.KUser;
@@ -45,6 +46,10 @@ public class WeixinOrderController extends CommonController {
             KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
+
+            for (Order order : list) {
+                order.getProduct().getCoverImage().setPath(Configue.getBaseUrl() + order.getProduct().getCoverImage().getPath());
+            }
 
             model.addAttribute("orderList", list);
             model.addAttribute("current", pageNum);

@@ -45,33 +45,6 @@
 </div>
 <!-- Modal end -->
 
-<footer>
-
-	<%--<div class="container">--%>
-	<%--<div class="row">--%>
-	<%--<div class="col-lg-12">--%>
-	<%--<div class="submit">--%>
-	<%--<p class="text-center">武汉蓝色互动信息技术有限公司</p>--%>
-	<%--</div>--%>
-	<%--</div>--%>
-	<%--</div>--%>
-	<%--</div>--%>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="submit">
-					<p class="text-center">
-						<a href="static/sb-admin-2/index.html" target="_blank"> sb
-							admin bootstrap template</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-
-</footer>
-
 
 <!-- Metis Menu Plugin JavaScript -->
 <script

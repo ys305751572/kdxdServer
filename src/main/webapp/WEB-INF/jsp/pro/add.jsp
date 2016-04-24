@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">服务时间:</label>
+                                <label  class="col-sm-2 control-label">配送服务时间:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control input-append date form_datetime" readonly id="serviceStartDate" name="serviceStartDate" maxlength="20"
                                            data-rule="required" value="<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm"></date:date>" placeholder="请选择服务时间">
@@ -98,7 +98,7 @@
 
                             <c:if test="${product.id eq null}">
                                 <div class="form-group form-service">
-                                    <label  class="col-sm-2 control-label" >金额:</label>
+                                    <label  class="col-sm-2 control-label" >天数/金额:</label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="days" name="days" maxlength="20"
                                                 value="" data-rule="required;integer" placeholder="请输入服务天数">

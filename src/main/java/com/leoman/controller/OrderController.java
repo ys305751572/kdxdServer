@@ -133,6 +133,24 @@ public class OrderController extends CommonController {
             WebUtil.print(response, new Result(false).msg("操作失败!"));
         }
     }
+
+    /**
+     * 删除订单
+     *
+     * @param response
+     * @param id
+     */
+    @RequestMapping(value = "/delete")
+    public void delete(HttpServletResponse response,
+                       Long id) {
+        try {
+            service.deleteById(id);
+            WebUtil.print(response, new Result(true).msg("操作成功!"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            WebUtil.print(response, new Result(false).msg("操作失败!"));
+        }
+    }
 }
 
 
