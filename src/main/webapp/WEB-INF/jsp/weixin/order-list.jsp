@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <%@ include file="../inc/taglibs.jsp" %>
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="telephone=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/cc.css">
@@ -30,16 +30,27 @@
                     <c:if test="${n.status == 3}"><span style="color: #ff8400">已签收</span></c:if>
                 </span>
             </div>
-            <div class="nr">
-                <img src="${n.productImg}" width="90px" height="90px" />
-                <span class="nr2"><h3>${n.productName}</h3></span>
-                <address class="nr3">
-                    <ul>
-                        <li>${n.name}</li>
-                        <li>${n.mobile}</li>
-                        <li>${n.address}</li>
-                    </ul>
-                </address>
+            <div class="list_box">
+                <div class="address_list">
+                    <img src="${n.productImg}" class="address_list_img">
+                    <address class="address_name">
+                        <ul>
+                            <li class="tittle">${n.productName}</li>
+                            <br>
+                            <li>${n.name}</li>
+                            <li>${n.mobile}</li>
+                            <li>${n.address}</li>
+                        </ul>
+                    </address>
+                </div>
+                <div class="checked_way">
+                    <c:if test="${n.status == 0}">
+                        <a href="#"><img src="${contextPath}/static/weixin/images/Group 7.png" class="checed_img"><span class="checked">待付款</span></a>
+                    </c:if>
+                    <c:if test="${n.status == 2}">
+                        <a href="#"><img src="${contextPath}/static/weixin/images/Group 7 Copy.png" class="checed_img"><span class="checked">待收货</span></a>
+                    </c:if>
+                </div>
             </div>
             <div class="sj">
                 <span class="sj1">配送服务从<date:date value="${n.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date>开始</span>
