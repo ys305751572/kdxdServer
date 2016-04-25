@@ -12,6 +12,9 @@ public class Information extends BaseEntity{
     @Column(name = "title")
     private String title;
 
+    @Column(name = "introduction")
+    private String introduction;
+
     @Column(name = "content")
     private String content;
 
@@ -21,6 +24,14 @@ public class Information extends BaseEntity{
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public Image getImage() {
         return image;

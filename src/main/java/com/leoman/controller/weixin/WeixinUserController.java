@@ -115,7 +115,7 @@ public class WeixinUserController extends CommonController {
         request.getSession().removeAttribute(Constant.SESSION_WEIXIN_USER);
         request.getSession().removeAttribute(Constant.SESSION_WEIXIN_WXUSER);
         CookiesUtils.logoutCookie(request, response);
-        request.getSession().setAttribute(Constant.GO_URL, PathUtils.getRemotePath() + "/weixin/user/index");
+        request.getSession().setAttribute(Constant.GO_URL, PathUtils.getRemotePath() + "/kdxgServer/weixin/user/index");
         return "weixin/login";
     }
 

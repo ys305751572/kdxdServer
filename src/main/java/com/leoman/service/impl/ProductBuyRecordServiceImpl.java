@@ -3,6 +3,7 @@ package com.leoman.service.impl;
 import com.leoman.dao.ProductBuyRecordDao;
 import com.leoman.entity.ProductBuyRecord;
 import com.leoman.service.ProductBuyRecordService;
+import com.leoman.utils.ConfigUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -73,7 +74,9 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService {
 
     @Override
     public ProductBuyRecord getById(Long id) {
-        return dao.findOne(id);
+        ProductBuyRecord pbr = dao.findOne(id);
+        pbr.getProduct().getCoverImage().setPath(ConfigUtil.getString("upload.url") + pbr.getProduct().getCoverImage().getPath());
+        return pbr;
     }
 
     @Override

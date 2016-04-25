@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">活动说明:</label>
                                 <div class="col-sm-6">
-                                    <textarea cols="40" rows="8" class="form-control" name="content" id="content">${act.content}</textarea>
+                                    <script id="container" name="content" type="text/plain">${act.content}</script>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -105,6 +105,10 @@
 <!-- /#wrapper -->
 
 <%@ include file="../inc/footer.jsp" %>
+<!-- 配置文件 -->
+<script type="text/javascript" src="ueditor1_4_3/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="ueditor1_4_3/ueditor.all.js"></script>
 <script>
     $('.form_datetime').datetimepicker({
         language: 'zh-CN',
@@ -249,7 +253,6 @@
             },
             save: function () {
                 $bluemobi.notify("保存成功", "success");
-                console.log($("#datetest").val());
                 if (!$('#productForm').isValid()) {
                     return false;
                 }
@@ -257,11 +260,6 @@
 
                 if ($("#imageId") == "" || $("#imageId") == null) {
                     $bluemobi.notify("缩略图不能为空!", "error");
-                    return false;
-                }
-
-                if ($("#content").val() == "" || $("#content").val() == null) {
-                    $bluemobi.notify("活动说明不能为空!", "error");
                     return false;
                 }
 

@@ -16,4 +16,10 @@ public class KdxgUtils {
             return false;
         }
     }
+
+    public static String getFileName(String proId,String salemanId) {
+        StringBuffer buffer = new StringBuffer("");
+        buffer.append("PRODUCTID").append(proId).append("SALEMANID").append(salemanId).append(".jpg");
+        return buffer.toString();
+    }
 }

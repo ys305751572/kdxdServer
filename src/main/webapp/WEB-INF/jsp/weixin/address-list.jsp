@@ -5,7 +5,7 @@
     <%@ include file="../inc/taglibs.jsp" %>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/sss.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/ss.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/awesome-bootstrap-checkbox.css"/>
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
     <script type="text/javascript"></script>
@@ -14,7 +14,7 @@
 <body style="background: #f7f7f7">
 <input type="hidden" id="pbrId" value="${pbrId}"/>
 <c:forEach items="${addressList}" var="address">
-    <section class="shdz">
+    <section class="shdz" style="margin-bottom: 30px;">
         <div class="shdz22">
             <div class="address" onclick="goPbr(${address.id})">
                 <address>
@@ -22,8 +22,8 @@
                     <span class="wh">${address.address}</span>
                 </address>
             </div>
-            <div class="mr mr3">
-                <div class="radio radio1">
+            <div class="mr mr_box">
+                <div class="radio">
                     <input type="radio" id="radio${address.id}" name="radio2"
                            <c:if test="${address.isDefault eq 0}">checked</c:if> />
                     <label for="radio${address.id}">

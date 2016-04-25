@@ -8,6 +8,7 @@ import com.leoman.entity.KUser;
 import com.leoman.entity.WxUser;
 import com.leoman.service.ActivityService;
 import com.leoman.service.CouponService;
+import com.leoman.utils.CommonUtils;
 import com.leoman.utils.DateUtils;
 import com.leoman.utils.HttpRequestUtil;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -46,19 +47,23 @@ public class WeixinCouponsController extends CommonController {
     @RequestMapping("/list")
     public String list(HttpServletRequest request, ModelMap model) {
         // 获取活动详情
-        Activity activity = activityService.getById(1L);
-        model.addAttribute("activity", activity);
+        try {
+            Activity activity = activityService.getById(1L);
+            model.addAttribute("activity", activity);
 
-        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
-        WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
+            KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            WxUser wxUser = (WxUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
 
-        System.out.println("踢踢用户信息：" + kUser);
-        System.out.println("微信用户信息：" + wxUser);
+            System.out.println("踢踢用户信息：" + kUser);
+            System.out.println("微信用户信息：" + wxUser);
 
-        List<Coupon> list = service.findListByUserId2(kUser.getId());
-        model.addAttribute("couponList", list);
-        model.addAttribute("wxUser", wxUser);
-        model.addAttribute("user", kUser);
+            List<Coupon> list = service.findListByUserId2(kUser.getId());
+            model.addAttribute("couponList", list);
+            model.addAttribute("wxUser", wxUser);
+            model.addAttribute("user", kUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // 生成时间戳
         String timestamp = System.currentTimeMillis() + "";
@@ -73,7 +78,6 @@ public class WeixinCouponsController extends CommonController {
         model.addAttribute("timestamp", timestamp);
         model.addAttribute("noncestr", noncestr);
         model.addAttribute("signature", signature);
-
         return "weixin/coupon-list";
     }
 
@@ -142,7 +146,7 @@ public class WeixinCouponsController extends CommonController {
     }
 
     // 获得js signature
-    public static String getSignature(String jsapi_ticket, String timestamp, String nonce, String jsurl) throws IOException {
+    public String getSignature(String jsapi_ticket, String timestamp, String nonce, String jsurl) throws IOException {
         /****
          * 对 jsapi_ticket、 timestamp 和 nonce 按字典排序 对所有待签名参数按照字段名的 ASCII
          * 码从小到大排序（字典序）后，使用 URL 键值对的格式（即key1=value1&key2=value2…）拼接成字符串

@@ -29,21 +29,23 @@
         <span class="fl">${activity.title}</span>
     </div>
     <div class="lxkf">
-        <a href="javascript:void(0)"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span><span class="kf">15871662460</span></a>
+        <img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服</span><span class="kf">15871662460</span>
     </div>
     <div class="lxkf" onclick="goActivityInfo()">
         <a href="javascript:void(0)">活动详情</a>
     </div>
-    <div class="lxkf">
-        <a href="javascript:void(0)">公众号</a>
-        <img src="${contextPath}/static/weixin/images/qrcode_logo.jpg" width="200px" height="200px" />
+    <div style="text-align: center;padding-bottom: 1.2em;">
+        <img src="${contextPath}/static/weixin/images/qrcode_logo.jpg" width="100%;"  />
+        <p>长按关注公众号</p>
+        <p>随时获取最新水果优惠信息</p>
     </div>
 </section>
 <footer class="loading">
     <div class="ending1">
-        <input class="button5" type="button" onclick="toRegister()" value="立即加入"/>
+        <input class="button5" type="button" onclick="toRegister()" value="立即领取"/>
     </div>
 </footer>
+<div style="width: 100%;height: 100px;"></div>
 <input type="hidden" id="fromUserId" value="${fromUserId}"/>
 <input type="hidden" id="couponId" value="${couponId}"/>
 </body>

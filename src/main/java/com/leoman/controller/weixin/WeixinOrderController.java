@@ -3,7 +3,9 @@ package com.leoman.controller.weixin;
 import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
+import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.entity.KUser;
 import com.leoman.entity.Order;
@@ -46,6 +48,10 @@ public class WeixinOrderController extends CommonController {
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
 
+            for (Order order : list) {
+                changeImgPath(order.getProduct().getCoverImage());
+            }
+
             model.addAttribute("orderList", list);
             model.addAttribute("current", pageNum);
             model.addAttribute("totalPage", page.getTotalPages());
@@ -54,6 +60,17 @@ public class WeixinOrderController extends CommonController {
         }
 
         return "weixin/order-list";
+    }
+
+    public static void changeImgPath(Image image) {
+        if (image == null) {
+            return;
+        }
+        String path = image.getPath();
+        if (path.contains(Configue.getUploadUrl())) {
+            return;
+        }
+        image.setPath(Configue.getUploadUrl() + image.getPath());
     }
 
 //    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {

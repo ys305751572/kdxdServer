@@ -17,4 +17,7 @@ public interface AddressDao extends JpaRepository<Address, Long>, JpaSpecificati
 
     @Query("select a from Address a where a.userId = ?1 and a.isDefault = 0")
     public Address findDefaultByUserId(Long userId);
+
+    @Query("select a from Address a where a.userId = ?1 and a.id <> ?2")
+    public List<Address> findByUserIdNoDefault(Long userId, Long addressId);
 }

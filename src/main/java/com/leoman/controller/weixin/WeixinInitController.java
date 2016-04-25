@@ -1,15 +1,23 @@
 package com.leoman.controller.weixin;
 
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.core.UrlManage;
+import com.leoman.entity.Information;
+import com.leoman.entity.Product;
+import com.leoman.service.InfomationService;
+import com.leoman.utils.BeanUtil;
 import com.leoman.utils.WebUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutNewsMessage;
+import me.chanjar.weixin.mp.bean.custombuilder.NewsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by wangbin on 2015/7/29.
@@ -40,12 +49,12 @@ public class WeixinInitController {
 
         WxMenu menu = new WxMenu();
         WxMenu.WxMenuButton button1 = new WxMenu.WxMenuButton();
-        button1.setType(WxConsts.EVT_CLICK);
+        button1.setType(WxConsts.BUTTON_CLICK);
         button1.setName("活动资讯");
         button1.setKey(Constant.EVENT_ACTIVITY_LIST);
 
         WxMenu.WxMenuButton button2 = new WxMenu.WxMenuButton();
-        button2.setType(WxConsts.EVT_CLICK);
+        button2.setType(WxConsts.BUTTON_CLICK);
         button2.setName("限时抢购");
         button2.setKey(Constant.EVENT_PRODUCT_LIST);
 
@@ -76,6 +85,7 @@ public class WeixinInitController {
         menu.getButtons().add(button3);
 
         try {
+            System.out.println("==============menuCreate()==================");
             wxMpService.menuCreate(menu);
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,6 +137,30 @@ public class WeixinInitController {
             System.out.println("-------------------");
             System.out.println("in:" + inMessage);
             System.out.println("-------------------");
+            if((inMessage.getEvent().equals("SCAN") || inMessage.getEvent().equals("subscribe")) && org.apache.commons.lang.StringUtils.isNotBlank(inMessage.getEventKey()) && org.apache.commons.lang.StringUtils.isNotBlank(inMessage.getTicket())) {
+                System.out.println("==========================================:" +inMessage.getEventKey());
+                String eventKey = inMessage.getEventKey().toString();
+                eventKey = eventKey.replace("qrscene_","");
+                String[] eventKeys = eventKey.split(",");
+                String productId = eventKeys[0];
+                String salemanId = eventKeys[1];
+
+                // 获取限时抢购列表
+                com.leoman.service.ProductService productService = (com.leoman.service.ProductService) BeanUtil.getBean("productServiceImpl");
+                Product product = productService.getById(Long.parseLong(productId));
+
+                NewsBuilder news = WxMpCustomMessage.NEWS();
+                news = news.toUser(inMessage.getFromUserName());
+                WxMpCustomMessage.WxArticle article  = new WxMpCustomMessage.WxArticle();
+                article.setUrl(Configue.getBaseUrl() + "weixin/product/detail?id=" + product.getId() + "&salemanId=" + salemanId);
+                article.setPicUrl(Configue.getUploadUrl() + product.getCoverImage().getPath());
+                article.setDescription(product.getContent());
+                article.setTitle(product.getTitle());
+                news.addArticle(article);
+
+                WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
+                wxMpService.customMessageSend(news.build());
+            }
             WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
             WebUtil.print(response, outMessage.toXml());
             return;

@@ -63,11 +63,13 @@
                                     <col class="gradeA odd"/>
                                     <col class="gradeA even"/>
                                     <col class="gradeA odd"/>
+                                    <col class="gradeA even"/>
                                 </colgroup>
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" onclick="$bluemobi.checkAll(this)" class="checkall"/></th>
                                     <th>手机号</th>
+                                    <th>用户昵称</th>
                                     <th>缴费金额</th>
                                     <th>缴费时间</th>
                                 </tr>
@@ -152,6 +154,7 @@
                     "columns": [
                         {"data": "id"},
                         {"data": "user.mobile"},
+                        {"data": "user.nickname"},
                         {"data": "money", render : function (data) {return "￥" + data}},
                         {"data": "createDate", render : function(data) {return new Date(data).format("yyyy-MM-dd hh:mm:ss")}}
                     ],

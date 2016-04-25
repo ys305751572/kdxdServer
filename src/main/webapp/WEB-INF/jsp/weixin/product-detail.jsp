@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="/tags" prefix="date" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +13,7 @@
     <script type="text/javascript" src="${contextPath}/static/weixin/js/koala.min.1.5.js"></script>
     <title>抢购界面</title>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header class="header_img">
     <div class="img1"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png"></div>
     <div class="line"><img src="${contextPath}/static/weixin/images/Line.png"></div>
@@ -74,15 +75,17 @@
 </section>
 <section class="content">
     <div class="topbar">
-        <h3>${product.title}</h3>
+        <h2 style="font-size: 40px;padding-top: 0px;">${product.title}</h2>
     </div>
-    <div class="neirong">
+    <div class="neirong" style="font-size: 30px;">
         ${product.content}
     </div>
+    <span style="color: red;margin-left: 5px;">配送服务开始时间：<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
     <aside class="aside1">
         <span id="aside1">&nbsp;已抢中：${buyCount}</span>
     </aside>
-    <div class="engding">
+    <br/>
+    <div>
         <%--<input type="hidden" id="id" name="id" value="${product.id}">--%>
         <input type="hidden" id="id" name="id" value="${product.id}">
         <c:if test="${counts > 0}">
@@ -120,18 +123,19 @@
 
             },
             goBuy: function (status) {
+                var id = $('#id').val();
                 var userId = $('#userId').val();
 
                 if (null == userId || userId == '') {
                     var params = window.location.search;
                     var ss = params.lastIndexOf("=");
-                    var ss2 = params.substring((ss+1),params.length);
+                    var ss2 = params.substring((ss + 1), params.length);
 
                     window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
-                }else{
+                } else {
                     // 直接购买
                     $.post("weixin/product/snapUp", {
-                        id: $('#id').val(),
+                        id: id,
                         isUsed: status
                     }, function (result) {
                         if (result.status == '0') {

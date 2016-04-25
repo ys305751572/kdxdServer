@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/dd.css"/>
     <script type="text/javascript" src="${contextPath}/static/js/jquery-1.11.0.js"></script>
-    <title>个人资料</title>
+    <title>我要充值</title>
 </head>
 <body>
 <section>
     <div class="list" id="qb">
         <input type="hidden" id="userId" value="${user.id}"/>
-        <span class="cz">我的钱包</span><span class="sz1">¥<span style="color:#ff911a ">${user.money}</span></span>
+        <span class="cz" style="font-size: 1.3em;">我的钱包</span><span class="sz1">¥<span style="color:#ff911a ">${user.money}</span></span>
 
     </div>
     <form>

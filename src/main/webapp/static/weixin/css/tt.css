@@ -288,14 +288,13 @@ textarea {  -webkit-appearance: none;}
 	border: none;
 	width: 70%;
 }
-#list1_img{
+.list1_img{
 	vertical-align: middle;
 	position: absolute;
 	right: 2%;
 	position: absolute;
 	top: 50%;
 	transform:translate(-50%,-50%);
-
 }
 .list2{
 	margin-top: 180px;
@@ -429,7 +428,7 @@ textarea {  -webkit-appearance: none;}
 }
 .engding{
 	position: relative;
-	top: 20px;
+	top: 10px;
 }
 .button3{
 	margin-top: 50px;

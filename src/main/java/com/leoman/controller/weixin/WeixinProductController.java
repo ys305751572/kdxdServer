@@ -10,6 +10,7 @@ import com.leoman.service.*;
 import com.leoman.service.ProductService;
 import com.leoman.utils.ConfigUtil;
 import com.leoman.utils.DateUtils;
+import com.leoman.utils.RandomUtil;
 import com.leoman.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -109,13 +109,9 @@ public class WeixinProductController extends CommonController {
      */
     @RequestMapping(value = "/detail")
     public String detail(HttpServletRequest request, Long id, Model model) {
-
         try {
-            System.out.println("id:" + id);
-
             KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
             Product product = service.getById(id);
-
 
             Set<Image> list = product.getList();
             for (Image a : list) {
@@ -174,7 +170,6 @@ public class WeixinProductController extends CommonController {
      */
     @RequestMapping("toSnapUpResult")
     public String toSnapUpResult(HttpServletRequest request, Long pbrId, Long addressId, Model model) {
-
         KUser weixinUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         ProductBuyRecord pbr = pbservice.getById(pbrId);
         model.addAttribute("pbr", pbr);
@@ -197,7 +192,11 @@ public class WeixinProductController extends CommonController {
             e.printStackTrace();
         }
 
-        return "weixin/order-detail";
+        if (pbr.getResultStatus() == 0) {
+            return "weixin/order-detail";
+        } else {
+            return "weixin/order-fail-detail";
+        }
     }
 
     /**
@@ -294,9 +293,16 @@ public class WeixinProductController extends CommonController {
             // 获取服务信息
             com.leoman.entity.ProductService productService = psService.getById(productServiceId);
 
+            // 获取当天最新的流水号
+            String orderNo = "";
+            List<Order> orderList = orderService.findNewOne();
+            if (null != orderList && orderList.size() > 0) {
+                orderNo = orderList.get(0).getSn();
+            }
+
             // 生成订单信息
             Order order = new Order();
-            order.setSn(new Date().getTime() + "");
+            order.setSn(RandomUtil.getOrderNo(orderNo));
 //            order.setProductService(productService);
 
             order.setDays(productService.getDays());
@@ -306,7 +312,7 @@ public class WeixinProductController extends CommonController {
             order.setServiceStartDate(productBuyRecord.getProduct().getServiceStartDate());
             order.setUserName(productBuyRecord.getUser().getNickname());
 
-//            order.setProduct(productBuyRecord.getProduct());
+            order.setProduct(productBuyRecord.getProduct());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);
@@ -339,27 +345,27 @@ public class WeixinProductController extends CommonController {
     /**
      * 跳转到最新抢购界面
      *
-     * @param request
      * @param model
      * @return
      */
     @RequestMapping("toBuy")
-    public String toBuy(HttpServletRequest request, Model model) {
+    public String toBuy(Model model, Long couponId) {
+        Coupon coupon = couponService.getById(couponId);
+        KUser kUser = userService.getById(coupon.getUserId());
+
         List<Product> productList = service.findList(1, 1000000).getContent();
-
-        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
         Product product = productList.get(0);
-
 
         Set<Image> list = product.getList();
         for (Image a : list) {
             a.setPath(ConfigUtil.getString("upload.url") + a.getPath());
         }
-        List<Coupon> counts = cService.findListByUserId(kUser.getId());
+        List<Coupon> counts = (kUser == null ? Collections.<Coupon>emptyList() : cService.findListByUserId(kUser.getId()));
         Integer buyCount = pbservice.findCountByProductId(product.getId());
         model.addAttribute("product", product);
         model.addAttribute("counts", counts.size());
         model.addAttribute("buyCount", buyCount);
+        model.addAttribute("kUser", kUser);
         return "weixin/product-detail";
     }
 }

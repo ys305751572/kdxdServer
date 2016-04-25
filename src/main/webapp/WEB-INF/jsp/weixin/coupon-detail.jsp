@@ -50,11 +50,11 @@
         </div>
     </div>
     <div class="banner">
-        <img class="banner_box" src="${contextPath}/static/weixin/images/Bitmap.png">
-        <span class="fl">福利大派送，水果大抢购，只要分享100%中奖率</span>
+        <img class="banner_box" src="${activity.image.path}"/>
+        <span class="fl">${activity.title}</span>
     </div>
     <div class="lxkf">
-        <a href="#"><img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服：</span><span class="kf">15871662460</span></a>
+        <img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服：</span><span class="kf">15871662460</span>
     </div>
 </section>
 <div class="place"></div>
@@ -139,6 +139,7 @@
     });
 
     function toBuy() {
-        window.location.href = "${contextPath}/weixin/product/toBuy";
+        var couponId = $('#couponId').val();
+        window.location.href = "${contextPath}/weixin/product/toBuy?couponId=" + couponId;
     }
 </script>

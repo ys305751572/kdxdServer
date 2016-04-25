@@ -89,7 +89,11 @@ public class MessageServiceImpl implements MessageService{
     public Message create(Message message) {
         message = dao.save(message);
         message = getById(message.getId());
-        new MessageTimerWork(message.getSendDate(),message);
+        try {
+            new MessageTimerWork(message.getSendDate(),message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return message;
     }
 

@@ -120,6 +120,7 @@ public class LoginServiceImpl implements LoginService {
                         wxUserService.create(wxUser);
                     }
                     user.setWxUser(wxUser);
+                    user.setNickname(wxUser.getNickname());
                     userService.update(user);
                 }
 

@@ -106,8 +106,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">提示</h4>
                 </div>
-                <div class="modal-body" id="qrcodeimage">
-
+                <div class="modal-body" id="">
+                    <img src="" id="infoModalImg" class='img-responsive' >
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -239,6 +239,8 @@
                         var items = kuserList.v.list;
                         $('td', row).last().find(".edit").click(function() {
                             kuserList.fn.qrcode(data.id,$("#salemanId").val());
+
+
                         });
 
                         $('td', row).last().find(".kuserindex").attr("href", 'admin/pro/kuserindex?id=' + data.id);
@@ -262,8 +264,21 @@
             },
             qrcode : function(proId,salemanId) {
                 $("#infoModal").modal("show");
-                var elText = "http://qq.tt/kdxgServer/weixin/product/detail?id=" + proId + "&salemanId=" + salemanId;
-                kuserList.v.qrcode.makeCode(elText);
+//                var elText = "http://qq.tt/kdxgServer/weixin/product/detail?id=" + proId + "&salemanId=" + salemanId;
+//                kuserList.v.qrcode.makeCode(elText);
+
+                $.ajax({
+                    "url" : "${contextPath}/admin/saleman/qrCode",
+                    "type" : "post",
+                    "data" : {
+                        "proId" : proId,
+                        "salemanId" : salemanId
+                    },
+                    "success" : function(result) {
+                        var url = result.data;
+                        $("#infoModalImg").attr("src",url);
+                    }
+                });
             },
 
             delete : function(id) {

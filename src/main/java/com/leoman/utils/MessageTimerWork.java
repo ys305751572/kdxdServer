@@ -33,21 +33,27 @@ public class MessageTimerWork {
     class Mywork extends TimerTask {
         @Override
         public void run() {
-            doExecute();
-            timer.cancel();
+            try {
+                doExecute();
+                timer.cancel();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void doExecute() {
         // TODO 发送消息
-        System.out.println("===============发送消息============");
+        System.out.println("===============message send()============");
         WxMpService wxMpService = (WxMpService) BeanUtil.getBean("wxMpService");
 
         List<String> openIds = new ArrayList<String>();
         try {
             WxMpUserList userList = wxMpService.userList(null);
+            System.out.println("openIds============================:" + userList.getOpenIds().size());
             openIds.addAll(userList.getOpenIds());
 //            while(StringUtils.isNotBlank(userList.getNextOpenId())) {
+//                System.out.println("nextOpenId:" + userList.getNextOpenId());
 //                openIds.addAll(wxMpService.userList(userList.getNextOpenId()).getOpenIds());
 //            }
 
@@ -70,7 +76,7 @@ public class MessageTimerWork {
             massMessage.getToUsers().addAll(openIds);
 
             WxMpMassSendResult massResult = wxMpService.massOpenIdsMessageSend(massMessage);
-            System.out.println(massResult.toString());
+            System.out.println("massResult:" + massResult.toString());
         } catch (WxErrorException e) {
             e.printStackTrace();
         }

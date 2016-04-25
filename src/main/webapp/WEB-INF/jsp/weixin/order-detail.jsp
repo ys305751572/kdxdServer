@@ -8,17 +8,17 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5, user-scalable=no"/>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
-    <title><c:if test="${pbr.resultStatus == 0}">抢购成功</c:if><c:if test="${pbr.resultStatus == 1}">抢购失败</c:if></title>
+    <title>抢购成功</title>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header class="header">
-    <p><c:if test="${pbr.resultStatus == 0}">恭喜您！抢购到如下商品</c:if><c:if test="${pbr.resultStatus == 1}">手气不太好，没抢到，再来一次</c:if></p>
+    <p>恭喜您！抢购到如下商品</p>
 </header>
 <section class="section">
     <input type="hidden" id="pbrId" value="${pbr.id}"/>
     <input type="hidden" id="userId" value="${pbr.user.id}"/>
     <div class="list">
-        <img src="${contextPath}/static/weixin/images/抢购成功.png">
+        <img src="${pbr.product.coverImage.path}" width="110px" height="110px"/>
         <form>
             <ul>
                 <li><h2><span id="toutiao">${pbr.product.title}</span></h2></li>
@@ -48,8 +48,8 @@
     <span>必须支付抢购费用以后，您的订单才会生效</span>
 </section>
 <footer class="button">
-    <div class="button_box">
-        <span class="box"><a href="javascript:void(0)" id="submitBtn">请付款</a></span>
+    <div class="button_box" id="submitBtn">
+        <span class="box"><a href="javascript:void(0)">请付款</a></span>
     </div>
 </footer>
 <script type="application/javascript">

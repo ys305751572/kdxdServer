@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label  class="col-sm-2 control-label">发送时间:</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control input-append date form_datetime" readonly id="sendTimeQ" name="sendTimeQ" maxlength="20"
+                                    <input type="text" class="form-control input-append date form_datetime" id="sendTimeQ" name="sendTimeQ" maxlength="20"
                                            data-rule="required" value="" placeholder="请选择发送时间">
                                 </div>
                             </div>

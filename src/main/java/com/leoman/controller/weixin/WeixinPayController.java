@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +43,9 @@ public class WeixinPayController {
     @Autowired
     private WebPayrecordService webPayrecordService;
 
+    @Autowired
+    private SalamanRecordService salamanRecordService;
+
     @RequestMapping(value = "index")
     public String index(HttpServletRequest request,
                         HttpServletResponse response) {
@@ -69,6 +73,7 @@ public class WeixinPayController {
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
         Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProductName(), "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
+
         WebUtil.printJson(response, result);
     }
 
@@ -126,6 +131,23 @@ public class WeixinPayController {
                     order.setStatus(1);
                     order.setUpdateDate(System.currentTimeMillis());
                     orderService.update(order);
+
+
+
+                }
+                KUser kuser = order.getUser();
+                System.out.println("============kuser.getId()=========:" +kuser.getId());
+                List<SalemanRecord> list = salamanRecordService.findByUserId(kuser.getId());
+                if(list != null && !list.isEmpty()) {
+                    Saleman saleman = list.get(0).getSaleman();
+                    SalemanRecord record = new SalemanRecord();
+                    record.setKuser(kuser);
+                    record.setSaleman(saleman);
+                    record.setContent("购买");
+                    record.setCreateDate(System.currentTimeMillis());
+                    record.setUpdateDate(System.currentTimeMillis());
+                    salamanRecordService.create(record);
+
                 }
             }
             System.out.println("----------");

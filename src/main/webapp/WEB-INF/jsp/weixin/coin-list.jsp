@@ -14,14 +14,14 @@
 <input type="hidden" id="current" value="${current}"/>
 <input type="hidden" id="totalPage" value="${totalPage}"/>
 <c:if test="${null == coinList || coinList.size() == 0}">
-    <span class="cz">暂无充值记录</span>
+    <span class="cz" style="font-size: 2.0em;position: relative;top: 50px;left: 50px;color: #ff8400;">暂无充值记录</span>
 </c:if>
 <c:forEach var="n" items="${coinList}">
     <div class="list">
         <div class="list1">
             <span class="cz">充值金额</span><span class="sz">${n.money}</span>
             <br>
-            <time class="time1"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></time>
+            <time class="time1" style="font-size: larger"><date:date value="${n.createDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></time>
         </div>
     </div>
 </c:forEach>

@@ -46,10 +46,16 @@
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
                             <input type="hidden" id="id" name="id" value = ${info.id}>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <label  class="col-sm-2 control-label">名称:</label>
                                 <div class="col-sm-3">
                                     <input type="text" class="form-control" id="title" name="title" maxlength="20"
                                            data-rule="required" value="${info.title}" placeholder="请输入资讯名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">简介:</label>
+                                <div class="col-sm-3">
+                                    <textarea cols="40" data-rule="required" rows="8" class="form-control" name="introduction" id="introduction" maxlength="100" placeholder="请输入资讯简介">${info.introduction}</textarea>
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
@@ -70,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">简介:</label>
+                                <label class="col-sm-2 control-label">详情:</label>
                                 <div class="col-sm-6">
                                     <script id="container" name="content" type="text/plain">${info.content}</script>
                                 </div>

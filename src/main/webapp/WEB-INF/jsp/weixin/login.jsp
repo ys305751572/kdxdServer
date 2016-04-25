@@ -10,17 +10,17 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/weixin/css/tt.css">
     <script src="${contextPath}/static/js/jquery-1.11.0.js"></script>
 </head>
-<body>
+<body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
 <header>
     <figure class="logo">
         <img src="${contextPath}/static/weixin/images/login_ logo.png">
     </figure>
 </header>
-<input type="hidden" id="fromUserId" value="${fromUserId}"/>
-<input type="hidden" id="couponId" value="${couponId}"/>
 <input type="hidden" id="salemanId" name="salemanId" value="${salemanId}">
 <section class="ff">
     <form action="${contextPath}/weixin/login/loginCheck" method="post">
+        <input type="hidden" name="fromUserId" id="fromUserId" value="${fromUserId}"/>
+        <input type="hidden" name="couponId" id="couponId" value="${couponId}"/>
         <div class="flex_box">
             <input class="flex" type="text" placeholder="请输入手机号码" id="mobile" name="mobile"/>
         </div>

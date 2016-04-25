@@ -24,7 +24,6 @@
     var URL = window.UEDITOR_HOME_URL || getUEBasePath();
 
 
-
     /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
@@ -52,7 +51,7 @@
         //    'print', 'preview', 'searchreplace', 'help', 'drafts'
         //]]
         , toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'fullscreen', 'source', '|', 'undo', 'redo', 'fontsize', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
             'simpleupload', 'insertimage'
@@ -258,10 +257,10 @@
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        ,elementPathEnabled : false
+        , elementPathEnabled: false
 
         //wordCount
-        ,wordCount:false          //是否开启字数统计
+        , wordCount: false          //是否开启字数统计
         //,maximumWords:10000       //允许的最大字符数
         //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
         //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
@@ -366,7 +365,7 @@
 
         var configPath = document.getElementsByTagName('script');
 
-        return configPath[ configPath.length - 1 ].src;
+        return configPath[configPath.length - 1].src;
 
     }
 
@@ -393,7 +392,7 @@
 
     function optimizationPath(path) {
 
-        var protocol = /^[a-z]+:\/\//.exec(path)[ 0 ],
+        var protocol = /^[a-z]+:\/\//.exec(path)[0],
             tmp = null,
             res = [];
 
@@ -401,7 +400,7 @@
 
         path = path.replace(/\\/g, '/').split(/\//);
 
-        path[ path.length - 1 ] = "";
+        path[path.length - 1] = "";
 
         while (path.length) {
 

@@ -46,9 +46,15 @@
                     <div class="panel-body">
                         <form id="productForm" method="post" enctype="multipart/form-data" action="admin/info/save" class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">资讯名称:</label>
+                                <label  class="col-sm-2 control-label">名称:</label>
                                 <div class="col-sm-3 detail">
                                     ${info.title}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">简介:</label>
+                                <div class="col-sm-3">
+                                    ${info.introduction}
                                 </div>
                             </div>
                             <div class="form-group img_tooltip" >
@@ -68,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">简介:</label>
+                                <label class="col-sm-2 control-label">详情:</label>
                                 <div class="col-sm-6 detail">
                                     <script id="container" name="content" type="text/plain">${c}</script>
                                 </div>
