@@ -45,10 +45,10 @@
                 </div>
                 <div class="checked_way">
                     <c:if test="${n.status == 0}">
-                        <a href="#"><img src="${contextPath}/static/weixin/images/Group 7.png" class="checed_img"><span class="checked">待付款</span></a>
+                        <a href="javascript:void(0)"><img src="${contextPath}/static/weixin/images/Group 7.png" class="checed_img"><span class="checked">点击付款</span></a>
                     </c:if>
                     <c:if test="${n.status == 2}">
-                        <a href="#"><img src="${contextPath}/static/weixin/images/Group 7 Copy.png" class="checed_img"><span class="checked">待收货</span></a>
+                        <a href="javascript:void(0)" onclick="confirmAddress(${n.id})"><img src="${contextPath}/static/weixin/images/Group 7 Copy.png" class="checed_img"><span class="checked">确认收货</span></a>
                     </c:if>
                 </div>
             </div>
@@ -99,5 +99,46 @@
         }
 
         window.location.href = "${contextPath}/weixin/order/index?pageNum=" + (Number(current) + Number(1)) + "&pageSize=" + pageSize;
+    }
+
+    // 确认收货
+    function confirmAddress(orderId) {
+        var current = $('#current').val();
+        var pageSize = $('#pageSize').val();
+
+        $.post("${contextPath}/weixin/order/updateOrder", {
+            orderId: orderId
+        }, function (result) {
+            if (result > 0) {
+                alert("操作成功");
+                window.location.href = "${contextPath}/weixin/order/index?pageNum=" + current + "&pageSize=" + pageSize;
+            } else {
+                alert("操作失败");
+            }
+        });
+    }
+
+    // 订单支付
+    function subForm() {
+        // 调用微信浏览器内置功能实现微信支付
+        $.ajax({
+            method: "POST",
+            url: "weixin/pay/goPay",
+            dataType: "html",
+            data: {orderId: data},
+            success: function (result) {
+                var obj = eval('(' + result + ')');
+                WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                    "appId": obj.appId,                  //公众号名称，由商户传入
+                    "timeStamp": obj.timeStamp,          //时间戳，自 1970 年以来的秒数
+                    "nonceStr": obj.nonceStr,         //随机串
+                    "package": obj.package,           //商品包信息
+                    "signType": obj.signType,        //微信签名方式:
+                    "paySign": obj.paySign           //微信签名
+                }, function (res) {
+                    window.location.href = "${contextPath}/weixin/order/index?pageNum=1&pageSize=10";
+                });
+            }
+        });
     }
 </script>

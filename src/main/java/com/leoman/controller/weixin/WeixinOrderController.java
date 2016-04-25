@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +57,22 @@ public class WeixinOrderController extends CommonController {
         }
 
         return "weixin/order-list";
+    }
+
+    @RequestMapping("updateOrder")
+    @ResponseBody
+    public int buy(Long orderId) {
+        try {
+            Order order = orderService.getById(orderId);
+            order.setStatus(order.getStatus() + 1);
+            orderService.update(order);
+
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 //    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {
