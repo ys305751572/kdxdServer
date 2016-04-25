@@ -7,9 +7,9 @@
 	font-size: 24px;
 }
 input[type="button"], input[type="submit"], input[type="reset"] {
--webkit-appearance: none;
+	-webkit-appearance: none;
 }
-textarea {  -webkit-appearance: none;}   
+textarea {  -webkit-appearance: none;}
 .banner{
 	width: 100%;
 	height: 410px;
@@ -28,7 +28,7 @@ textarea {  -webkit-appearance: none;}
 	top: 36px;
 	text-align: center;
 	line-height: 40px;
-	}
+}
 .sidebar a{
 	text-decoration: none;
 	color: rgba(255,148, 30,0.5);
@@ -168,7 +168,7 @@ textarea {  -webkit-appearance: none;}
 	background-image: url(../images/Group%202.png);
 	background-position: center;
 	background-repeat: no-repeat;
-	
+
 }
 .toutiao{
 	line-height: 160px;
@@ -185,7 +185,7 @@ textarea {  -webkit-appearance: none;}
 }
 .ddbh{
 	padding-bottom:50px;
-	border-bottom: 2px solid #e3e3e3; 
+	border-bottom: 2px solid #e3e3e3;
 }
 .ddbh1{
 	float: left;}
@@ -215,7 +215,7 @@ textarea {  -webkit-appearance: none;}
 	text-align: right;
 }
 .add1 ul{
-list-style-type: none;
+	list-style-type: none;
 }
 .add1{
 	padding: 30px 0;
@@ -293,4 +293,50 @@ list-style-type: none;
 }
 .btn4:active,.btn3:active{
 	color: rgba(242,152,56,0.5);
+}
+.list_box{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em 0px;
+	border-bottom: 2px solid #e3e3e3;
+}
+.address_list{
+	display: inline-flex;
+	overflow: hidden;
+	width: 60%;
+}
+.address_list_img,.address_name{
+	display: block;
+}
+.address_list_img{
+	width: 6em;
+	height: 6em;
+}
+.address_name{
+	margin-left: .8em;
+}
+.address_list li{
+	list-style-type: none;
+	font-style:normal;
+}
+.tittle{
+	font-size: 1.2em;
+	font-weight: 600;
+}
+.checked{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	white-space: nowrap;
+}
+.checked_way{
+	position: relative;
+}
+.checked_way a{
+	color: #fff;
+}
+.checked_way a:active{
+	color: rgba(0,0,0,0.5);
 }

@@ -218,7 +218,8 @@ public class WeixinProductController extends CommonController {
             com.leoman.entity.ProductService productService = list.get(0);
             try {
                 String startTime = DateUtils.longToString(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd");
-                String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
+                Date date = DateUtils.longToDate(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd hh:mm:ss");
+                String endTime = DateUtils.longToString(DateUtils.daysAfter(date, productService.getDays()), "yyyy-MM-dd");
                 productService.setStartYear(startTime.substring(0, 4));
                 productService.setStartDate(startTime.substring(6));
                 productService.setEndYear(endTime.substring(0, 4));
