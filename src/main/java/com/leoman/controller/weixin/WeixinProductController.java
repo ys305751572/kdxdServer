@@ -254,7 +254,7 @@ public class WeixinProductController extends CommonController {
             // 默认加载第一条商品服务信息
             com.leoman.entity.ProductService productService = psService.getById(productServiceId);
 
-            String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+            String startTime = DateUtils.longToString(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd");
             String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
             productService.setStartYear(startTime.substring(0, 4));
             productService.setStartDate(startTime.substring(6));
