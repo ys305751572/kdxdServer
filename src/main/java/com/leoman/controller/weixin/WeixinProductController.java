@@ -217,7 +217,7 @@ public class WeixinProductController extends CommonController {
         if (null != list && list.size() > 0) {
             com.leoman.entity.ProductService productService = list.get(0);
             try {
-                String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
+                String startTime = DateUtils.longToString(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd");
                 String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
                 productService.setStartYear(startTime.substring(0, 4));
                 productService.setStartDate(startTime.substring(6));
@@ -314,7 +314,8 @@ public class WeixinProductController extends CommonController {
             order.setUserName(productBuyRecord.getUser().getNickname());
 
             // order.setProduct(productBuyRecord.getProduct());
-            order.setProductImg(Configue.getUploadUrl() + productBuyRecord.getProduct().getCoverImage().getPath());
+            changeImgPath(productBuyRecord.getProduct().getCoverImage());
+            order.setProductImg(productBuyRecord.getProduct().getCoverImage().getPath());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);
@@ -369,5 +370,16 @@ public class WeixinProductController extends CommonController {
         model.addAttribute("buyCount", buyCount);
         model.addAttribute("kUser", kUser);
         return "weixin/product-detail";
+    }
+
+    public static void changeImgPath(Image image) {
+        if (image == null) {
+            return;
+        }
+        String path = image.getPath();
+        if (path.contains(Configue.getUploadUrl())) {
+            return;
+        }
+        image.setPath(Configue.getUploadUrl() + image.getPath());
     }
 }
