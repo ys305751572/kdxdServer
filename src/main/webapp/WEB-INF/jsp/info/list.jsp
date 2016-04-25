@@ -36,6 +36,7 @@
                     <div class="panel-heading">
                         <a href="admin/info/add" class="btn btn-outline btn-primary btn-lg" role="button">添加资讯</a>
                         <button href="#" id="publish" class="btn btn-outline btn-primary btn-lg" role="button">一键发布</button>
+                        <button href="#" id="unpublish" class="btn btn-outline btn-primary btn-lg" role="button">一键下架</button>
                         <button href="#" id="batchDel" class="btn btn-outline btn-primary btn-lg" role="button">一键删除</button>
                     </div>
                     <form class="navbar-form navbar-right" role="search">
@@ -154,6 +155,12 @@
                     kuserList.fn.publish(ids);
                 })
 
+                $("#unpublish").click(function() {
+                    var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
+                    var ids = checkBox.getInputId();
+                    kuserList.fn.unpublish(ids);
+                })
+
                 $("#batchDel").click(function() {
                     var checkBox = $("#dataTables tbody tr").find('input[type=checkbox]:checked');
                     var ids = checkBox.getInputId();
@@ -185,7 +192,10 @@
                                 }
                                 else if (data == 1) {
                                     return "已发布";
+                                }else if (data == 2) {
+                                    return "已下架";
                                 }
+
                             }
                         },
                         {"data": "",orderable : false}
@@ -250,6 +260,16 @@
                             kuserList.fn.responseComplete(result);
                         })
                     },"你确定要发布吗？","确定");
+                }
+            },
+
+            unpublish : function(ids) {
+                if (ids.length > 0) {
+                    $bluemobi.optNotify(function () {
+                        $.post("admin/info/unpublish",{ids:JSON.stringify(ids)},function(result) {
+                            kuserList.fn.responseComplete(result);
+                        })
+                    },"你确定要下架吗？","确定");
                 }
             },
 

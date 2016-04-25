@@ -13,5 +13,7 @@ public interface InfomationService extends ICommonService<Information> {
 
     public void publish(Long[] ids);
 
+    public void unpublish(Long[] ids);
+
     public Page<Information> findList(Integer pageNum, Integer pageSize);
 }
