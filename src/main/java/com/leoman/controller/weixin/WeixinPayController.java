@@ -71,11 +71,9 @@ public class WeixinPayController {
         String orderNo = order.getSn();
         Double totalPrice = order.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
-//        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProductName(), "JSAPI",
-//                request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
-
-        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, 0.01, order.getProductName(), "JSAPI",
+        Map<String, String> result = wxMpService.getJSSDKPayInfo(wxUser.getOpenId(), orderNo, totalPrice, order.getProductName(), "JSAPI",
                 request.getRemoteAddr(), Configue.getBaseUrl() + "weixin/pay/callback");
+
         WebUtil.printJson(response, result);
     }
 
