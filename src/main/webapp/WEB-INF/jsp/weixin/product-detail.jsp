@@ -131,7 +131,8 @@
                     var ss = params.lastIndexOf("=");
                     var ss2 = params.substring((ss + 1), params.length);
 
-                    window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
+                    window.location.href = "${contextPath}/weixin/product/snapUp?" + params;
+                    //window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
                 } else {
                     // 直接购买
                     $.post("weixin/product/snapUp", {

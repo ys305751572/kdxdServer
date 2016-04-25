@@ -67,7 +67,7 @@ public class WeixinFilter implements Filter {
                     }
                 }
             }
-
+            System.out.println("=======================product.snapUp==============================");
             KUser kUser = (KUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
             WxUser wxUser = (WxUser) httpRequest.getSession().getAttribute(Constant.SESSION_WEIXIN_WXUSER);
             Logger.info("kuser:===========" + kUser);
@@ -103,6 +103,10 @@ public class WeixinFilter implements Filter {
                 }
                 String goUrl = httpRequest.getRequestURL() + buffer.toString().substring(0, buffer.length() - 1);
                 System.out.println("goUrl:" + goUrl);
+                if(goUrl.contains("weixin/product/snapUp")) {
+                    goUrl = httpRequest.getContextPath() + "/weixin/product/detail" + buffer.toString().substring(1, buffer.length() - 1);
+                    System.out.println("snapUp to detail url :" + goUrl);
+                }
                 httpRequest.getSession().setAttribute(Constant.GO_URL, goUrl);
 
                 String params = "";
