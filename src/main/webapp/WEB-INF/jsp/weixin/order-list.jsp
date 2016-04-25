@@ -31,8 +31,8 @@
                 </span>
             </div>
             <div class="nr">
-                <img src="${n.product.coverImage.path}" width="90px" height="90px" />
-                <span class="nr2"><h3>${n.product.title}</h3></span>
+                <img src="${n.productImg}" width="90px" height="90px" />
+                <span class="nr2"><h3>${n.productName}</h3></span>
                 <address class="nr3">
                     <ul>
                         <li>${n.name}</li>

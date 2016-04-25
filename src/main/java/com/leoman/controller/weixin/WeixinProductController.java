@@ -3,6 +3,7 @@ package com.leoman.controller.weixin;
 import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
 import com.leoman.entity.*;
@@ -312,7 +313,8 @@ public class WeixinProductController extends CommonController {
             order.setServiceStartDate(productBuyRecord.getProduct().getServiceStartDate());
             order.setUserName(productBuyRecord.getUser().getNickname());
 
-            order.setProduct(productBuyRecord.getProduct());
+            // order.setProduct(productBuyRecord.getProduct());
+            order.setProductImg(Configue.getUploadUrl() + productBuyRecord.getProduct().getCoverImage().getPath());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);

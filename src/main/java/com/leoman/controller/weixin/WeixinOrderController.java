@@ -48,10 +48,6 @@ public class WeixinOrderController extends CommonController {
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
 
-            for (Order order : list) {
-                changeImgPath(order.getProduct().getCoverImage());
-            }
-
             model.addAttribute("orderList", list);
             model.addAttribute("current", pageNum);
             model.addAttribute("totalPage", page.getTotalPages());
@@ -60,17 +56,6 @@ public class WeixinOrderController extends CommonController {
         }
 
         return "weixin/order-list";
-    }
-
-    public static void changeImgPath(Image image) {
-        if (image == null) {
-            return;
-        }
-        String path = image.getPath();
-        if (path.contains(Configue.getUploadUrl())) {
-            return;
-        }
-        image.setPath(Configue.getUploadUrl() + image.getPath());
     }
 
 //    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {

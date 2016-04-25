@@ -39,6 +39,9 @@ public class Order extends BaseEntity  {
     @Column(name = "product_name")
     private String productName;
 
+    @Column(name = "product_img")
+    private String productImg;
+
     @Column(name = "start_date")
     private Long startDate;
 
@@ -89,6 +92,14 @@ public class Order extends BaseEntity  {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getProductImg() {
+        return productImg;
+    }
+
+    public void setProductImg(String productImg) {
+        this.productImg = productImg;
     }
 
     public Long getStartDate() {
