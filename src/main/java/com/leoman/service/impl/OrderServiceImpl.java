@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -33,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderDao dao;
+
+    @Autowired
+    private KUserDao kUserDao;
 
     @Override
     public Order modifyStatus(Long id, Integer status) {
@@ -101,6 +105,18 @@ public class OrderServiceImpl implements OrderService {
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    @Transactional
+    public void payOrder(Long orderId, Long userId) {
+        Order order = dao.findOne(orderId);
+        order.setStatus(order.getStatus() + 1);
+        dao.save(order);
+
+        KUser kUser = kUserDao.findOne(userId);
+        kUser.setMoney(kUser.getMoney() - order.getMoney());
+        kUserDao.save(kUser);
     }
 
     @Override

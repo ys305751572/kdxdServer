@@ -57,7 +57,6 @@
         <img class="dh" src="${contextPath}/static/weixin/images/coupons_contact customer service.png"><span class="kf">联系客服：</span><span class="kf">15871662460</span>
     </div>
 </section>
-<div class="place"></div>
 <c:if test="${coupon.status == 1}">
     <input type="hidden" id="userId" value="${user.id}"/>
     <input type="hidden" id="couponId" value="${coupon.id}"/>
@@ -85,6 +84,7 @@
         </footer>
     </c:if>
 </c:if>
+<div class="place"></div>
 </body>
 </html>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

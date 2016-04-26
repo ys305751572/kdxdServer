@@ -30,7 +30,7 @@
                         设为默认地址
                     </label>
                 </div>
-                <div class="write" id="write1">
+                <div class="write" id="write1" style="z-index: 1;">
                     <a href="javascript:void(0)" onclick="updateInfo(${address.id})"><img src="${contextPath}/static/weixin/images/1182053.png"></a>
                 </div>
             </div>

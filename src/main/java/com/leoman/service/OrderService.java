@@ -27,4 +27,7 @@ public interface OrderService extends ICommonService<Order> {
 
     // 获取当天最新的订单信息
     public List<Order> findNewOne();
+
+    // 用户余额支付订单
+    public void payOrder(Long orderId, Long userId);
 }
