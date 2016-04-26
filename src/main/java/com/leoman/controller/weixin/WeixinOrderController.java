@@ -49,6 +49,7 @@ public class WeixinOrderController extends CommonController {
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
 
+            model.addAttribute("user", kUser);
             model.addAttribute("orderList", list);
             model.addAttribute("current", pageNum);
             model.addAttribute("totalPage", page.getTotalPages());
