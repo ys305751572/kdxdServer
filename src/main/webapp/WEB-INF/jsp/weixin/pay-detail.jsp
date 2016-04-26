@@ -20,7 +20,7 @@
             <div style="display: block;width: 100%;height: 100px;line-height: 100px;font-size: 1.2em;border-bottom: 1px solid #8e8e8e;">账户余额支付：${kUser.money}元</div>
         </a>
         <a href="javascript:void(0)" onclick="subForm()" style="text-decoration: none; color: #a7a7a7;">
-            <div style="display: block;width: 100%;height: 100px;line-height: 100px;font-size: 1.2em;">微信钱包支付</div>
+            <div style="display: block;width: 100%;height: 100px;line-height: 100px;font-size: 1.2em;">微信支付</div>
         </a>
 
     </div>
