@@ -190,7 +190,7 @@ public class ProductServiceImpl implements ProductService {
             // 使用了必中券，就一定会抢购成功
             pbr.setResultStatus(0);
         } else {
-            Boolean flag = KdxgUtils.isGetByprobability();
+            Boolean flag = KdxgUtils.isGet();
             if (flag) {
                 pbr.setResultStatus(0);
                 isGetCoupon = KdxgUtils.isGetByprobability();
