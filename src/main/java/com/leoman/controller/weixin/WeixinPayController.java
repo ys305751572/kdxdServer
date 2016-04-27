@@ -66,8 +66,9 @@ public class WeixinPayController {
     public void goPay(HttpServletRequest request,
                       HttpServletResponse response,
                       Long orderId) {
+        System.out.println("orderId：" + orderId);
         Order order = orderService.getById(orderId);
-
+        System.out.println("order：" + order);
         String orderNo = order.getSn();
         Double totalPrice = order.getMoney();
         WxUser wxUser = wxUserService.getWXUserByRequest(request);
@@ -133,12 +134,11 @@ public class WeixinPayController {
                     orderService.update(order);
 
 
-
                 }
                 KUser kuser = order.getUser();
-                System.out.println("============kuser.getId()=========:" +kuser.getId());
+                System.out.println("============kuser.getId()=========:" + kuser.getId());
                 List<SalemanRecord> list = salamanRecordService.findByUserId(kuser.getId());
-                if(list != null && !list.isEmpty()) {
+                if (list != null && !list.isEmpty()) {
                     Saleman saleman = list.get(0).getSaleman();
                     SalemanRecord record = new SalemanRecord();
                     record.setKuser(kuser);

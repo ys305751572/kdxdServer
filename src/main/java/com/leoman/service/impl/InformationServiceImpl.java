@@ -63,6 +63,13 @@ public class InformationServiceImpl implements InfomationService {
     }
 
     @Override
+    public void unpublish(Long[] ids) {
+        for (Long id : ids) {
+            unpublishInformation(id);
+        }
+    }
+
+    @Override
     public Page<Information> findList(Integer pageNum, Integer pageSize) {
         PageRequest pageRequest = new PageRequest(pageNum - 1, pageSize, Sort.Direction.DESC, "id");
 
@@ -96,6 +103,12 @@ public class InformationServiceImpl implements InfomationService {
     public void publishInformation(Long id) {
         Information info = dao.findOne(id);
         info.setIsList(1);
+        dao.save(info);
+    }
+
+    public void unpublishInformation(Long id) {
+        Information info = dao.findOne(id);
+        info.setIsList(2);
         dao.save(info);
     }
 

@@ -12,23 +12,22 @@
     <script type="text/javascript" src="${contextPath}/static/weixin/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="${contextPath}/static/weixin/js/koala.min.1.5.js"></script>
     <title>抢购界面</title>
+    <script>
+        function testAuto(thisId, needLeng) {
+            var ididid = document.getElementById(thisId);
+            var nowLeng = ididid.innerHTML.length;
+            if (nowLeng > needLeng) {
+                var nowWord = ididid.innerHTML.substr(0, needLeng) + '...';
+                ididid.innerHTML = nowWord;
+            }
+        }
+    </script>
 </head>
 <body style="background: url(${contextPath}/static/weixin/images/general_bg.png);">
-<header class="header_img">
-    <div class="img1"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png"></div>
-    <div class="line"><img src="${contextPath}/static/weixin/images/Line.png"></div>
-    <div class="img2"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png">
-    </div>
-    <div class="line1"><img src="${contextPath}/static/weixin/images/Line Copy.png"></div>
-    <div class="img3"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png">
-    </div>
-    <nav class="nav">
-        <span class="nav1">抢购</span>
-        <span class="nav2">选择送货地址</span>
-        <span class="nav3">配送签收</span>
-    </nav>
-</header>
 <input type="hidden" id="userId" value="${kUser.id}"/>
+<header class="top_time">
+    <span>配送服务开始时间：<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
+</header>
 <section class="section1">
     <!-- 代码 开始 -->
     <div id="fsD1" class="focus">
@@ -39,13 +38,12 @@
                     <span class="shadow"><a target="_blank" href="javascript:void(0)"></a></span>
                 </div>
             </c:forEach>
-
-        </div>
-        <div class="fbg">
-            <div class="D1fBt" id="D1fBt">
-                <c:forEach var="n" items="${product.list}" varStatus="index">
-                    <a href="javascript:void(0)" hidefocus="true" target="_self"><i>${index}</i></a>
-                </c:forEach>
+            <div class="fbg">
+                <div class="D1fBt" id="D1fBt">
+                    <c:forEach var="n" items="${product.list}" varStatus="index">
+                        <a href="javascript:void(0)" hidefocus="true" target="_self"><i>${index}</i></a>
+                    </c:forEach>
+                </div>
             </div>
         </div>
     </div>
@@ -74,13 +72,15 @@
     <!-- 代码 结束 -->
 </section>
 <section class="content">
-    <div class="topbar">
-        <h2 style="font-size: 40px;padding-top: 0px;">${product.title}</h2>
+    <div class="top_name">
+        ${product.title}
     </div>
-    <div class="neirong" style="font-size: 30px;">
+    <div class="textarea" id="thisId">
         ${product.content}
     </div>
-    <span style="color: red;margin-left: 5px;">配送服务开始时间：<date:date value="${product.serviceStartDate}" format="yyyy-MM-dd HH:mm:ss"></date:date></span>
+    <script type="text/javascript">
+        testAuto('thisId', 50);
+    </script>
     <aside class="aside1">
         <span id="aside1">&nbsp;已抢中：${buyCount}</span>
     </aside>
@@ -115,6 +115,20 @@
         <a href="javascript:void(0)" id="check">查看活动详情<img src="${contextPath}/static/weixin/images/Group 6.png"></a>
     </div>
 </section>
+<div class="header_img">
+    <div class="img1"><img src="${contextPath}/static/weixin/images/buzhoudian1.png"></div>
+    <div class="line"><img src="${contextPath}/static/weixin/images/Line.png"></div>
+    <div class="img2"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png"></div>
+    <div class="line1"><img src="${contextPath}/static/weixin/images/Line Copy.png"></div>
+    <div class="img3"><img src="${contextPath}/static/weixin/images/Oval 12 Copy 3.png">
+    </div>
+    <nav class="nav">
+        <span class="nav1">抢购</span>
+        <span class="nav2">选择送货地址</span>
+        <span class="nav3">配送签收</span>
+    </nav>
+</div>
+<div style="width: 100%;height: 150px;"></div>
 <script type="application/javascript">
     var rushToBuy = {
         v: {},
@@ -131,7 +145,8 @@
                     var ss = params.lastIndexOf("=");
                     var ss2 = params.substring((ss + 1), params.length);
 
-                    window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
+                    window.location.href = "${contextPath}/weixin/product/snapUp?" + params;
+                    //window.location.href = "${contextPath}/weixin/login/toLogin?salemanId=" + ss2;
                 } else {
                     // 直接购买
                     $.post("weixin/product/snapUp", {

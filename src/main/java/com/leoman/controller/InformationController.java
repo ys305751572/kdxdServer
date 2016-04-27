@@ -182,6 +182,19 @@ public class InformationController extends CommonController {
      * @param response
      * @param ids
      */
+    @RequestMapping(value = "/unpublish", method =  RequestMethod.POST)
+    @ResponseBody
+    public void unpublish(HttpServletResponse response,String ids) {
+        Long[] arrayId = JsonUtil.json2Obj(ids, Long[].class);
+        service.unpublish(arrayId);
+        WebUtil.print(response, new Result(true).msg("操作成功!"));
+    }
+
+    /**
+     *
+     * @param response
+     * @param ids
+     */
     @RequestMapping(value = "/batchDel", method =  RequestMethod.POST)
     @ResponseBody
     public void batchDel(HttpServletResponse response,String ids) {

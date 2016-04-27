@@ -9,14 +9,17 @@ import com.leoman.entity.Image;
 import com.leoman.entity.Information;
 import com.leoman.entity.KUser;
 import com.leoman.entity.Order;
+import com.leoman.service.KUserService;
 import com.leoman.service.OrderService;
 import com.leoman.utils.WebUtil;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +36,9 @@ public class WeixinOrderController extends CommonController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private KUserService kUserService;
+
     @RequestMapping("/index")
     public String index(HttpServletRequest request, ModelMap model, Integer pageNum, Integer pageSize) {
         List<Order> list = null;
@@ -48,10 +54,7 @@ public class WeixinOrderController extends CommonController {
             Page<Order> page = orderService.pageByUserId(kUser.getId(), pageNum, pageSize);
             list = page.getContent();
 
-            for (Order order : list) {
-                changeImgPath(order.getProduct().getCoverImage());
-            }
-
+            model.addAttribute("user", kUser);
             model.addAttribute("orderList", list);
             model.addAttribute("current", pageNum);
             model.addAttribute("totalPage", page.getTotalPages());
@@ -62,15 +65,67 @@ public class WeixinOrderController extends CommonController {
         return "weixin/order-list";
     }
 
-    public static void changeImgPath(Image image) {
-        if (image == null) {
-            return;
+    @RequestMapping("updateOrder")
+    @ResponseBody
+    public int buy(Long orderId) {
+        try {
+            Order order = orderService.getById(orderId);
+            order.setStatus(order.getStatus() + 1);
+            orderService.update(order);
+
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String path = image.getPath();
-        if (path.contains(Configue.getUploadUrl())) {
-            return;
+
+        return 0;
+    }
+
+    /**
+     * 余额支付订单
+     *
+     * @param orderId
+     * @return
+     */
+    @RequestMapping("payOrder")
+    @ResponseBody
+    public int payOrder(Long orderId, Long userId) {
+        try {
+            orderService.payOrder(orderId, userId);
+
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        image.setPath(Configue.getUploadUrl() + image.getPath());
+
+        return 0;
+    }
+
+    /**
+     * 余额支付订单
+     *
+     * @param orderId
+     * @return
+     */
+    @RequestMapping("payOrderPlus")
+    @ResponseBody
+    public int payOrderPlus(Long orderId, Long userId) {
+        try {
+            Order order = orderService.getById(orderId);
+            KUser kUser = kUserService.getById(userId);
+
+            if (kUser.getMoney() < order.getMoney()) {
+                return -1;
+            }
+
+            orderService.payOrder(orderId, userId);
+
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 //    public void list(HttpServletResponse response, Integer draw, Integer start, Integer length, Long userId) {

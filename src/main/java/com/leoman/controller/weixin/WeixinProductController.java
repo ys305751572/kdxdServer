@@ -3,6 +3,7 @@ package com.leoman.controller.weixin;
 import com.leoman.common.exception.GeneralExceptionHandler;
 import com.leoman.common.factory.DataTableFactory;
 import com.leoman.controller.common.CommonController;
+import com.leoman.core.Configue;
 import com.leoman.core.Constant;
 import com.leoman.core.bean.Result;
 import com.leoman.entity.*;
@@ -207,17 +208,27 @@ public class WeixinProductController extends CommonController {
      * @return
      */
     @RequestMapping("toPay")
-    public String toPay(Long pbrId, Model model) {
+    public String toPay(HttpServletRequest request, Long pbrId, Model model) {
         // 查询 ProductService list
         ProductBuyRecord productBuyRecord = pbservice.getById(pbrId);
         List<com.leoman.entity.ProductService> list = psService.findListByProductId(productBuyRecord.getProduct().getId());
+        KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+        kUser = userService.getById(kUser.getId());
+        request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, kUser);
 
         // 默认加载第一条商品服务信息
         if (null != list && list.size() > 0) {
             com.leoman.entity.ProductService productService = list.get(0);
             try {
-                String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
-                String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
+                String startTime = DateUtils.longToString(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd");
+                Date date = DateUtils.longToDate(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd hh:mm:ss");
+                String endTime = DateUtils.longToString(DateUtils.daysAfter(date, productService.getDays() - 1), "yyyy-MM-dd");
+
+                System.out.println("=======================================================================================================================");
+                System.out.println("startTime：" + startTime);
+                System.out.println("endTime：" + endTime);
+                System.out.println("=======================================================================================================================");
+
                 productService.setStartYear(startTime.substring(0, 4));
                 productService.setStartDate(startTime.substring(6));
                 productService.setEndYear(endTime.substring(0, 4));
@@ -232,6 +243,7 @@ public class WeixinProductController extends CommonController {
 
         model.addAttribute("productServiceList", list);
         model.addAttribute("pbrId", pbrId);
+        model.addAttribute("kUser", kUser);
 
         return "weixin/pay-detail";
     }
@@ -245,17 +257,27 @@ public class WeixinProductController extends CommonController {
      * @return
      */
     @RequestMapping("getInfo")
-    public String getInfo(Long pbrId, Long productServiceId, Model model) {
+    public String getInfo(HttpServletRequest request, Long pbrId, Long productServiceId, Model model) {
         try {
             // 查询 ProductService list
             ProductBuyRecord productBuyRecord = pbservice.getById(pbrId);
             List<com.leoman.entity.ProductService> list = psService.findListByProductId(productBuyRecord.getProduct().getId());
+            KUser kUser = (KUser) request.getSession().getAttribute(Constant.SESSION_WEIXIN_USER);
+            kUser = userService.getById(kUser.getId());
+            request.getSession().setAttribute(Constant.SESSION_WEIXIN_USER, kUser);
 
             // 默认加载第一条商品服务信息
             com.leoman.entity.ProductService productService = psService.getById(productServiceId);
 
-            String startTime = DateUtils.longToString(System.currentTimeMillis(), "yyyy-MM-dd");
-            String endTime = DateUtils.longToString(DateUtils.daysAfter(new Date(), productService.getDays()), "yyyy-MM-dd");
+            String startTime = DateUtils.longToString(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd");
+            Date date = DateUtils.longToDate(service.getById(productService.getProductId()).getServiceStartDate(), "yyyy-MM-dd hh:mm:ss");
+            String endTime = DateUtils.longToString(DateUtils.daysAfter(date, productService.getDays() - 1), "yyyy-MM-dd");
+
+            System.out.println("=======================================================================================================================");
+            System.out.println("startTime：" + startTime);
+            System.out.println("endTime：" + endTime);
+            System.out.println("=======================================================================================================================");
+
             productService.setStartYear(startTime.substring(0, 4));
             productService.setStartDate(startTime.substring(6));
             productService.setEndYear(endTime.substring(0, 4));
@@ -264,6 +286,7 @@ public class WeixinProductController extends CommonController {
             model.addAttribute("productService", productService);
             model.addAttribute("productServiceList", list);
             model.addAttribute("pbrId", pbrId);
+            model.addAttribute("kUser", kUser);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -312,7 +335,9 @@ public class WeixinProductController extends CommonController {
             order.setServiceStartDate(productBuyRecord.getProduct().getServiceStartDate());
             order.setUserName(productBuyRecord.getUser().getNickname());
 
-            order.setProduct(productBuyRecord.getProduct());
+            // order.setProduct(productBuyRecord.getProduct());
+            changeImgPath(productBuyRecord.getProduct().getCoverImage());
+            order.setProductImg(productBuyRecord.getProduct().getCoverImage().getPath());
             order.setUser(productBuyRecord.getUser());
             order.setMoney(productService.getMoney());
             order.setStatus(0);
@@ -367,5 +392,16 @@ public class WeixinProductController extends CommonController {
         model.addAttribute("buyCount", buyCount);
         model.addAttribute("kUser", kUser);
         return "weixin/product-detail";
+    }
+
+    public static void changeImgPath(Image image) {
+        if (image == null) {
+            return;
+        }
+        String path = image.getPath();
+        if (path.contains(Configue.getUploadUrl())) {
+            return;
+        }
+        image.setPath(Configue.getUploadUrl() + image.getPath());
     }
 }

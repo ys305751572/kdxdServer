@@ -8,9 +8,18 @@ import java.util.Random;
 public class KdxgUtils {
 
     private static final double PROBABILITY = 0.25;
+    private static final double PROBABILITY_GET = 0.9;
 
     public static boolean isGetByprobability() {
         if(Math.random() < PROBABILITY){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static boolean isGet() {
+        if(Math.random() < PROBABILITY_GET){
             return true;
         }else {
             return false;

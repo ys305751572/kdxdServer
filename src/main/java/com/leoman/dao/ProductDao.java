@@ -19,6 +19,6 @@ public interface ProductDao extends JpaRepository<Product, Long>,JpaSpecificatio
 
     Product findOne(Long id);
 
-    @Query("select a from Product a where a.counts > (select count(b) from ProductBuyRecord b where b.product.id = a.id)")
+    @Query("select a from Product a where a.counts > (select count(b) from ProductBuyRecord b where b.product.id = a.id) and a.status != 2")
     public Page<Product> findPage(Pageable pageable);
 }
