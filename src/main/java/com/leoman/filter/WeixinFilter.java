@@ -86,7 +86,6 @@ public class WeixinFilter implements Filter {
 
                 httpResponse.sendRedirect(OAUTH_URL);
                 System.out.println("OAUTH_URL:" + OAUTH_URL);
-                chain.doFilter(request, response);
                 return;
             }
 

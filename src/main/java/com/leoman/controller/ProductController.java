@@ -120,7 +120,7 @@ public class ProductController extends CommonController {
     @ResponseBody
     public void save(HttpServletResponse response,Long id,
                      String title, String startDate, String serviceStartDate, Integer counts,
-                     Integer couponsCounts, String imageIds, Integer imageId, String productService,String content) {
+                     Integer couponsCounts, String imageIds, Integer imageId, String productService,String content,Boolean reset) {
         try {
             Product pro = null;
             if(id == null) {
@@ -129,6 +129,10 @@ public class ProductController extends CommonController {
             else {
                 pro = service.getById(id);
                 psService.deleteByProductId(id);
+
+                if(reset != null && reset.booleanValue()) {
+                    pbService.modifyResetStatus(id);
+                }
             }
 
             pro.setTitle(title);

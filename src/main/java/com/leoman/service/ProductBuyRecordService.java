@@ -12,4 +12,6 @@ public interface ProductBuyRecordService extends ICommonService<ProductBuyRecord
     public Page<ProductBuyRecord> findPage(ProductBuyRecord record,Integer isPay,Integer isUserVouchers,int pagenum, int pagesize);
 
     public Integer findCountByProductId(Long id);
+
+    public void modifyResetStatus(Long productId);
 }

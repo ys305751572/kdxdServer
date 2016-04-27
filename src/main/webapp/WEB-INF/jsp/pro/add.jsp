@@ -149,7 +149,10 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="button" id="submitProduct" class="btn btn-primary">提交</button>
+                                    <button type="button" id="submitProduct" class="btn btn-primary">提交</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <c:if test="${product.id ne null}">
+                                        <button type="button" id="submitAndReset" class="btn btn-primary">提交并重置</button>
+                                    </c:if>
                                 </div>
                             </div>
                         </form>
@@ -199,7 +202,12 @@
 //                }
                 $("#submitProduct").click(function(){
                     product.fn.save();
-                })
+                });
+
+                $("#submitAndReset").click(function() {
+                    product.fn.submitAndResult();
+                });
+
                 product.fn.imageInit();
                 product.fn.dropperInit();
 
@@ -384,6 +392,10 @@
                         })
                     }
                 });
+            },
+            submitAndResult : function() {
+               $("#productForm").attr("action","admin/pro/save?reset=true");
+                product.fn.save();
             },
             save: function () {
                 var days = $("input[name='days']");

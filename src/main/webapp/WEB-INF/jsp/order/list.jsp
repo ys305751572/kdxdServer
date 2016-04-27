@@ -206,7 +206,7 @@
                             +
                             "&nbsp;&nbsp;"
                             +
-                            "<button type='button'  title='确认签收' class='btn btn-circle '>" +
+                            "<button type='button'  title='确认签收' class='btn btn-circle orderStatusClass'>" +
                             "<i class='settingAdded fa fa-recycle'></i>" +
                             "</button>"
                             +
@@ -224,10 +224,10 @@
                         if(data.status == 1){
                             $(row).addClass("success")
                             $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-truck");
-                            $('td', row).last().find(".settingAdded").attr("title", "确认发货")
+                            $('td', row).last().find(".orderStatusClass").attr("title", "确认发货")
                         } if(data.status == 2){
                             $('td', row).last().find(".settingAdded").removeClass("fa fa-recycle").addClass("fa fa-check");
-                            $('td', row).last().find(".settingAdded").attr("title", "确认签收");
+                            $('td', row).last().find(".orderStatusClass").attr("title", "确认签收");
                         }else if(data.status == 3){
                             $('td', row).last().find("button").css("display","none")
 //                            $('td', row).last().find(".settingAdded").attr("title");

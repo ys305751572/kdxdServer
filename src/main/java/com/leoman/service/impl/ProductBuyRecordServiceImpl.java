@@ -58,6 +58,11 @@ public class ProductBuyRecordServiceImpl implements ProductBuyRecordService {
     }
 
     @Override
+    public void modifyResetStatus(Long productId) {
+        dao.modifyResetStatus(productId);
+    }
+
+    @Override
     public List<ProductBuyRecord> findAll() {
         return null;
     }

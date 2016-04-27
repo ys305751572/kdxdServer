@@ -38,8 +38,19 @@ public class ProductBuyRecord extends BaseEntity{
     @Column(name = "result")
     private String result;
 
+    @Column(name = "reset")
+    private Integer reset = 0;
+
     @Transient
     private String payResult;
+
+    public Integer getReset() {
+        return reset;
+    }
+
+    public void setReset(Integer reset) {
+        this.reset = reset;
+    }
 
     public String getPayResult() {
         return payResult;
