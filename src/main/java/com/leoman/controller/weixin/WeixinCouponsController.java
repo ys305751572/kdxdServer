@@ -48,6 +48,8 @@ public class WeixinCouponsController extends CommonController {
     public String list(HttpServletRequest request, ModelMap model) {
         // 获取活动详情
         try {
+            System.out.println("this is coupons list method....");
+
             Activity activity = activityService.getById(1L);
             model.addAttribute("activity", activity);
 
@@ -74,7 +76,7 @@ public class WeixinCouponsController extends CommonController {
 
         // 生成签名
         String signature = getSignature(request, noncestr, timestamp, "http://qq.tt/kdxgServer/weixin/coupons/list");
-
+        System.out.println("signature:==================" + signature);
         model.addAttribute("timestamp", timestamp);
         model.addAttribute("noncestr", noncestr);
         model.addAttribute("signature", signature);
