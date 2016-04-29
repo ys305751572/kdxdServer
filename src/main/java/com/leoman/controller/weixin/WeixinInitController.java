@@ -64,16 +64,19 @@ public class WeixinInitController {
         WxMenu.WxMenuButton button4 = new WxMenu.WxMenuButton();
         button4.setType(WxConsts.BUTTON_VIEW);
         button4.setName("个人信息");
+        System.out.println("个人信息url:" + UrlManage.getProUrl("weixin/user/index"));
         button4.setUrl(UrlManage.getProUrl("weixin/user/index"));
 
         WxMenu.WxMenuButton button5 = new WxMenu.WxMenuButton();
         button5.setType(WxConsts.BUTTON_VIEW);
         button5.setName("我的优惠券");
+        System.out.println("我的优惠券url:" + UrlManage.getProUrl("weixin/user/index"));
         button5.setUrl(UrlManage.getProUrl("weixin/coupons/list"));
 
         WxMenu.WxMenuButton button6 = new WxMenu.WxMenuButton();
         button6.setType(WxConsts.BUTTON_VIEW);
         button6.setName("我的订单");
+        System.out.println("我的订单url:" + UrlManage.getProUrl("weixin/user/index"));
         button6.setUrl(UrlManage.getProUrl("weixin/order/index"));
 
         button3.getSubButtons().add(button4);
