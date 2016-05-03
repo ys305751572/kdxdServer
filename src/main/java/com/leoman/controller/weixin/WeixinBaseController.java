@@ -62,7 +62,18 @@ public class WeixinBaseController {
             String password = (String) params.get("password");
             if (StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)) {
                 Boolean result = service.loginWeixin(request, response, mobile, password);
-                if (result) {
+
+                Object goUrlObj = request.getSession().getAttribute(Constant.GO_URL);
+                if(goUrlObj != null) {
+                    String goUrl = (String) goUrlObj;
+                    try {
+                        response.sendRedirect(goUrl);
+                        return null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (result) {
                     return "redirect:/weixin/user/index";
                 }
             }

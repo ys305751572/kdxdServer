@@ -104,9 +104,9 @@
         ]
     });
 
-    wx.error(function (res) {
-        alert(res.errMsg);
-    });
+//    wx.error(function (res) {
+//        alert(res.errMsg);
+//    });
 
     wx.ready(function () {
         wx.onMenuShareAppMessage({
