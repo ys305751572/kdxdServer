@@ -14,7 +14,7 @@
     <title>必中券列表</title>
     <script language="javascript"  type="text/javascript">
         $(document).ready(function(){
-            $("#btn").click(function(){
+            $("#btn1").click(function(){
                 $("#share").fadeIn("slow");;
                 $("#div1").fadeIn("slow");;
             });
@@ -24,6 +24,18 @@
             });
         })
     </script>
+    <%--<script language="javascript"  type="text/javascript">--%>
+        <%--$(document).ready(function(){--%>
+            <%--$("#btn").click(function(){--%>
+                <%--$("#share").fadeIn("slow");;--%>
+                <%--$("#div1").fadeIn("slow");;--%>
+            <%--});--%>
+            <%--$("#div1").click(function(){--%>
+                <%--$("#share").fadeOut();;--%>
+                <%--$("#div1").fadeOut();;--%>
+            <%--});--%>
+        <%--})--%>
+    <%--</script>--%>
 </head>
 <body>
 <div class="share" id="share" style="z-index: 3">
@@ -31,6 +43,11 @@
     <img src="${contextPath}/static/weixin/images/箭头.png">
 </div>
 <div id="div1" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 2;background: rgba(0,0,0,0);display: none;"></div>
+<%--<div class="share" id="share" style="z-index: 3">--%>
+    <%--<p class="share_word">点击右上角菜单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>分享发送给您的好友</p>--%>
+    <%--<img src="${contextPath}/static/weixin/images/箭头.png">--%>
+<%--</div>--%>
+<%--<div id="div1" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 2;background: rgba(0,0,0,0);display: none;"></div>--%>
 <input type="hidden" id="timestamp" value="${timestamp}"/>
 <input type="hidden" id="noncestr" value="${noncestr}"/>
 <input type="hidden" id="signature" value="${signature}"/>
